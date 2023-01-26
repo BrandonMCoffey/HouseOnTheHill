@@ -6,10 +6,11 @@ public class GameState : MonoBehaviour
 {
 	public static GameState Instance;
 	
-	public static string UserName = "Player";
-	
-	public static string ServerIp = "127.0.0.1";
-	public static string ServerPort = "7777";
+	[SerializeField] private string _userName = "Player";
+	[SerializeField] private string _serverIp = "127.0.0.1";
+	[SerializeField] private ushort _serverPort = 7777;
+	[SerializeField] private List<Character> _characters = new List<Character>();
+	[SerializeField] private List<Item> _items = new List<Item>();
 	
 	private void Awake()
 	{
@@ -21,4 +22,20 @@ public class GameState : MonoBehaviour
 		Instance = this;
 		DontDestroyOnLoad(this);
 	}
+	
+	public static string UserName {
+		get { return Instance._userName; }
+		set { if (!string.IsNullOrEmpty(value))Instance._userName = value; }
+	}
+	public static string ServerIp {
+		get { return Instance._serverIp; }
+		set { if (!string.IsNullOrEmpty(value)) Instance._serverIp = value; }
+	}
+	public static ushort ServerPort {
+		get { return Instance._serverPort; }
+		set { Instance._serverPort = value; }
+	}
+	
+	public static int CharacterCount => Instance._characters.Count;
+	public static Character GetCharacter(int index) => Instance._characters[index];
 }

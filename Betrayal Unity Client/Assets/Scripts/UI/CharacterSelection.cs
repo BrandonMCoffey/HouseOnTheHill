@@ -6,19 +6,52 @@ using TMPro;
 
 public class CharacterSelection : MonoBehaviour
 {
-	[SerializeField] private List<CharacterButton> _options;
+	[SerializeField] private CharacterButton _baseCharacter;
 	
-	public void Select(string name)
+	[SerializeField, ReadOnly] private List<CharacterButton> _options;
+	
+	private void OnEnable()
+	{
+		User.OnUpdatePlayerStates += LockCharacters;
+	}
+	
+	private void OnDisable()
+	{
+		User.OnUpdatePlayerStates -= LockCharacters;
+	}
+	
+	private void Start()
+	{
+		_options = new List<CharacterButton>(GameState.CharacterCount);
+		_baseCharacter.gameObject.SetActive(true);
+		for (int i = 0; i < GameState.CharacterCount; i++)
+		{
+			var c = Instantiate(_baseCharacter, transform);
+			c.SetCharacterIndex(i);
+			_options.Add(c);
+		}
+		_baseCharacter.gameObject.SetActive(false);
+	}
+	
+	public void Select(int i)
 	{
 		DeselectAll();
-		NetworkManager.LocalUser.SetCharacter(name);
+		LocalUser.SetCharacter(i);
 	}
 	
 	private void DeselectAll()
 	{
-		foreach (var button in _options)
+		foreach (var option in _options)
 		{
-			button.Deselect();
+			option.Deselect();
+		}
+	}
+	
+	private void LockCharacters()
+	{
+		foreach (var option in _options)
+		{
+			option.SetDisabled(User.RemoteCharacters.Contains(option.Index));
 		}
 	}
 }

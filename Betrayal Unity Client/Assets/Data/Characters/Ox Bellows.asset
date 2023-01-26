@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174a61e4571ed73489250e5ca0008c25, type: 3}
+  m_Name: Ox Bellows
+  m_EditorClassIdentifier: 
+  _name: Ox Bellows
+  _color: {r: 0.745283, g: 0.10898005, b: 0.10898005, a: 1}
+  _speed:
+    Index: 5
+    Value1: 2
+    Value2: 2
+    Value3: 2
+    Value4: 3
+    Value5: 4
+    Value6: 5
+    Value7: 5
+    Value8: 6
+  _might:
+    Index: 3
+    Value1: 4
+    Value2: 5
+    Value3: 5
+    Value4: 6
+    Value5: 6
+    Value6: 7
+    Value7: 8
+    Value8: 8
+  _sanity:
+    Index: 3
+    Value1: 2
+    Value2: 2
+    Value3: 3
+    Value4: 4
+    Value5: 5
+    Value6: 5
+    Value7: 6
+    Value8: 7
+  _knowledge:
+    Index: 3
+    Value1: 2
+    Value2: 2
+    Value3: 3
+    Value4: 3
+    Value5: 5
+    Value6: 5
+    Value7: 6
+    Value8: 6
+  _age: 23
+  _height: 6'4"
+  _weight: 288
+  _hobbies: Football, Shiny Objects
+  _birthday: October 18th

@@ -4,26 +4,35 @@ using UnityEngine;
 
 public class LocalUser : MonoBehaviour
 {
-	[SerializeField, ReadOnly] private ushort _id;
-	[SerializeField, ReadOnly] private string _name;
-	[SerializeField, ReadOnly] private string _character;
+	public static LocalUser Instance;
 	
-	public void CreateUser(ushort id, string name)
+	[SerializeField, ReadOnly] private User _user;
+	
+	public User User => _user;
+	
+	private void Awake()
 	{
-		_id = id;
-		_name = name;
-		gameObject.name = $"Local User ({name})";
-		NetworkManager.OnLocalUserCreated(name);
+		Instance = this;
 	}
 	
-	public void DestroyUser()
+	private void OnValidate()
 	{
-		Destroy(gameObject);
+		if (!_user)
+		{
+			_user = GetComponent<User>();
+			if (!_user) _user = gameObject.AddComponent<User>();
+		}
 	}
 	
-	public void SetCharacter(string character)
+	public static void SetCharacter(int character)
 	{
-		_character = character;
+		Instance.User.SetCharacter(character);
 		NetworkManager.OnLocalUserSelectCharacter(character);
+	}
+	
+	public static void SetReady(bool ready)
+	{
+		Instance.User.SetReady(ready);
+		NetworkManager.OnLocalUserReadyUp(ready);
 	}
 }

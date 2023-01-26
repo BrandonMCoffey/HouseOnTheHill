@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174a61e4571ed73489250e5ca0008c25, type: 3}
+  m_Name: Madame Zostra
+  m_EditorClassIdentifier: 
+  _name: Madame Zostra
+  _color: {r: 0.08699717, g: 0.3289829, b: 0.8018868, a: 1}
+  _speed:
+    Index: 3
+    Value1: 2
+    Value2: 3
+    Value3: 3
+    Value4: 5
+    Value5: 5
+    Value6: 6
+    Value7: 6
+    Value8: 7
+  _might:
+    Index: 4
+    Value1: 2
+    Value2: 3
+    Value3: 3
+    Value4: 4
+    Value5: 5
+    Value6: 5
+    Value7: 5
+    Value8: 6
+  _sanity:
+    Index: 3
+    Value1: 4
+    Value2: 4
+    Value3: 4
+    Value4: 5
+    Value5: 6
+    Value6: 7
+    Value7: 8
+    Value8: 8
+  _knowledge:
+    Index: 4
+    Value1: 1
+    Value2: 3
+    Value3: 4
+    Value4: 4
+    Value5: 4
+    Value6: 5
+    Value7: 6
+    Value8: 6
+  _age: 37
+  _height: 5'0"
+  _weight: 150
+  _hobbies: Astrology, Cooking, Baseball
+  _birthday: December 10th

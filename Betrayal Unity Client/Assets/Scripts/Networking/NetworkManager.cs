@@ -6,34 +6,55 @@ using RiptideNetworking.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Messages sent from the client (Local Connection) to the server (Remote Connections)
+// Messages sent from the client (Local) to the server (Remote)
 public enum ClientToServerId : ushort
 {
-	localUserCreated = 1, //
-	localUserSelectCharacter, //
+	clientConnectedToServer = 1, // reliable (string userName)
+	localUserSelectCharacter, // reliable (int characterIndex)
+	localUserReadyUp, // reliable (bool ready)
+
+	updateLocalUserTraits, // reliable (int[4] traitValues)
+	updateLocalUserItemsHeld, // reliable (int[] itemIds)
+	updateLocalUserTransform, // unreliable (int roomId, float[6] TransformData)
+
+	createNewRoom, // reliable (int roomId, int floor, int x, int y, int rotation)
+	sendAnnouncement, // reliable (string title, string text)
+
+	localUserEndTurn, // reliable
 }
 
-// Messages sent from the server (Remote Connections) to the client (Local Connection)
+// Messages sent from the server (Remote) to the client (Local)
 public enum ServerToClientId : ushort
 {
-	createRemoteUser = 1, //
-	remoteUserSelectedCharacter, // 
+	createRemoteUser = 1, // reliable (string userName)
+	remoteUserSelectCharacter, // reliable (int characterIndex)
+	remoteUserReadyUp, // reliable (bool ready)
+
+	updateRemoteUserTraits, // reliable (int[4] traitValues)
+	updateRemoteUserItemsHeld, // reliable (int[] itemIds)
+	updateRemoteUserTransform, // unreliable (int roomId, float[6] TransformData)
+
+	receiveRoomCreated, // reliable (int roomId, int floor, int x, int y, int rotation)
+	receiveAnnouncement, // reliable (string title, string text)
+
+	updateCurrentPlayerTurn, // reliable (ushort usersTurn)
 }
 
 public class NetworkManager : MonoBehaviour
 {
-	public static LocalUser LocalUser;
-	public static Dictionary<ushort, RemoteUser> RemoteUsers { get; } = new Dictionary<ushort, RemoteUser>();
 	public static Action OnConnected = delegate { };
 	public static Action OnFailedConnection = delegate { };
+	public static Action OnDidDisconnect = delegate { };
     
+	private static Dictionary<ushort, User> RemoteUsers;
+
 	public Client Client { get; private set; }
 
 	[SerializeField] private string _ip;
 	[SerializeField] private ushort _port;
     
 	[SerializeField] private LocalUser _localUserPrefab;
-	[SerializeField] private RemoteUser _remoteUserPrefab;
+	[SerializeField] private User _remoteUserPrefab;
 
     #region Singleton
 
@@ -77,10 +98,9 @@ public class NetworkManager : MonoBehaviour
 		Client.ConnectionFailed += FailedToConnect;
 		Client.ClientDisconnected += PlayerLeft;
 		Client.Disconnected += DidDisconnect;
-		
-		_ip = GameState.ServerIp;
-		ushort.TryParse(GameState.ServerPort, out _port);
         
+		RemoteUsers = new Dictionary<ushort, User>();
+		
 		Connect();
 	}
 
@@ -99,8 +119,11 @@ public class NetworkManager : MonoBehaviour
 		Client.Disconnected -= DidDisconnect;
 	}
 
-	private void Connect()
+	public void Connect()
 	{
+		_ip = GameState.ServerIp;
+		_port = GameState.ServerPort;
+		
 		Client.Connect($"{_ip.Trim()}:{_port}");
 	}
 
@@ -112,8 +135,9 @@ public class NetworkManager : MonoBehaviour
 		// TODO: Check if User Exists
 		
 		// Create Local User
-		LocalUser = Instantiate(_localUserPrefab, transform);
-		LocalUser.CreateUser(Client.Id, GameState.UserName);
+		var localUser = Instantiate(_localUserPrefab, transform);
+		localUser.User.CreateUser(Client.Id, true, GameState.UserName);
+		NetworkManager.OnLocalUserCreated(GameState.UserName);
 	}
 
 	private void FailedToConnect(object sender, EventArgs e)
@@ -141,12 +165,13 @@ public class NetworkManager : MonoBehaviour
 			}
 			Destroy(Instance.gameObject);
 		}
-		Instance = null;
+		_instance = null;
 		SceneManager.LoadScene(0);
 	}
 
 	private static void DidDisconnect(object sender, EventArgs e)
 	{
+		OnDidDisconnect?.Invoke();
 	}
     
     #endregion
@@ -160,13 +185,13 @@ public class NetworkManager : MonoBehaviour
 		}
 		if (RemoteUsers.ContainsKey(id))
 		{
-			Debug.LogError("Remote User Joined with existing ID");
+			Debug.LogError($"Remote User Joined with existing ID ({id})");
 			return;
 		}
 
-		var remoteAvatar = Instantiate(Instance._remoteUserPrefab, Vector3.zero, Quaternion.identity);
-		remoteAvatar.CreateUser(id, name);
-		RemoteUsers.Add(id, remoteAvatar);
+		var remoteUser = Instantiate(Instance._remoteUserPrefab, Instance.transform);
+		remoteUser.CreateUser(id, false, name);
+		RemoteUsers.Add(id, remoteUser);
 	}
     
     #region Messages
@@ -174,7 +199,7 @@ public class NetworkManager : MonoBehaviour
 	// User Creation
 	public static void OnLocalUserCreated(string name)
 	{
-		MessageHelper.SendStringMessage(name, ClientToServerId.localUserCreated, MessageSendMode.reliable);
+		MessageHelper.SendStringMessage(name, ClientToServerId.clientConnectedToServer, MessageSendMode.reliable);
 	}
 	[MessageHandler((ushort)ServerToClientId.createRemoteUser)]
 	private static void CreateRemoteUserResponse(Message message)
@@ -185,16 +210,29 @@ public class NetworkManager : MonoBehaviour
 	}
 	
 	// Character Selection
-	public static void OnLocalUserSelectCharacter(string character)
+	public static void OnLocalUserSelectCharacter(int character)
 	{
-		MessageHelper.SendStringMessage(character, ClientToServerId.localUserSelectCharacter, MessageSendMode.reliable);
+		MessageHelper.SendIntMessage(character, ClientToServerId.localUserSelectCharacter, MessageSendMode.reliable);
 	}
-	[MessageHandler((ushort)ServerToClientId.remoteUserSelectedCharacter)]
+	[MessageHandler((ushort)ServerToClientId.remoteUserSelectCharacter)]
 	private static void RemoteUserSelectedCharacterResponse(Message message)
 	{
 		var fromClientId = message.GetUShort();
-		var data = message.GetString();
+		var data = message.GetInt();
 		RemoteUsers[fromClientId].SetCharacter(data);
+	}
+	
+	// Ready Up
+	public static void OnLocalUserReadyUp(bool ready)
+	{
+		MessageHelper.SendBoolMessage(ready, ClientToServerId.localUserReadyUp, MessageSendMode.reliable);
+	}
+	[MessageHandler((ushort)ServerToClientId.remoteUserReadyUp)]
+	private static void RemoteUserReadyUpResponse(Message message)
+	{
+		var fromClientId = message.GetUShort();
+		var data = message.GetBool();
+		RemoteUsers[fromClientId].SetReady(data);
 	}
 
     #endregion

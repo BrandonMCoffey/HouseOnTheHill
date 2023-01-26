@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174a61e4571ed73489250e5ca0008c25, type: 3}
+  m_Name: Father Rhinehardt
+  m_EditorClassIdentifier: 
+  _name: Father Rhinehardt
+  _color: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
+  _speed:
+    Index: 3
+    Value1: 2
+    Value2: 3
+    Value3: 3
+    Value4: 4
+    Value5: 5
+    Value6: 6
+    Value7: 7
+    Value8: 7
+  _might:
+    Index: 3
+    Value1: 1
+    Value2: 2
+    Value3: 2
+    Value4: 4
+    Value5: 4
+    Value6: 5
+    Value7: 5
+    Value8: 7
+  _sanity:
+    Index: 5
+    Value1: 3
+    Value2: 4
+    Value3: 5
+    Value4: 5
+    Value5: 6
+    Value6: 7
+    Value7: 7
+    Value8: 8
+  _knowledge:
+    Index: 4
+    Value1: 1
+    Value2: 3
+    Value3: 3
+    Value4: 4
+    Value5: 5
+    Value6: 6
+    Value7: 6
+    Value8: 8
+  _age: 62
+  _height: 5'9"
+  _weight: 185
+  _hobbies: Fencing, Gardening
+  _birthday: April 29th

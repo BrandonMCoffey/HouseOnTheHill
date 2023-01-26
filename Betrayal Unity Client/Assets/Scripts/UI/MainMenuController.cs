@@ -12,10 +12,12 @@ public class MainMenuController : MonoBehaviour
 	
 	public void ConnectToServer()
 	{
-		// TODO: Check Valid Name is Set
 		GameState.UserName = _name.text;
 		GameState.ServerIp = _ip.Value;
-		GameState.ServerPort = _port.Value;
+		if (ushort.TryParse(_port.Value, out var port))
+		{
+			GameState.ServerPort = port;
+		}
 		SceneManager.LoadScene(1);
 	}
 	

@@ -18,6 +18,19 @@ public static class MessageHelper
 	public static Message AddQuaternion(this Message message, Quaternion value) => message.AddFloat(value.x).AddFloat(value.y).AddFloat(value.z).AddFloat(value.w);
 	public static Quaternion GetQuaternion(this Message message) => new Quaternion(message.GetFloat(), message.GetFloat(), message.GetFloat(), message.GetFloat());
     
+	public static void SendBoolMessage(bool data, ClientToServerId messageType, MessageSendMode sendMode)
+	{
+		var message = Message.Create(sendMode, messageType);
+		message.Add(data);
+		NetworkManager.Instance.Client.Send(message);
+	}
+	
+	public static void SendIntMessage(int data, ClientToServerId messageType, MessageSendMode sendMode)
+	{
+		var message = Message.Create(sendMode, messageType);
+		message.Add(data);
+		NetworkManager.Instance.Client.Send(message);
+	}
 
 	public static void SendStringMessage(string data, ClientToServerId messageType, MessageSendMode sendMode)
 	{

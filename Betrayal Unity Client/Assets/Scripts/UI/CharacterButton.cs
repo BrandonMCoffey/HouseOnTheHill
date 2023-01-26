@@ -6,8 +6,7 @@ using TMPro;
 
 public class CharacterButton : MonoBehaviour
 {
-	[SerializeField] private string _characterName;
-	[SerializeField] private Color _characterColor = Color.black;
+	[SerializeField, ReadOnly] private int _characterIndex;
 	
 	[Header("Button Colors")]
 	[SerializeField] private Color _idleColor = Color.white;
@@ -16,8 +15,8 @@ public class CharacterButton : MonoBehaviour
 	
 	[Header("References")]
 	[SerializeField] private CharacterSelection _controller;
-	[SerializeField] private TMP_Text _text;
-	[SerializeField] private Image _image;
+	[SerializeField] private TMP_Text _nameText;
+	[SerializeField] private Image _colorImage;
 	[SerializeField] private Button _button;
 	[SerializeField] private Image _buttonImage;
 	
@@ -25,23 +24,42 @@ public class CharacterButton : MonoBehaviour
 	[SerializeField, ReadOnly] private bool _selected;
 	[SerializeField, ReadOnly] private bool _disabled;
 	
+	public int Index => _characterIndex;
+	
 	private void OnValidate()
 	{
 		if (!_controller) _controller = transform.parent.GetComponent<CharacterSelection>();
-		if (_text) _text.text = _characterName;
-		if (_image) _image.color = _characterColor;
 		if (_button) _buttonImage = _button.GetComponent<Image>();
 	}
 	
-	private void Start()
+	private void OnEnable()
 	{
 		_button.onClick.AddListener(Select);
+	}
+	
+	private void OnDisable()
+	{
+		_button.onClick.RemoveListener(Select);
+	}
+	
+	public void SetCharacterIndex(int i)
+	{
+		_characterIndex = i;
+		SetupCharacter();
+	}
+	
+	[Button]
+	private void SetupCharacter()
+	{
+		var character = GameState.GetCharacter(_characterIndex);
+		_nameText.text = character.Name;
+		_colorImage.color = character.Color;
 	}
 	
 	public void Select()
 	{
 		if (_disabled) return;
-		_controller.Select(_characterName);
+		_controller.Select(_characterIndex);
 		_selected = true;
 		_button.interactable = false;
 		_buttonImage.color = _selectedColor;
