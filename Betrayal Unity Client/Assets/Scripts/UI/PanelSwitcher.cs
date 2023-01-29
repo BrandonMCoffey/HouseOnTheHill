@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class PanelSwitcher : MonoBehaviour
 {
 	[SerializeField] private int _defaultPanel;
-	[SerializeField, ReadOnly] private int _currentPanel;
 	[SerializeField] private List<CanvasGroup> _panels;
 	//[SerializeField] private List<GameObject> _selectObj;
 	

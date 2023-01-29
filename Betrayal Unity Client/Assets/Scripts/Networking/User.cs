@@ -11,9 +11,11 @@ public class User : MonoBehaviour
 	[SerializeField, ReadOnly] private bool _ready;
 	[SerializeField, ReadOnly] private int _character = -1;
 	
+	public bool IsLocal => _local;
 	public string UserName => _name;
 	public bool Ready => _ready;
 	public string CharacterName => _character >= 0 ? GameState.GetCharacter(_character).Name : "Spectator";
+	public bool IsPlayer => _character >= 0;
 	
 	public static Action OnUpdateAllUsers = delegate { };
 	public static List<User> AllUsers = new List<User>();

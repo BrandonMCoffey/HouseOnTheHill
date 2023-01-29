@@ -46,4 +46,9 @@ public static class MessageHelper
 		message.Add(data.rotation);
 		NetworkManager.Instance.Client.Send(message);
 	}
+	
+	public static void SendEmptyMessage(ClientToServerId messageType, MessageSendMode sendMode)
+	{
+		NetworkManager.Instance.Client.Send(Message.Create(sendMode, messageType));
+	}
 }

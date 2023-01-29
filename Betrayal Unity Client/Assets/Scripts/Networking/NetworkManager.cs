@@ -13,6 +13,8 @@ public enum ClientToServerId : ushort
 	localUserSelectCharacter, // reliable (int characterIndex)
 	localUserReadyUp, // reliable (bool ready)
 
+	gameLoaded, // reliable
+
 	updateLocalUserTraits, // reliable (int[4] traitValues)
 	updateLocalUserItemsHeld, // reliable (int[] itemIds)
 	updateLocalUserTransform, // unreliable (int roomId, float[6] TransformData)
@@ -26,18 +28,22 @@ public enum ClientToServerId : ushort
 // Messages sent from the server (Remote) to the client (Local)
 public enum ServerToClientId : ushort
 {
-	createRemoteUser = 1, // reliable (string userName)
-	remoteUserSelectCharacter, // reliable (int characterIndex)
-	remoteUserReadyUp, // reliable (bool ready)
+	createRemoteUser = 1, // reliable (ushort client, string userName)
+	remoteUserSelectCharacter, // reliable (ushort client, int characterIndex)
+	remoteUserReadyUp, // reliable (ushort client, bool ready)
 
-	updateRemoteUserTraits, // reliable (int[4] traitValues)
-	updateRemoteUserItemsHeld, // reliable (int[] itemIds)
-	updateRemoteUserTransform, // unreliable (int roomId, float[6] TransformData)
+	lobbyTimerCountdown, // reliable (bool countdown, float countdownTime)
+	loadGameScene, // reliable
+	setupGame, // reliable (???)
 
-	receiveRoomCreated, // reliable (int roomId, int floor, int x, int y, int rotation)
-	receiveAnnouncement, // reliable (string title, string text)
+	updateRemoteUserTraits, // reliable (ushort client, int[4] traitValues)
+	updateRemoteUserItemsHeld, // reliable (ushort client, int[] itemIds)
+	updateRemoteUserTransform, // unreliable (ushort client, int roomId, float[6] TransformData)
 
-	updateCurrentPlayerTurn, // reliable (ushort usersTurn)
+	receiveRoomCreated, // reliable (ushort client, int roomId, int floor, int x, int y, int rotation)
+	receiveAnnouncement, // reliable (ushort client, string title, string text)
+
+	updateCurrentPlayerTurn, // reliable (ushort fromId, ushort usersTurn)
 }
 
 public class NetworkManager : MonoBehaviour
@@ -233,6 +239,32 @@ public class NetworkManager : MonoBehaviour
 		var fromClientId = message.GetUShort();
 		var data = message.GetBool();
 		RemoteUsers[fromClientId].SetReady(data);
+	}
+	
+	[MessageHandler((ushort)ServerToClientId.lobbyTimerCountdown)]
+	private static void LobbyCountdownTimerResponse(Message message)
+	{
+		var runTimer = message.GetBool();
+		var timerLength = message.GetFloat();
+		if (runTimer) LobbyController.StartCountdown(timerLength);
+		else LobbyController.StopCountdown();
+	}
+	
+	// Game Loaded
+	[MessageHandler((ushort)ServerToClientId.loadGameScene)]
+	private static void LoadGameSceneResponse(Message message)
+	{
+		SceneManager.LoadScene("Game");
+	}
+	public static void OnGameLoaded()
+	{
+		MessageHelper.SendEmptyMessage(ClientToServerId.gameLoaded, MessageSendMode.reliable);
+	}
+	[MessageHandler((ushort)ServerToClientId.setupGame)]
+	private static void SetupGameResponse(Message message)
+	{
+		// TODO
+		Debug.Log("Setup Game!");
 	}
 
     #endregion

@@ -2,6 +2,8 @@
 using Riptide.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using System.Threading;
 
 // Messages sent from the client (Local) to the server (Remote)
@@ -10,6 +12,8 @@ public enum ClientToServerId : ushort
     clientConnectedToServer = 1, // reliable (string userName)
     localUserSelectCharacter, // reliable (int characterIndex)
     localUserReadyUp, // reliable (bool ready)
+
+    gameLoaded, // reliable
 
     updateLocalUserTraits, // reliable (int[4] traitValues)
     updateLocalUserItemsHeld, // reliable (int[] itemIds)
@@ -24,18 +28,50 @@ public enum ClientToServerId : ushort
 // Messages sent from the server (Remote) to the client (Local)
 public enum ServerToClientId : ushort
 {
-    createRemoteUser = 1, // reliable (string userName)
-    remoteUserSelectCharacter, // reliable (int characterIndex)
-    remoteUserReadyUp, // reliable (bool ready)
+    createRemoteUser = 1, // reliable (ushort client, string userName)
+    remoteUserSelectCharacter, // reliable (ushort client, int characterIndex)
+    remoteUserReadyUp, // reliable (ushort client, bool ready)
 
-    updateRemoteUserTraits, // reliable (int[4] traitValues)
-    updateRemoteUserItemsHeld, // reliable (int[] itemIds)
-    updateRemoteUserTransform, // unreliable (int roomId, float[6] TransformData)
+    lobbyTimerCountdown, // reliable (bool countdown, float countdownTime)
+    loadGameScene, // reliable
+    setupGame, // reliable (???)
 
-    receiveRoomCreated, // reliable (int roomId, int floor, int x, int y, int rotation)
-    receiveAnnouncement, // reliable (string title, string text)
+    updateRemoteUserTraits, // reliable (ushort client, int[4] traitValues)
+    updateRemoteUserItemsHeld, // reliable (ushort client, int[] itemIds)
+    updateRemoteUserTransform, // unreliable (ushort client, int roomId, float[6] TransformData)
 
-    updateCurrentPlayerTurn, // reliable (ushort usersTurn)
+    receiveRoomCreated, // reliable (ushort client, int roomId, int floor, int x, int y, int rotation)
+    receiveAnnouncement, // reliable (ushort client, string title, string text)
+
+    updateCurrentPlayerTurn, // reliable (ushort fromId, ushort usersTurn)
+}
+
+internal enum GameState
+{
+    lobby,
+    lobbyAllReady,
+    loadingGame,
+    playingGame,
+}
+
+internal class PlayerData
+{
+    public string UserName = "Player";
+
+    public bool Ready;
+    public bool GameLoaded;
+    public int Character = -1;
+
+    public int SpeedIndex = -1;
+    public int MightIndex = -1;
+    public int SanityIndex = -1;
+    public int KnowledgeIndex = -1;
+
+    public List<int> ItemIdsHeld = new List<int>();
+
+    public int RoomIndex;
+    public Vector3 RoomOffset;
+    public Vector3 Rotation;
 }
 
 internal class Program
@@ -48,9 +84,19 @@ internal class Program
     private const ushort Timeout = 10000; // 10s
     private const ushort Port = 7777;
 
+    private const float LobbyCountdown = 5;
+
     private static List<ushort> connectedClients;
     private static Dictionary<ushort, PlayerData> playerData;
     private static List<PlayerData> leftoverPlayerData;
+
+    private static GameState gameState = GameState.lobby;
+
+    private static float lobbyCountdownTimer;
+    private static List<ushort> turnOrder;
+    private static int turnOrderIndex;
+
+    private static bool GameStarted => gameState == GameState.playingGame;
 
     #endregion
 
@@ -70,14 +116,7 @@ internal class Program
         {
             string input = Console.ReadLine()?.Trim().ToUpper();
             if (input == "QUIT" || input == "STOP") break;
-
-            if (input == "USERS" || input == "CONNECTED")
-            {
-                foreach (var client in connectedClients)
-                {
-                    Console.WriteLine(client); // TODO: Print All Player Data as well
-                }
-            }
+            if (input == "USERS" || input == "CONNECTED") PrintUserInfo();
         }
 
         isRunning = false;
@@ -102,6 +141,25 @@ internal class Program
 
         while (isRunning)
         {
+            switch (gameState)
+            {
+                case GameState.lobby:
+                    break;
+                case GameState.lobbyAllReady:
+                    lobbyCountdownTimer -= 0.01f;
+                    if (lobbyCountdownTimer <= 0)
+                    {
+                        Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.loadGameScene);
+                        SendMessageToAll(message);
+                        gameState = GameState.loadingGame;
+                    }
+                    break;
+                case GameState.loadingGame:
+                    break;
+                case GameState.playingGame:
+                    break;
+            }
+
             server.Tick();
             Thread.Sleep(10);
         }
@@ -117,6 +175,7 @@ internal class Program
         var clientId = e.Client.Id;
         connectedClients.Add(clientId);
         playerData.Add(clientId, new PlayerData());
+        CheckAllPlayersReady();
         Console.WriteLine($"Client connected: ({clientId})");
 
         foreach (var id in connectedClients)
@@ -125,7 +184,7 @@ internal class Program
 
             Message nameMessage = Message.Create(MessageSendMode.reliable, ServerToClientId.createRemoteUser);
             nameMessage.AddUShort(id);
-            nameMessage.AddString(playerData[id].Name);
+            nameMessage.AddString(playerData[id].UserName);
             server.Send(nameMessage, clientId);
 
             Message characterMessage = Message.Create(MessageSendMode.reliable, ServerToClientId.remoteUserSelectCharacter);
@@ -143,9 +202,10 @@ internal class Program
     private static void PlayerLeft(object sender, ClientDisconnectedEventArgs e)
     {
         var clientId = e.Id;
-        leftoverPlayerData.Add(playerData[clientId]);
-        playerData.Remove(clientId);
+        if (GameStarted) leftoverPlayerData.Add(playerData[clientId]);
         connectedClients.Remove(clientId);
+        playerData.Remove(clientId);
+        CheckAllPlayersReady();
         Console.WriteLine($"Client disconnected ({e.Id})");
     }
 
@@ -157,7 +217,7 @@ internal class Program
         string name = message.GetString();
         Console.WriteLine($"User ({fromClientId}) Joined with Name ({name})");
 
-        playerData[fromClientId].Name = name;
+        playerData[fromClientId].UserName = name;
         SendStringMessage(fromClientId, name, ServerToClientId.createRemoteUser, MessageSendMode.reliable);
     }
 
@@ -178,7 +238,51 @@ internal class Program
         Console.WriteLine($"User ({fromClientId}) is now ({(ready ? "Ready" : "Not Ready")})");
 
         playerData[fromClientId].Ready = ready;
+        CheckAllPlayersReady();
         SendBoolMessage(fromClientId, ready, ServerToClientId.remoteUserReadyUp, MessageSendMode.reliable);
+    }
+
+    private static void CheckAllPlayersReady()
+    {
+        if (GameStarted)
+            return;
+        bool allReady = playerData.Aggregate(true, (current, pair) => current & pair.Value.Ready);
+        gameState = allReady ? GameState.lobbyAllReady : GameState.lobby;
+        lobbyCountdownTimer = LobbyCountdown;
+
+        Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.lobbyTimerCountdown);
+        message.AddBool(allReady);
+        message.AddFloat(LobbyCountdown);
+        SendMessageToAll(message);
+
+        if (allReady) Console.WriteLine($"All Players Ready! Starting Game in {LobbyCountdown} seconds.");
+    }
+
+    [MessageHandler((ushort)ClientToServerId.gameLoaded)]
+    private static void HandleLocalUserGameLoaded(ushort fromClientId, Message message)
+    {
+        playerData[fromClientId].GameLoaded = true;
+        CheckAllPlayersLoaded();
+    }
+
+    private static void CheckAllPlayersLoaded()
+    {
+        bool allLoaded = playerData.Aggregate(true, (current, pair) => current & pair.Value.GameLoaded);
+        if (allLoaded)
+        {
+            gameState = GameState.playingGame;
+            turnOrderIndex = 0;
+            turnOrder = new List<ushort>();
+            foreach ((ushort clientId, PlayerData playerData) in playerData)
+            {
+                if (playerData.Character > 0) turnOrder.Add(clientId);
+            }
+
+            Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.setupGame);
+            SendMessageToAll(message);
+
+            Console.WriteLine("All Players Loaded. Setting Up Game!");
+        }
     }
 
     #region Helper Functions
@@ -225,20 +329,21 @@ internal class Program
 
     private static void SendMessage(Message message, ushort fromClientId)
     {
-        foreach (var client in connectedClients)
-        {
-            if (client == fromClientId)
-                continue;
-            server.Send(message, client);
-        }
+        foreach (ushort client in connectedClients.Where(client => client != fromClientId)) server.Send(message, client);
+    }
+
+    private static void SendMessageToAll(Message message)
+    {
+        foreach (ushort client in connectedClients) server.Send(message, client);
     }
 
     #endregion
-}
 
-internal class PlayerData
-{
-    public string Name = "Player";
-    public int Character = -1;
-    public bool Ready = false;
+    private static void PrintUserInfo()
+    {
+        foreach (var client in connectedClients)
+        {
+            Console.WriteLine(client); // TODO: Print All Player Data as well
+        }
+    }
 }
