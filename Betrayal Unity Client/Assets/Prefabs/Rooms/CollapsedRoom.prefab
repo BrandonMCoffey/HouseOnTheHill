@@ -83,7 +83,7 @@ MonoBehaviour:
   _id: 16
   _upperFloor: 1
   _groundFloor: 1
-  _lowerFloor: 1
+  _lowerFloor: 0
   _localPosZDoor: 1
   _localPosXDoor: 1
   _localNegZDoor: 1

@@ -292,11 +292,13 @@ public class NetworkManager : MonoBehaviour
 	}
 	
 	// Room Generation
-	public static void OnCreateNewRoomLocally(int roomId, Vector3 pos, Vector3 rot)
+	public static void OnCreateNewRoomLocally(int roomId, int floor, int x, int z, int rot)
 	{
 		var message = Message.Create(MessageSendMode.reliable, ClientToServerId.createNewRoom);
 		message.Add(roomId);
-		message.Add(pos);
+		message.Add(floor);
+		message.Add(x);
+		message.Add(z);
 		message.Add(rot);
 		Instance.Client.Send(message);
 	}
@@ -305,12 +307,14 @@ public class NetworkManager : MonoBehaviour
 	{
 		var fromClientId = message.GetUShort();
 		var roomId = message.GetInt();
-		var pos = message.GetVector3();
-		var rot = message.GetVector3();
+		var floor = message.GetInt();
+		var x = message.GetInt();
+		var z = message.GetInt();
+		var rot = message.GetInt();
 		
-		LogUser(fromClientId, $"Create Room {roomId} at {pos}");
+		LogUser(fromClientId, $"Create Room {roomId} on floor {floor} at pos {x},{z} with rot {rot}");
 		
-		RoomController.CreateRoomRemotely(roomId, pos, rot);
+		RoomController.CreateRoomRemotely(roomId, floor, x, z, rot);
 	}
 
     #endregion

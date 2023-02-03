@@ -240,7 +240,6 @@ MonoBehaviour:
   _lockedDoorPrefab: {fileID: 7632045891269017863, guid: a669663314bfcb3479ff2c15b2692187,
     type: 3}
   _doorParent: {fileID: 1912637220}
-  _placedDoors: []
 --- !u!1 &371938465
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +517,6 @@ MonoBehaviour:
   _lockedDoorPrefab: {fileID: 7632045891269017863, guid: a669663314bfcb3479ff2c15b2692187,
     type: 3}
   _doorParent: {fileID: 295749308}
-  _placedDoors: []
 --- !u!1001 &798931067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -710,7 +708,6 @@ MonoBehaviour:
   _lockedDoorPrefab: {fileID: 7632045891269017863, guid: a669663314bfcb3479ff2c15b2692187,
     type: 3}
   _doorParent: {fileID: 174056746}
-  _placedDoors: []
 --- !u!1001 &1122851520
 PrefabInstance:
   m_ObjectHideFlags: 0

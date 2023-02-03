@@ -50,7 +50,7 @@ MonoBehaviour:
   _name: Storeroom
   _id: 42
   _upperFloor: 1
-  _groundFloor: 1
+  _groundFloor: 0
   _lowerFloor: 1
   _localPosZDoor: 0
   _localPosXDoor: 0

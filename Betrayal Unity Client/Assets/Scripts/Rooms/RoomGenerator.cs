@@ -59,8 +59,6 @@ public class RoomGenerator : MonoBehaviour
 				// Make the door face the previous X and Z values
 				var doorSide = prefab.GetDoorLocalOrientations()[0];
 				rot = (int)Room.GetOrientation(doorSide, connection);
-				
-				Debug.Log($"One Door: Rotating with {doorSide} - {connection} % 4 = {rot}");
 				break;
 			case 2:
 			case 3:
@@ -71,9 +69,9 @@ public class RoomGenerator : MonoBehaviour
 				for (int i = 0; i < 4; i++)
 				{
 					int connections = 0;
-					var doors = prefab.GetDoorLocalOrientations();
+					var localOrientations = prefab.GetDoorLocalOrientations();
 					// Test for connections at each possible door
-					foreach (var localOrientation in doors)
+					foreach (var localOrientation in localOrientations)
 					{
 						var orientation = Room.GetOrientation(localOrientation, (Orient)i);
 						(int xOffset, int zOffset) = Room.GetOffset(orientation);
@@ -82,9 +80,7 @@ public class RoomGenerator : MonoBehaviour
 						{
 							connections += orientation == connection ? 11 : 1;
 						}
-						Debug.Log($"- Door {orientation} and offset {xOffset},{zOffset} {(HasRoom(xOffset, zOffset) ? "Does Connect" : "Does Not Connect")}");
 					}
-					Debug.Log($"Test Rotation {i} with resulting {connections} connections");
 					if (connections > totalConnections)
 					{
 						totalConnections = connections;
@@ -104,9 +100,10 @@ public class RoomGenerator : MonoBehaviour
 				break;
 		}
 		PlaceRoom(prefab, x, z, rot);
+		NetworkManager.OnCreateNewRoomLocally(prefab.Id, (int)_floor, x, z, rot);
 	}
 
-	public void PlaceRoom(Room prefab, int x, int z, int rot)
+	public Room PlaceRoom(Room prefab, int x, int z, int rot)
 	{
 		Debug.Log($"Place room ({prefab.name}) at {x}, {z} with rotation {rot}");
 		
@@ -121,11 +118,10 @@ public class RoomGenerator : MonoBehaviour
 		room.Orientation = (Orient)rot;
 		room.transform.localRotation = Quaternion.Euler(new Vector3(0, rot * 90f, 0));
 
-		// Delete doors to existing rooms
-		
-		// Add new doors
 		room.SetGenerator(this);
 		room.CheckGenerateDoors();
+		
+		return room;
 	}
 	
 	private int GetDoorRotationValue(bool posZ, bool posX, bool negZ, bool negX)

@@ -50,8 +50,8 @@ MonoBehaviour:
   _name: Bedroom
   _id: 9
   _upperFloor: 1
-  _groundFloor: 1
-  _lowerFloor: 1
+  _groundFloor: 0
+  _lowerFloor: 0
   _localPosZDoor: 0
   _localPosXDoor: 1
   _localNegZDoor: 0

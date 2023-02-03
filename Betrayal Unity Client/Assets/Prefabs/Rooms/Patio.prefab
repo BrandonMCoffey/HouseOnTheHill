@@ -81,9 +81,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Patio
   _id: 36
-  _upperFloor: 1
+  _upperFloor: 0
   _groundFloor: 1
-  _lowerFloor: 1
+  _lowerFloor: 0
   _localPosZDoor: 1
   _localPosXDoor: 1
   _localNegZDoor: 1

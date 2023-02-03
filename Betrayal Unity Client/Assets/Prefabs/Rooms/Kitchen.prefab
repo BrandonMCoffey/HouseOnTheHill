@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Kitchen
   _id: 29
-  _upperFloor: 1
+  _upperFloor: 0
   _groundFloor: 1
   _lowerFloor: 1
   _localPosZDoor: 0

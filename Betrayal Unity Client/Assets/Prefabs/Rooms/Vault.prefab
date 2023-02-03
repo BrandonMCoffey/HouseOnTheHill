@@ -197,7 +197,7 @@ MonoBehaviour:
   _name: Vault
   _id: 45
   _upperFloor: 1
-  _groundFloor: 1
+  _groundFloor: 0
   _lowerFloor: 1
   _localPosZDoor: 0
   _localPosXDoor: 0

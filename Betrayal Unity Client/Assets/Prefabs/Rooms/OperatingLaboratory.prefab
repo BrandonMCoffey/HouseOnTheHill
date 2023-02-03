@@ -50,7 +50,7 @@ MonoBehaviour:
   _name: OperatingLaboratory
   _id: 34
   _upperFloor: 1
-  _groundFloor: 1
+  _groundFloor: 0
   _lowerFloor: 1
   _localPosZDoor: 1
   _localPosXDoor: 0

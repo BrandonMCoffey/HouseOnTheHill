@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomController : MonoBehaviour
 {
@@ -45,27 +47,25 @@ public class RoomController : MonoBehaviour
 		Destroy(spawner.gameObject);
 		_doors.Add(door);
 	}
-	
-	public void CreateRoomLocally(Transform door)
+
+	public static void CreateRoomRemotely(int roomId, int floor, int x, int z, int rot)
 	{
-		var room = Instantiate(GetRandomRoom(), transform);
-		
-		var roomPos = door.position + door.forward * _roomSize * 0.5f;
-		room.transform.position = roomPos;
-		
-		_activeRooms.Add(room.Id, room);
-		
-		NetworkManager.OnCreateNewRoomLocally(room.Id, roomPos, room.transform.eulerAngles);
-	}
-	
-	public static void CreateRoomRemotely(int roomId, Vector3 pos, Vector3 rot)
-	{
-		var room = Instantiate(Instance.GetRoomById(roomId), Instance.transform);
-		
-		room.transform.position = pos;
-		room.transform.rotation = Quaternion.Euler(rot);
-		
-		Instance._activeRooms.Add(room.Id, room);
+		Room room = null;
+		var prefab = Instance.GetRoomById(roomId);
+		switch ((Floor)floor)
+		{
+			case Floor.Upper:
+				room = Instance._upperFloor.PlaceRoom(prefab, x, z, rot);
+				break;
+			case Floor.Ground:
+				room = Instance._groundFloor.PlaceRoom(prefab, x, z, rot);
+				break;
+			case Floor.Lower:
+				room = Instance._lowerFloor.PlaceRoom(prefab, x, z, rot);
+				break;
+		}
+		if (room) Instance._activeRooms.Add(room.Id, room);
+		else Debug.LogError("Couldn't Place Room?");
 	}
 	
 	private Room GetRoomById(int roomId)
@@ -106,9 +106,9 @@ public class RoomController : MonoBehaviour
 
 public enum Floor
 {
-	Upper,
-	Ground,
-	Lower
+	Upper = 2,
+	Ground = 1,
+	Lower = 0
 }
 
 public enum Orient

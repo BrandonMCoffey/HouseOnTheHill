@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f19aa2cb53ebdd45898a9f4f85b446a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _user: {fileID: 0}
   _character: {fileID: 0}
   _speedIndex: 0
   _mightIndex: 0
@@ -123,7 +124,7 @@ MonoBehaviour:
   gravity: 20
   _cameraParent: {fileID: 3694322751600302588}
   lookSpeed: 2
-  lookXLimit: 45
+  lookXLimit: 60
   _controller: {fileID: 3694322751628240100}
   canMove: 1
   moveDirection: {x: 0, y: 0, z: 0}

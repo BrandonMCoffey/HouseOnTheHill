@@ -308,14 +308,20 @@ internal class Program
     private static void HandleCreateNewRoom(ushort fromClientId, Message message)
     {
         var roomId = message.GetInt();
-        var data = message.GetFloats(6);
+        var floor = message.GetInt();
+        var x = message.GetInt();
+        var z = message.GetInt();
+        var rot = message.GetInt();
 
         PrintUserEvent(fromClientId, $"New Room Created ({roomId})");
 
         Message sendMessage = Message.Create(MessageSendMode.reliable, ServerToClientId.receiveRoomCreated);
         sendMessage.AddUShort(fromClientId);
         sendMessage.AddInt(roomId);
-        sendMessage.AddFloats(data, false);
+        sendMessage.AddInt(floor);
+        sendMessage.AddInt(x);
+        sendMessage.AddInt(z);
+        sendMessage.AddInt(rot);
         SendMessage(sendMessage, fromClientId);
     }
 
