@@ -35,7 +35,7 @@ public class CountdownTimer : MonoBehaviour
 		for (float t = 0; t < timerLength; t += Time.deltaTime)
 		{
 			string timer = (_countUp ? t : timerLength - t).ToString(_round ? "F0" : "F2");
-			_countdownText.text = $"{_beforeText.Trim()}{timer}{_afterText.Trim()}";
+			_countdownText.text = $"{_beforeText}{timer}{_afterText}";
 			yield return null;
 		}
 		_routine = null;

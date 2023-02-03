@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace Coffey_Utils.Editor
                     show &= (bool)conditionField.GetValue(target);
                 }
             }
-            return show;
+	        return show;
         }
 
         private static FieldInfo GetField(object target, string fieldName)

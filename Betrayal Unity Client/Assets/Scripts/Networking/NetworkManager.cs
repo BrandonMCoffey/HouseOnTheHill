@@ -52,9 +52,12 @@ public class NetworkManager : MonoBehaviour
 	public static Action OnFailedConnection = delegate { };
 	public static Action OnDidDisconnect = delegate { };
     
-	private static Dictionary<ushort, User> RemoteUsers;
+	public static Dictionary<ushort, User> AllUsers;
+	public static Action OnUpdateAllUsers = delegate { };
 
 	public Client Client { get; private set; }
+
+	[SerializeField] private bool _debug;
 
 	[SerializeField] private string _ip;
 	[SerializeField] private ushort _port;
@@ -74,7 +77,7 @@ public class NetworkManager : MonoBehaviour
 				_instance = value;
 			else if (_instance != value)
 			{
-				Debug.Log($"{nameof(NetworkManager)} instance already exists, destroying object!");
+				Log($"{nameof(NetworkManager)} instance already exists, destroying object!");
 				Destroy(value);
 			}
 		}
@@ -105,7 +108,7 @@ public class NetworkManager : MonoBehaviour
 		Client.ClientDisconnected += PlayerLeft;
 		Client.Disconnected += DidDisconnect;
         
-		RemoteUsers = new Dictionary<ushort, User>();
+		AllUsers = new Dictionary<ushort, User>();
 		
 		Connect();
 	}
@@ -135,7 +138,7 @@ public class NetworkManager : MonoBehaviour
 
 	private void DidConnect(object sender, EventArgs e)
 	{
-		Debug.Log($"Connected to Server: {_ip.Trim()}:{_port}", gameObject);
+		Log($"Connected to Server: {_ip.Trim()}:{_port}");
 		OnConnected?.Invoke();
 		
 		// TODO: Check if User Exists
@@ -143,21 +146,25 @@ public class NetworkManager : MonoBehaviour
 		// Create Local User
 		var localUser = Instantiate(_localUserPrefab, transform);
 		localUser.User.CreateUser(Client.Id, true, GameState.UserName);
+		AllUsers.Add(Client.Id, localUser.User);
+		OnUpdateAllUsers?.Invoke();
 		NetworkManager.OnLocalUserCreated(GameState.UserName);
 	}
 
 	private void FailedToConnect(object sender, EventArgs e)
 	{
-		Debug.LogError("Failed to Connect to Server", gameObject);
+		Log("Failed to Connect to Server");
 		OnFailedConnection?.Invoke();
 	}
 
 	private static void PlayerLeft(object sender, ClientDisconnectedEventArgs e)
 	{
-		if (RemoteUsers.TryGetValue(e.Id, out var player))
+		if (AllUsers.TryGetValue(e.Id, out var player))
 		{
 			player.DestroyUser();
 			Destroy(player.gameObject);
+			AllUsers.Remove(e.Id);
+			OnUpdateAllUsers?.Invoke();
 		}
 	}
 	
@@ -186,18 +193,19 @@ public class NetworkManager : MonoBehaviour
 	{
 		if (id == Instance.Client.Id)
 		{
-			Debug.LogError("Remote User Joined with ID of Client");
+			LogError("Remote User Joined with ID of Client");
 			return;
 		}
-		if (RemoteUsers.ContainsKey(id))
+		if (AllUsers.ContainsKey(id))
 		{
-			Debug.LogError($"Remote User Joined with existing ID ({id})");
+			LogError($"Remote User Joined with existing ID ({id})");
 			return;
 		}
 
 		var remoteUser = Instantiate(Instance._remoteUserPrefab, Instance.transform);
 		remoteUser.CreateUser(id, false, name);
-		RemoteUsers.Add(id, remoteUser);
+		AllUsers.Add(id, remoteUser);
+		OnUpdateAllUsers?.Invoke();
 	}
     
     #region Messages
@@ -225,7 +233,8 @@ public class NetworkManager : MonoBehaviour
 	{
 		var fromClientId = message.GetUShort();
 		var data = message.GetInt();
-		RemoteUsers[fromClientId].SetCharacter(data);
+		LogUser(fromClientId, $"Selected Character {data}");
+		AllUsers[fromClientId].SetCharacter(data);
 	}
 	
 	// Ready Up
@@ -238,7 +247,8 @@ public class NetworkManager : MonoBehaviour
 	{
 		var fromClientId = message.GetUShort();
 		var data = message.GetBool();
-		RemoteUsers[fromClientId].SetReady(data);
+		LogUser(fromClientId, $"Is {(data ? "Ready" : "Not Ready")}");
+		AllUsers[fromClientId].SetReady(data);
 	}
 	
 	[MessageHandler((ushort)ServerToClientId.lobbyTimerCountdown)]
@@ -254,6 +264,7 @@ public class NetworkManager : MonoBehaviour
 	[MessageHandler((ushort)ServerToClientId.loadGameScene)]
 	private static void LoadGameSceneResponse(Message message)
 	{
+		Log("Load Game");
 		SceneManager.LoadScene("Game");
 	}
 	public static void OnGameLoaded()
@@ -263,9 +274,59 @@ public class NetworkManager : MonoBehaviour
 	[MessageHandler((ushort)ServerToClientId.setupGame)]
 	private static void SetupGameResponse(Message message)
 	{
-		// TODO
-		Debug.Log("Setup Game!");
+		Log("Setup Game!");
+	}
+	
+	// Player Transform
+	public static void OnUpdateLocalUserTransformCharacter(Vector3 pos, Vector3 rot)
+	{
+		MessageHelper.SendTransformMessage(pos, rot, ClientToServerId.updateLocalUserTransform, MessageSendMode.unreliable);
+	}
+	[MessageHandler((ushort)ServerToClientId.updateRemoteUserTransform)]
+	private static void UpdateRemoteUserTransformResponse(Message message)
+	{
+		var fromClientId = message.GetUShort();
+		var pos = message.GetVector3();
+		var rot = message.GetVector3();
+		AllUsers[fromClientId].SetTransform(pos, rot);
+	}
+	
+	// Room Generation
+	public static void OnCreateNewRoomLocally(int roomId, Vector3 pos, Vector3 rot)
+	{
+		var message = Message.Create(MessageSendMode.reliable, ClientToServerId.createNewRoom);
+		message.Add(roomId);
+		message.Add(pos);
+		message.Add(rot);
+		Instance.Client.Send(message);
+	}
+	[MessageHandler((ushort)ServerToClientId.receiveRoomCreated)]
+	private static void CreateNewRoomRemotelyResponse(Message message)
+	{
+		var fromClientId = message.GetUShort();
+		var roomId = message.GetInt();
+		var pos = message.GetVector3();
+		var rot = message.GetVector3();
+		
+		LogUser(fromClientId, $"Create Room {roomId} at {pos}");
+		
+		RoomController.CreateRoomRemotely(roomId, pos, rot);
 	}
 
     #endregion
+    
+	private static void LogUser(ushort id, string message)
+	{
+		Log($"({id}) {AllUsers[id].UserName} {message}");
+	}
+    
+	private static void Log(string message)
+	{
+		if (Instance._debug) Debug.Log(message, Instance.gameObject);
+	}
+	
+	private static void LogError(string message)
+	{
+		if (Instance._debug) Debug.LogError(message, Instance.gameObject);
+	}
 }

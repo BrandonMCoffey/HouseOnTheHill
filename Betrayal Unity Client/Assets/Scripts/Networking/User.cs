@@ -10,30 +10,15 @@ public class User : MonoBehaviour
 	[SerializeField, ReadOnly] private string _name;
 	[SerializeField, ReadOnly] private bool _ready;
 	[SerializeField, ReadOnly] private int _character = -1;
+	[SerializeField, ReadOnly] private Player _player;
 	
 	public bool IsLocal => _local;
 	public string UserName => _name;
 	public bool Ready => _ready;
-	public string CharacterName => _character >= 0 ? GameState.GetCharacter(_character).Name : "Spectator";
-	public bool IsPlayer => _character >= 0;
-	
-	public static Action OnUpdateAllUsers = delegate { };
-	public static List<User> AllUsers = new List<User>();
+	public int Character => _character;
 	
 	public static Action OnUpdatePlayerStates = delegate { };
 	public static List<int> RemoteCharacters = new List<int>();
-	
-	private void Start()
-	{
-		AllUsers.Add(this);
-		OnUpdateAllUsers?.Invoke();
-	}
-	
-	private void OnDestroy()
-	{
-		AllUsers.Remove(this);
-		OnUpdateAllUsers?.Invoke();
-	}
 	
 	public void CreateUser(ushort id, bool local, string name)
 	{
@@ -60,11 +45,31 @@ public class User : MonoBehaviour
 		_character = character;
 		if (!_local) RemoteCharacters.Add(_character);
 		OnUpdatePlayerStates?.Invoke();
+		
+		if (GameState.GameStarted)
+		{
+			foreach (var player in PlayerManager.Players)
+			{
+				if (player.Character == GameState.GetCharacter(_character))
+					_player = player;
+			}
+		}
 	}
 	
 	public void SetReady(bool ready)
 	{
 		_ready = ready;
 		OnUpdatePlayerStates?.Invoke();
+	}
+	
+	public void SetPlayer(Player player)
+	{
+		_player = player;
+		_player.SetCharacter(GameState.GetCharacter(_character));
+	}
+	
+	public void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)
+	{
+		if (updatePlayer) _player.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
 	}
 }

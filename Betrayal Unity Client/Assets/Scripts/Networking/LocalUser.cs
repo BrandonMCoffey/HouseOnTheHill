@@ -35,4 +35,10 @@ public class LocalUser : MonoBehaviour
 		Instance.User.SetReady(ready);
 		NetworkManager.OnLocalUserReadyUp(ready);
 	}
+	
+	public static void SetTransform(Vector3 pos, Vector3 rot)
+	{
+		Instance.User.SetTransform(pos, rot, false);
+		NetworkManager.OnUpdateLocalUserTransformCharacter(pos, rot);
+	}
 }

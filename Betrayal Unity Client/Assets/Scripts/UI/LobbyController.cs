@@ -39,10 +39,9 @@ public class LobbyController : MonoBehaviour
 	
 	public void RetryConnection()
 	{
-		_panelSwitcher.OpenPanel(0);
-		NetworkManager.Instance.Connect();
+		NetworkManager.Disconnect();
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
-	
 	public void QuitToMainMenu() => NetworkManager.Disconnect();
 	public void SetPlayerReady(bool ready) => LocalUser.SetReady(ready);
 }

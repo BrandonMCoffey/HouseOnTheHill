@@ -46,6 +46,23 @@ public static class MessageHelper
 		message.Add(data.rotation);
 		NetworkManager.Instance.Client.Send(message);
 	}
+    
+	public static void SendTransformMessage(Vector3 pos, Vector3 rot, ClientToServerId messageType, MessageSendMode sendMode)
+	{
+		var message = Message.Create(sendMode, messageType);
+		message.Add(pos);
+		message.Add(rot);
+		NetworkManager.Instance.Client.Send(message);
+	}
+    
+	public static void SendRoomGenerationMessage(int roomId, Vector3 pos, Vector3 rot, ClientToServerId messageType, MessageSendMode sendMode)
+	{
+		var message = Message.Create(sendMode, messageType);
+		message.Add(roomId);
+		message.Add(pos);
+		message.Add(rot);
+		NetworkManager.Instance.Client.Send(message);
+	}
 	
 	public static void SendEmptyMessage(ClientToServerId messageType, MessageSendMode sendMode)
 	{

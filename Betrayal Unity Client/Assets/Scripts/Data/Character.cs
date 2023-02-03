@@ -24,6 +24,11 @@ public class Character : ScriptableObject
 	public string Name => _name;
 	public Color Color => _color;
 	
+	public CharacterTrait Speed => _speed;
+	public CharacterTrait Might => _might;
+	public CharacterTrait Sanity => _sanity;
+	public CharacterTrait Knowledge => _knowledge;
+	
 	private void OnValidate()
 	{
 		if (string.IsNullOrEmpty(_name)) _name = name;

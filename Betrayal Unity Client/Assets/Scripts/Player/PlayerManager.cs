@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-	[SerializeField] private GameObject _localPlayer;
-	[SerializeField] private GameObject _remotePlayer;
+	[SerializeField] private Player _localPlayerPrefab;
+	[SerializeField] private Player _remotePlayerPrefab;
 	
-	[SerializeField, ReadOnly] private List<GameObject> _players;
+	[SerializeField, ReadOnly] private Player _localPlayer;
+	
+	public static List<Player> Players = new List<Player>();
 	
 	private void Start()
 	{
-		NetworkManager.OnGameLoaded();
-		
-		foreach (var user in User.AllUsers)
+		if (NetworkManager.Instance)
 		{
-			if (user.IsPlayer)
+			NetworkManager.OnGameLoaded();
+			foreach (var pair in NetworkManager.AllUsers)
 			{
-				var player = Instantiate(user.IsLocal ? _localPlayer : _remotePlayer, transform);
-				_players.Add(player);
+				var user = pair.Value;
+				if (user.Character > 0)
+				{
+					bool isLocal =user.IsLocal;
+					var player = Instantiate(user.IsLocal ? _localPlayerPrefab : _remotePlayerPrefab, transform);
+					user.SetPlayer(player);
+					Players.Add(player);
+					if (user.IsLocal) _localPlayer = player;
+				}
 			}
 		}
+		else _localPlayer = Instantiate(_localPlayerPrefab, transform);
 	}
 }

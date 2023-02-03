@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -25,10 +25,11 @@ namespace Coffey_Utils.Editor
         {
             if (attribute is ShowIfAttribute attr)
             {
-                var target = property.serializedObject.targetObject;
-                return ShowIfEditorHelper.ShouldShow(target, attr.Targets);
+	            var target = property.serializedObject.targetObject;
+	            bool show = ShowIfEditorHelper.ShouldShow(target, attr.Targets);
+	            return attr.Reverse ? !show : show;
             }
-            return true;
+	        return true;
         }
 
     }

@@ -12,6 +12,8 @@ public class GameState : MonoBehaviour
 	[SerializeField] private List<Character> _characters = new List<Character>();
 	[SerializeField] private List<Item> _items = new List<Item>();
 	
+	[SerializeField, ReadOnly] private bool _gameStarted;
+	
 	private void Awake()
 	{
 		if (Instance != null && Instance != this)
@@ -38,4 +40,6 @@ public class GameState : MonoBehaviour
 	
 	public static int CharacterCount => Instance._characters.Count;
 	public static Character GetCharacter(int index) => Instance._characters[index];
+	
+	public static bool GameStarted => Instance._gameStarted;
 }

@@ -72,6 +72,10 @@ internal class PlayerData
     public int RoomIndex;
     public Vector3 RoomOffset;
     public Vector3 Rotation;
+
+    public string PrintInfo() => $"- Name: {UserName}, {(Ready ? "Is Ready" : "Is Not Ready")}\n" +
+                                 $"- Character: {Character} with trait indexes {SpeedIndex},{MightIndex},{SanityIndex},{KnowledgeIndex}\n" +
+                                 $"- Position: Room {RoomIndex} + with offset {RoomOffset} and rotation {Rotation}";
 }
 
 internal class Program
@@ -176,6 +180,7 @@ internal class Program
         connectedClients.Add(clientId);
         playerData.Add(clientId, new PlayerData());
         CheckAllPlayersReady();
+
         Console.WriteLine($"Client connected: ({clientId})");
 
         foreach (var id in connectedClients)
@@ -206,6 +211,7 @@ internal class Program
         connectedClients.Remove(clientId);
         playerData.Remove(clientId);
         CheckAllPlayersReady();
+
         Console.WriteLine($"Client disconnected ({e.Id})");
     }
 
@@ -215,38 +221,44 @@ internal class Program
     private static void HandleClientConnectedToServer(ushort fromClientId, Message message)
     {
         string name = message.GetString();
-        Console.WriteLine($"User ({fromClientId}) Joined with Name ({name})");
 
         playerData[fromClientId].UserName = name;
         SendStringMessage(fromClientId, name, ServerToClientId.createRemoteUser, MessageSendMode.reliable);
+
+        PrintUserEvent(fromClientId, "Joined the Lobby");
     }
 
     [MessageHandler((ushort)ClientToServerId.localUserSelectCharacter)]
     private static void HandleLocalUserSelectCharacter(ushort fromClientId, Message message)
     {
         int character = message.GetInt();
-        Console.WriteLine($"User ({fromClientId}) Selected Character ({character})");
 
         playerData[fromClientId].Character = character;
         SendIntMessage(fromClientId, character, ServerToClientId.remoteUserSelectCharacter, MessageSendMode.reliable);
+
+        PrintUserEvent(fromClientId, $"Selected Character ({character})");
     }
 
     [MessageHandler((ushort)ClientToServerId.localUserReadyUp)]
     private static void HandleLocalUserReadyUp(ushort fromClientId, Message message)
     {
         bool ready = message.GetBool();
-        Console.WriteLine($"User ({fromClientId}) is now ({(ready ? "Ready" : "Not Ready")})");
 
         playerData[fromClientId].Ready = ready;
         CheckAllPlayersReady();
         SendBoolMessage(fromClientId, ready, ServerToClientId.remoteUserReadyUp, MessageSendMode.reliable);
+
+        PrintUserEvent(fromClientId, $"is now ({(ready ? "Ready" : "Not Ready")})");
     }
 
     private static void CheckAllPlayersReady()
     {
         if (GameStarted)
             return;
-        bool allReady = playerData.Aggregate(true, (current, pair) => current & pair.Value.Ready);
+        int ready = playerData.Sum(pair => pair.Value.Ready ? 1 : 0);
+        int total = playerData.Count;
+        var allReady = ready == total;
+
         gameState = allReady ? GameState.lobbyAllReady : GameState.lobby;
         lobbyCountdownTimer = LobbyCountdown;
 
@@ -255,7 +267,7 @@ internal class Program
         message.AddFloat(LobbyCountdown);
         SendMessageToAll(message);
 
-        if (allReady) Console.WriteLine($"All Players Ready! Starting Game in {LobbyCountdown} seconds.");
+        Console.WriteLine(allReady ? $"All Players Ready! Starting Game in {LobbyCountdown} seconds." : $"Players Ready ({ready}/{total})");
     }
 
     [MessageHandler((ushort)ClientToServerId.gameLoaded)]
@@ -283,6 +295,28 @@ internal class Program
 
             Console.WriteLine("All Players Loaded. Setting Up Game!");
         }
+    }
+
+    [MessageHandler((ushort)ClientToServerId.updateLocalUserTransform)]
+    private static void HandleUpdateLocalUserTransform(ushort fromClientId, Message message)
+    {
+        var data = message.GetFloats(6);
+        SendTransformMessage(fromClientId, data, ServerToClientId.updateRemoteUserTransform, MessageSendMode.unreliable);
+    }
+
+    [MessageHandler((ushort)ClientToServerId.createNewRoom)]
+    private static void HandleCreateNewRoom(ushort fromClientId, Message message)
+    {
+        var roomId = message.GetInt();
+        var data = message.GetFloats(6);
+
+        PrintUserEvent(fromClientId, $"New Room Created ({roomId})");
+
+        Message sendMessage = Message.Create(MessageSendMode.reliable, ServerToClientId.receiveRoomCreated);
+        sendMessage.AddUShort(fromClientId);
+        sendMessage.AddInt(roomId);
+        sendMessage.AddFloats(data, false);
+        SendMessage(sendMessage, fromClientId);
     }
 
     #region Helper Functions
@@ -339,11 +373,20 @@ internal class Program
 
     #endregion
 
+    private static void PrintUserEvent(ushort user, string message)
+    {
+        Console.WriteLine($"({user}) {playerData[user].UserName} {message}");
+    }
+
     private static void PrintUserInfo()
     {
         foreach (var client in connectedClients)
         {
             Console.WriteLine(client); // TODO: Print All Player Data as well
+        }
+        foreach ((ushort key, PlayerData user) in playerData)
+        {
+            Console.WriteLine($"{key}\n{user.PrintInfo()}");
         }
     }
 }
