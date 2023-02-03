@@ -90,20 +90,18 @@ public class Room : MonoBehaviour
 	
 	public void CheckGenerateDoors()
 	{
-		GenerateDoor(GetOrientation(Orient.PosZ), _localPosZDoor);
-		GenerateDoor(GetOrientation(Orient.PosX), _localPosXDoor);
-		GenerateDoor(GetOrientation(Orient.NegZ), _localNegZDoor);
-		GenerateDoor(GetOrientation(Orient.NegX), _localNegXDoor);
+		GenerateDoor(AddOrientation(_orientation, Orient.PosZ), _localPosZDoor);
+		GenerateDoor(AddOrientation(_orientation, Orient.PosX), _localPosXDoor);
+		GenerateDoor(AddOrientation(_orientation, Orient.NegZ), _localNegZDoor);
+		GenerateDoor(AddOrientation(_orientation, Orient.NegX), _localNegXDoor);
 
 		void GenerateDoor(Orient worldOrient, bool create)
 		{
-			string debug = $"{worldOrient} ";
 			(int x, int z) = GetOffset(worldOrient);
 			
 			var connectedRoom = _generator.GetRoom(X + x, Z + z);
 			if (connectedRoom)
 			{
-				debug += "Connected to Room";
 				var door = connectedRoom.GetDoor(ReverseOrientation(worldOrient));
 				
 				// Existing door with a connection
@@ -114,26 +112,22 @@ public class Room : MonoBehaviour
 				// Existing door -- but no connection -- lock other door
 				else if (door && !create)
 				{
-					debug += " with Existing door (Lock)";
 					connectedRoom.DestroyDoor(door);
 					SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient);
 				}
 				// Create a locked door -- no connection
 				else if (!door && create)
 				{
-					debug += "with no door (Create Locked Door)";
 					SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient, true);
 				}
 			}
 			else if (create)
 			{
-				debug += "Create door";
 				var door = _generator.CreateDoor();
 				door.SetRoom(this, worldOrient);
 				SetDoorTransform(door.transform, worldOrient);
 				_doors.Add(door);
 			}
-			Debug.Log(debug);
 		}
 	}
 	
@@ -149,7 +143,8 @@ public class Room : MonoBehaviour
 	}
 
 	public static Orient GetOrientation(Orient x, Orient y) => (Orient)(((int)y - (int)x + 4) % 4);
-	private Orient GetOrientation(Orient orient) => GetOrientation(orient, _orientation);
+	public static Orient AddOrientation(Orient x, Orient y) => (Orient)(((int)x + (int)y) % 4);
+	//private Orient GetOrientation(Orient orient) => GetOrientation(orient, _orientation);
 
 	public static Orient ReverseOrientation(Orient orient)
 	{

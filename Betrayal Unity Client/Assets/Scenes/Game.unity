@@ -947,6 +947,7 @@ MonoBehaviour:
   _roomSize: 8
   _rooms:
   - {fileID: 5699502600333919216, guid: efd6e67e6d6e8f54ea1ef65763865c6f, type: 3}
+  - {fileID: 6450324631440514770, guid: 366b1fcfa37d4f2498d7d879adb88a10, type: 3}
   - {fileID: 4428277531167563175, guid: a99f95ce20369074eb71cbaaf99f578f, type: 3}
   - {fileID: 8379993168416823860, guid: 02dbd8cb8bb4ee747ae6d3a7731cf215, type: 3}
   - {fileID: 2696053217372534864, guid: 3bda450e8d9f0974fa7176fa2af1afc7, type: 3}

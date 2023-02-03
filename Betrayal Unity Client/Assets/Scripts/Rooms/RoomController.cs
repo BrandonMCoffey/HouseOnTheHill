@@ -33,7 +33,7 @@ public class RoomController : MonoBehaviour
 		_activeRooms = new Dictionary<int, Room>();
 	}
 	
-	[Button]
+	[Button(Mode = ButtonMode.InPlayMode)]
 	public void ToggleShowTop() => SetShowRoomTops(!_showTops);
 	public void SetShowRoomTops(bool show)
 	{

@@ -7,6 +7,7 @@ public class RoomGenerator : MonoBehaviour
 {
 	[SerializeField] private RoomController _controller;
 	[SerializeField] private Floor _floor;
+	[SerializeField] private bool _debug;
 	
 	[Header("Rooms")]
 	[SerializeField] private List<Room> _placedRooms;
@@ -44,7 +45,7 @@ public class RoomGenerator : MonoBehaviour
 	
 	public void PlaceRoomLocally(int x, int z, Orient connection)
 	{
-		Debug.Log($"Place Room Locally: {x}, {z}, connecting to {connection.ToString()}");
+		Log($"Place Room Locally: {x}, {z}, connecting to {connection.ToString()}");
 		if (HasRoom(x, z))
 		{
 			Debug.LogError("Room Exists! Do not Place Room");
@@ -66,21 +67,24 @@ public class RoomGenerator : MonoBehaviour
 				int totalConnections = 0;
 				var rotations = new List<Orient>();
 				
+				Log($"FIND ROTATION FOR {prefab.name}");
 				// Test all rotations
 				for (int i = 0; i < 4; i++)
 				{
+					Log($"Rotation ({i})");
 					int connections = 0;
 					var localOrientations = prefab.GetDoorLocalOrientations();
 					// Test for connections at each possible door
 					foreach (var localOrientation in localOrientations)
 					{
-						var orientation = Room.GetOrientation(localOrientation, (Orient)i);
+						var orientation = Room.AddOrientation(localOrientation, (Orient)i);
 						(int xOffset, int zOffset) = Room.GetOffset(orientation);
 						var otherRoom = GetRoom(x + xOffset, z + zOffset);
 						if (otherRoom && otherRoom.HasDoorWithOrientation(Room.ReverseOrientation(orientation)))
 						{
 							connections += orientation == connection ? 11 : 1;
 						}
+						Log($" - Door Orientation {localOrientation} to {orientation} found {otherRoom}");
 					}
 					if (connections > totalConnections)
 					{
@@ -91,7 +95,9 @@ public class RoomGenerator : MonoBehaviour
 					{
 						rotations.Add((Orient)i);
 					}
+					Log($" - Connections ({connections} / {totalConnections})");
 				}
+				Log($"Rotation: {rot}");
 				rot = (int)rotations[Random.Range(0, rotations.Count)];
 				break;
 			case 4:
@@ -101,7 +107,7 @@ public class RoomGenerator : MonoBehaviour
 				break;
 		}
 		PlaceRoom(prefab, x, z, rot);
-		NetworkManager.OnCreateNewRoomLocally(prefab.Id, (int)_floor, x, z, rot);
+		if (NetworkManager.Instance) NetworkManager.OnCreateNewRoomLocally(prefab.Id, (int)_floor, x, z, rot);
 	}
 
 	public Room PlaceRoom(Room prefab, int x, int z, int rot)
@@ -111,6 +117,7 @@ public class RoomGenerator : MonoBehaviour
 		var room = Instantiate(prefab, transform);
 		room.SetGenerator(this);
 		_placedRooms.Add(room);
+		_controller.AddPlacedRoom(room);
 		
 		room.X = x;
 		room.Z = z;
@@ -136,4 +143,9 @@ public class RoomGenerator : MonoBehaviour
 	
 	public DoorController CreateDoor() => Instantiate(_doorPrefab, _doorParent);
 	public GameObject CreateLockedDoor() => Instantiate(_lockedDoorPrefab, _doorParent);
+
+	private void Log(string message)
+	{
+		if (_debug) Debug.Log(message, gameObject);
+	}
 }
