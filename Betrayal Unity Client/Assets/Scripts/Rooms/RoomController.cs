@@ -16,11 +16,14 @@ public class RoomController : MonoBehaviour
 	[Header("Rooms")]
 	[SerializeField] private float _roomSize;
 	[SerializeField] private List<Room> _rooms = new List<Room>();
+	[SerializeField] private bool _showTops;
 	
 	[Header("Doors")]
 	[SerializeField] private DoorController _doorPrefab;
 	[SerializeField] private Transform _doorParent;
 	[SerializeField, ReadOnly] private List<DoorController> _doors;
+
+	public bool ShowRoomTops => _showTops;
 	
 	private Dictionary<int, Room> _activeRooms;
 	
@@ -30,13 +33,21 @@ public class RoomController : MonoBehaviour
 		_activeRooms = new Dictionary<int, Room>();
 	}
 	
-	private void Start()
+	[Button]
+	public void ToggleShowTop() => SetShowRoomTops(!_showTops);
+	public void SetShowRoomTops(bool show)
 	{
-		foreach (Transform child in transform)
+		_showTops = show;
+		foreach (var pair in _activeRooms)
 		{
-			var room = child.GetComponent<Room>();
-			if (room) _activeRooms.Add(room.Id, room);
+			pair.Value.ShowTop(ShowRoomTops);
 		}
+	}
+
+	public void AddPlacedRoom(Room room)
+	{
+		_activeRooms.Add(room.Id, room);
+		room.ShowTop(ShowRoomTops);
 	}
 	
 	public void CreateDoor(DoorSpawner spawner)

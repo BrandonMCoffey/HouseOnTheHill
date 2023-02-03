@@ -76,8 +76,6 @@ public class Room : MonoBehaviour
 		return null;
 	}
 	
-	[Button(Spacing = 10)]
-	public void ToggleShowTop() => ShowTop(!_showTop);
 	public void ShowTop(bool show)
 	{
 		_showTop = show;

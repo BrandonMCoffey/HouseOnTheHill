@@ -38,6 +38,7 @@ public class RoomGenerator : MonoBehaviour
 			room.Z = Mathf.RoundToInt(pos.z);
 			room.SetGenerator(this);
 			room.CheckGenerateDoors();
+			_controller.AddPlacedRoom(room);
 		}
 	}
 	
@@ -120,6 +121,7 @@ public class RoomGenerator : MonoBehaviour
 
 		room.SetGenerator(this);
 		room.CheckGenerateDoors();
+		room.ShowTop(_controller.ShowRoomTops);
 		
 		return room;
 	}

@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 1316926634}
-  _floor: 2
+  _floor: 0
   _placedRooms:
   - {fileID: 1972118124}
   _doorPrefab: {fileID: 8409268434050929953, guid: 79d797da3eaca494c9025043f4330b5c,
@@ -700,7 +700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 1316926634}
-  _floor: 0
+  _floor: 2
   _placedRooms:
   - {fileID: 2019991164}
   _doorPrefab: {fileID: 8409268434050929953, guid: 79d797da3eaca494c9025043f4330b5c,
@@ -988,6 +988,7 @@ MonoBehaviour:
   - {fileID: 8574218072478984560, guid: 0a52f4f5d81f549489d00289762ab445, type: 3}
   - {fileID: 4381232464266880899, guid: a5cef4ec8a4411d46b26ebe1669232b1, type: 3}
   - {fileID: 3066401215675112047, guid: f93fd90ecc53e5948b2eb6811fb3e77d, type: 3}
+  _showTops: 1
   _doorPrefab: {fileID: 8409268434050929953, guid: 79d797da3eaca494c9025043f4330b5c,
     type: 3}
   _doorParent: {fileID: 295749308}
