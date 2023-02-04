@@ -13,11 +13,19 @@ public enum ItemType
 [CreateAssetMenu(menuName = "Betrayal/Item")]
 public class Item : ScriptableObject
 {
+	[Header("Data")]
 	[SerializeField] private string _name;
 	[SerializeField] private bool _omen;
 	[SerializeField] private ItemType _type;
+
+	[Header("Other")]
+	[SerializeField] private Sprite _icon;
+	[SerializeField] private string _description;
 	
 	public string Name => _name;
+	public ItemType Type => _type;
+	public string Description => _description;
+	public Sprite IconSprite => _icon;
 	
 	private void OnValidate()
 	{

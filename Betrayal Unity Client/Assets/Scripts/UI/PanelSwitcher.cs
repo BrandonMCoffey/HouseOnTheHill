@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PanelSwitcher : MonoBehaviour
 {
 	[SerializeField] private int _defaultPanel;
-	[SerializeField] private List<CanvasGroup> _panels;
+	[SerializeField] private List<Canvas> _panels;
 	//[SerializeField] private List<GameObject> _selectObj;
 	
 	private void Start()
@@ -24,9 +23,9 @@ public class PanelSwitcher : MonoBehaviour
 		}
 		foreach (var panel in _panels)
 		{
-			SetPanelActive(panel, false);
+			panel.enabled = false;
 		}
-		SetPanelActive(_panels[num]);
+		_panels[num].enabled = true;
 		//if (num < _selectObj.Count) SelectObj(_selectObj[num]);
 	}
 	
@@ -36,12 +35,5 @@ public class PanelSwitcher : MonoBehaviour
 		{
 			EventSystem.current.SetSelectedGameObject(obj);
 		}
-	}
-	
-	private void SetPanelActive(CanvasGroup group, bool active = true)
-	{
-		group.alpha = active ? 1 : 0;
-		group.blocksRaycasts = active;
-		group.interactable = active;
 	}
 }
