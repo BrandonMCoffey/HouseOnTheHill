@@ -5,133 +5,80 @@ using UnityEngine.EventSystems;
 
 public class SpectatorMovement : MonoBehaviour
 {
+	[SerializeField] private GameObject _camera;
 	[SerializeField, HighlightIfNull] private Transform _pivot;
 	[SerializeField] private BoxCollider _bounds;
-	
-	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
-	public RotationAxes axes = RotationAxes.MouseXAndY;
-	public float sensitivityX = 2F;
-	public float sensitivityY = 2F;
-	public float minimumX = -360F;
-	public float maximumX = 360F;
-	public float minimumY = -90F;
-	public float maximumY = 90F;
-	float rotationY = -60F;
-	
-	float CameraPanningSpeed = 10.0f;
+	[SerializeField] private float _rotationSensitivity = 0.1f;
+	[SerializeField] private float _panningSensitivity = 0.1f;
+	[SerializeField] private float _zoomingSensitivity = 0.01f;
+	[SerializeField] private Vector2 _zoomMinMax = new Vector2(5, 50);
 
+	[SerializeField, ReadOnly] private bool _rotating;
+	[SerializeField, ReadOnly] private bool _panning;
+	[SerializeField, ReadOnly] private Vector2 _mouseMovementInput;
+	[SerializeField, ReadOnly] private float _zoom;
+
+	public void SetCameraActive(bool active) => _camera.SetActive(active);
+	
 	private void Start()
 	{
 		_bounds.isTrigger = true;
+		_zoom = -_camera.transform.localPosition.z;
 	}
 
 	private void Update()
 	{
 		if (EventSystem.current.IsPointerOverGameObject()) return;
-		MouseInput();
+		if (_rotating) Rotate();
+		else if (_panning) Pan();
 	}
 
-	private void MouseInput()
+	public void SetRotate(bool rotate)
 	{
-		if (Input.GetMouseButton(0))
-		{
-		}
-		else if (Input.GetMouseButton(1))
-		{
-			MouseRightClick();
-		}
-		else if (Input.GetMouseButton(2))
-		{
-			MouseMiddleButtonClicked();
-		}
-		else if (Input.GetMouseButtonUp(1))
-		{
-			ShowAndUnlockCursor();
-		}
-		else if (Input.GetMouseButtonUp(2))
-		{
-			ShowAndUnlockCursor();
-		}
-		else
-		{
-			MouseWheeling();
-		}
+		if (_panning) return;
+		_rotating = rotate;
+		HideMouse(rotate);
+	}
+	
+	public void SetPan(bool pan)
+	{
+		if (_rotating) return;
+		_panning = pan;
+		HideMouse(pan);
 	}
 
-	void ShowAndUnlockCursor()
+	private static void HideMouse(bool hide)
 	{
-		Cursor.lockState = CursorLockMode.None;
-		Cursor.visible = true;
+		Cursor.lockState = hide ? CursorLockMode.Locked : CursorLockMode.None;
+		Cursor.visible = !hide;
 	}
 
-	void HideAndLockCursor()
+	public void SetMouseMovement(Vector2 mouseMovement)
 	{
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+		_mouseMovementInput = mouseMovement;
 	}
 
-	void MouseMiddleButtonClicked()
+	private void Rotate()
 	{
-		HideAndLockCursor();
-		Vector3 NewPosition = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
-		Vector3 pos = transform.position;
-		if (NewPosition.x > 0.0f)
-		{
-			pos += transform.right;
-		}
-		else if (NewPosition.x < 0.0f)
-		{
-			pos -= transform.right;
-		}
-		if (NewPosition.z > 0.0f)
-		{
-			pos += transform.forward;
-		}
-		if (NewPosition.z < 0.0f)
-		{
-			pos -= transform.forward;
-		}
-		pos.y = transform.position.y;
-		transform.position = pos;
+		_pivot.Rotate(Vector3.up, _mouseMovementInput.x * _rotationSensitivity);
+		_pivot.Rotate(Vector3.right, -_mouseMovementInput.y * _rotationSensitivity);
+		var rot = _pivot.eulerAngles;
+		if (rot.x > 180) rot.x -= 360;
+		rot.x = Mathf.Clamp(rot.x, -75f, 75f);
+		rot.z = 0;
+		_pivot.rotation = Quaternion.Euler(rot);
 	}
 
-	void MouseRightClick()
+	private void Pan()
 	{
-		HideAndLockCursor();
-		if (axes == RotationAxes.MouseXAndY)
-		{
-			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
-
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
-
-			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-		}
-		else if (axes == RotationAxes.MouseX)
-		{
-			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
-		}
-		else
-		{
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
-
-			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-		}
+		var offset = -_pivot.right * _mouseMovementInput.x + -_pivot.up * _mouseMovementInput.y;
+		_pivot.position += offset * _panningSensitivity;
 	}
 
-	void MouseWheeling()
+	public void Zoom(float amount)
 	{
-		Vector3 pos = transform.position;
-		if (Input.GetAxis("Mouse ScrollWheel") < 0)
-		{
-			pos = pos - transform.forward;
-			transform.position = pos;
-		}
-		if (Input.GetAxis("Mouse ScrollWheel") > 0)
-		{
-			pos = pos + transform.forward;
-			transform.position = pos;
-		}
+		_zoom += -amount * _zoomingSensitivity;
+		_zoom = Mathf.Clamp(_zoom, _zoomMinMax.x, _zoomMinMax.y);
+		_camera.transform.localPosition = new Vector3(0, 0, -_zoom);
 	}
 }

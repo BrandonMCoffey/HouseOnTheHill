@@ -145,8 +145,8 @@ public class NetworkManager : MonoBehaviour
 		
 		// Create Local User
 		var localUser = Instantiate(_localUserPrefab, transform);
-		localUser.User.CreateUser(Client.Id, true, GameState.UserName);
-		AllUsers.Add(Client.Id, localUser.User);
+		localUser.CreateUser(Client.Id, true, GameState.UserName);
+		AllUsers.Add(Client.Id, localUser);
 		OnUpdateAllUsers?.Invoke();
 		NetworkManager.OnLocalUserCreated(GameState.UserName);
 	}
@@ -274,6 +274,8 @@ public class NetworkManager : MonoBehaviour
 	[MessageHandler((ushort)ServerToClientId.setupGame)]
 	private static void SetupGameResponse(Message message)
 	{
+		var turnOrder = message.GetUShorts();
+		SetCurrentPlayerTurn(turnOrder[0]);
 		Log("Setup Game!");
 	}
 	
@@ -317,7 +319,28 @@ public class NetworkManager : MonoBehaviour
 		RoomController.CreateRoomRemotely(roomId, floor, x, z, rot);
 	}
 
-    #endregion
+	// Turns
+	public static void OnLocalUserEndTurn()
+	{
+		MessageHelper.SendEmptyMessage(ClientToServerId.localUserEndTurn, MessageSendMode.reliable);
+	}
+
+	[MessageHandler((ushort)ServerToClientId.updateCurrentPlayerTurn)]
+	private static void UpdateCurrentPlayerTurnResponse(Message message)
+	{
+		var usersTurn = message.GetUShort();
+		SetCurrentPlayerTurn(usersTurn);
+	}
+
+	private static void SetCurrentPlayerTurn(ushort playersTurn)
+	{
+		foreach (var pair in AllUsers)
+		{
+			pair.Value.SetCurrentTurn(pair.Key == playersTurn);
+		}
+	}
+
+	#endregion
     
 	private static void LogUser(ushort id, string message)
 	{

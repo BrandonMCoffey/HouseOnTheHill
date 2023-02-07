@@ -15,6 +15,7 @@ public class RoomController : MonoBehaviour
 	
 	[Header("Rooms")]
 	[SerializeField] private float _roomSize;
+	[SerializeField] private bool _ignoreFloorDebug;
 	[SerializeField] private List<Room> _rooms = new List<Room>();
 	[SerializeField] private bool _showTops;
 	
@@ -61,22 +62,19 @@ public class RoomController : MonoBehaviour
 
 	public static void CreateRoomRemotely(int roomId, int floor, int x, int z, int rot)
 	{
-		Room room = null;
 		var prefab = Instance.GetRoomById(roomId);
 		switch ((Floor)floor)
 		{
 			case Floor.Upper:
-				room = Instance._upperFloor.PlaceRoom(prefab, x, z, rot);
+				Instance._upperFloor.PlaceRoom(prefab, x, z, rot);
 				break;
 			case Floor.Ground:
-				room = Instance._groundFloor.PlaceRoom(prefab, x, z, rot);
+				Instance._groundFloor.PlaceRoom(prefab, x, z, rot);
 				break;
 			case Floor.Lower:
-				room = Instance._lowerFloor.PlaceRoom(prefab, x, z, rot);
+				Instance._lowerFloor.PlaceRoom(prefab, x, z, rot);
 				break;
 		}
-		if (room) Instance._activeRooms.Add(room.Id, room);
-		else Debug.LogError("Couldn't Place Room?");
 	}
 	
 	private Room GetRoomById(int roomId)
@@ -99,7 +97,7 @@ public class RoomController : MonoBehaviour
 		{
 			var nextRoom = _rooms[0];
 			_rooms.RemoveAt(0);
-			if (nextRoom.OnFloor(floor)) return nextRoom;
+			if (_ignoreFloorDebug || nextRoom.OnFloor(floor)) return nextRoom;
 			_rooms.Add(nextRoom);
 		}
 		Debug.LogError("No Rooms left in stack.", gameObject);

@@ -43,5 +43,5 @@ public class LobbyController : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 	public void QuitToMainMenu() => NetworkManager.Disconnect();
-	public void SetPlayerReady(bool ready) => LocalUser.SetReady(ready);
+	public void SetPlayerReady(bool ready) => LocalUser.Instance.SetReady(ready);
 }

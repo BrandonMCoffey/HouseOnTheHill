@@ -2,43 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LocalUser : MonoBehaviour
+public class LocalUser : User
 {
 	public static LocalUser Instance;
-	
-	[SerializeField, ReadOnly] private User _user;
-	
-	public User User => _user;
+
+	private PlayerManager _playerManager;
 	
 	private void Awake()
 	{
 		Instance = this;
 	}
-	
-	private void OnValidate()
+
+	public void SetPlayerManager(PlayerManager manager)
 	{
-		if (!_user)
-		{
-			_user = GetComponent<User>();
-			if (!_user) _user = gameObject.AddComponent<User>();
-		}
+		_playerManager = manager;
 	}
 	
-	public static void SetCharacter(int character)
+	public override void SetCharacter(int character)
 	{
-		Instance.User.SetCharacter(character);
+		base.SetCharacter(character);
 		NetworkManager.OnLocalUserSelectCharacter(character);
 	}
 	
-	public static void SetReady(bool ready)
+	public override void SetReady(bool ready)
 	{
-		Instance.User.SetReady(ready);
+		base.SetReady(ready);
 		NetworkManager.OnLocalUserReadyUp(ready);
 	}
 	
-	public static void SetTransform(Vector3 pos, Vector3 rot)
+	public override void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)
 	{
-		Instance.User.SetTransform(pos, rot, false);
+		base.SetTransform(pos, rot, false);
 		NetworkManager.OnUpdateLocalUserTransformCharacter(pos, rot);
+	}
+
+	public override void SetCurrentTurn(bool currentTurn)
+	{
+		base.SetCurrentTurn(currentTurn);
+		if (currentTurn) _playerManager.SwitchToFirstPerson();
+		else _playerManager.SwitchToSpectator();
+	}
+
+	public void EndTurn()
+	{
+		NetworkManager.OnLocalUserEndTurn();
 	}
 }

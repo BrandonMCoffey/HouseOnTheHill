@@ -30,7 +30,7 @@ namespace Betrayal.ConsoleServer
 
         lobbyTimerCountdown, // reliable (bool countdown, float countdownTime)
         loadGameScene, // reliable
-        setupGame, // reliable (???)
+        setupGame, // reliable (ushort[] turnOrder)
 
         updateRemoteUserTraits, // reliable (ushort client, int[4] traitValues)
         updateRemoteUserItemsHeld, // reliable (ushort client, int[] itemIds)
@@ -39,7 +39,7 @@ namespace Betrayal.ConsoleServer
         receiveRoomCreated, // reliable (ushort client, int roomId, int floor, int x, int y, int rotation)
         receiveAnnouncement, // reliable (ushort client, string title, string text)
 
-        updateCurrentPlayerTurn, // reliable (ushort fromId, ushort usersTurn)
+        updateCurrentPlayerTurn, // reliable (ushort usersTurn)
     }
 
     internal class ProgramMessageHandler
@@ -118,6 +118,18 @@ namespace Betrayal.ConsoleServer
         {
             var data = message.GetFloats(6);
             ProgramMessageHelper.SendFloatArrayMessage(fromClientId, data, ServerToClientId.updateRemoteUserTransform, MessageSendMode.unreliable);
+        }
+
+        [MessageHandler((ushort)ClientToServerId.localUserEndTurn)]
+        private static void HandleLocalUserEndTurn(ushort fromClientId, Message message)
+        {
+            var playerTurn = Program.IncrementTurnOrder();
+            var sendMessage = Message.Create(MessageSendMode.reliable, ServerToClientId.updateCurrentPlayerTurn);
+            sendMessage.AddUShort(playerTurn);
+            Program.SendMessageToAll(sendMessage);
+
+            PrintUserEvent(fromClientId, "Ended Their Turn");
+            PrintUserEvent(playerTurn, "Is now the Active Player");
         }
 
         [MessageHandler((ushort)ClientToServerId.createNewRoom)]

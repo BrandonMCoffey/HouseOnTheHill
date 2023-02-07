@@ -192,7 +192,7 @@ public class Room : MonoBehaviour
 		else if (orient == Orient.PosX) offset.x += RoomGenerator.HalfRoomSize;
 		else if (orient == Orient.NegZ) offset.z -= RoomGenerator.HalfRoomSize;
 		else if (orient == Orient.NegX) offset.x -= RoomGenerator.HalfRoomSize;
-		var rot = Quaternion.Euler(new Vector3(0, (int)orient * 90f, 0));
+		var rot = Quaternion.Euler(new Vector3(0, (int)orient * 90f + (reverse ? 180f : 0f), 0));
 		door.SetPositionAndRotation(transform.position + offset, rot);
 	}
 

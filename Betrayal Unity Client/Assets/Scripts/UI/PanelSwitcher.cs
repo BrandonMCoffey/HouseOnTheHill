@@ -6,7 +6,10 @@ public class PanelSwitcher : MonoBehaviour
 {
 	[SerializeField] private int _defaultPanel;
 	[SerializeField] private List<Canvas> _panels;
+	[SerializeField, ReadOnly] private int _openPanel;
 	//[SerializeField] private List<GameObject> _selectObj;
+
+	public int CurrentlyOpenPanel => _openPanel;
 	
 	private void Start()
 	{
@@ -21,6 +24,7 @@ public class PanelSwitcher : MonoBehaviour
 			Debug.LogError("Cannot open panel #" + num, gameObject);
 			return;
 		}
+		_openPanel = num;
 		foreach (var panel in _panels)
 		{
 			panel.enabled = false;

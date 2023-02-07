@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d426c5f1d2e41f54e8a0976565907f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactKey: 101
+  _camera: {fileID: 3694322751951517845}
   _interactMask:
     serializedVersion: 2
     m_Bits: 2097152
@@ -117,17 +117,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f5b9011b40fb449839cd9be976c57d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 7.5
-  runningSpeed: 11.5
-  canJump: 1
-  jumpSpeed: 8
-  gravity: 20
+  _walkingSpeed: 5
+  _runningSpeed: 7
+  _canJump: 1
+  _jumpSpeed: 6
+  _gravity: 20
   _cameraParent: {fileID: 3694322751600302588}
-  lookSpeed: 2
-  lookXLimit: 60
+  _lookSpeed: 0.1
+  _lookXLimit: 60
   _controller: {fileID: 3694322751628240100}
-  canMove: 1
-  moveDirection: {x: 0, y: 0, z: 0}
+  _canMove: 1
+  _moveDirectionInput: {x: 0, y: 0}
+  _sprintInput: 0
+  _jumpInput: 0
+  _lookDirectionInput: {x: 0, y: 0}
+  _moveDirection: {x: 0, y: 0, z: 0}
 --- !u!143 &3694322751628240100
 CharacterController:
   m_ObjectHideFlags: 0

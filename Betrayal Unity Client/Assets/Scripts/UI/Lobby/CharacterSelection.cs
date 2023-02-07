@@ -36,7 +36,7 @@ public class CharacterSelection : MonoBehaviour
 	public void Select(int i)
 	{
 		DeselectAll();
-		LocalUser.SetCharacter(i);
+		LocalUser.Instance.SetCharacter(i);
 	}
 	
 	private void DeselectAll()

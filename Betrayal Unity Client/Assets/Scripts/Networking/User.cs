@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class User : MonoBehaviour
 {
-	[SerializeField, ReadOnly] private ushort _id;
-	[SerializeField, ReadOnly] private bool _local;
-	[SerializeField, ReadOnly] private string _name;
-	[SerializeField, ReadOnly] private bool _ready;
-	[SerializeField, ReadOnly] private int _character = -1;
-	[SerializeField, ReadOnly] private Player _player;
+	[Header("Constant Data")]
+	[SerializeField, ReadOnly] protected ushort _id;
+	[SerializeField, ReadOnly] protected bool _local;
+	[SerializeField, ReadOnly] protected string _name;
+	
+	[Header("Lobby Data")]
+	[SerializeField, ReadOnly] protected bool _ready;
+	[SerializeField, ReadOnly] protected int _character = -1;
+	
+	[Header("Game Data")]
+	[SerializeField, ReadOnly] protected bool _isCurrentTurn;
+	[SerializeField, ReadOnly] protected Player _player;
 	
 	public bool IsLocal => _local;
 	public string UserName => _name;
@@ -39,7 +45,7 @@ public class User : MonoBehaviour
 		Destroy(gameObject);
 	}
 	
-	public void SetCharacter(int character)
+	public virtual void SetCharacter(int character)
 	{
 		if (!_local) RemoteCharacters.Remove(_character);
 		_character = character;
@@ -56,20 +62,22 @@ public class User : MonoBehaviour
 		}
 	}
 	
-	public void SetReady(bool ready)
+	public virtual void SetReady(bool ready)
 	{
 		_ready = ready;
 		OnUpdatePlayerStates?.Invoke();
 	}
 	
-	public void SetPlayer(Player player)
+	public virtual void SetPlayer(Player player)
 	{
 		_player = player;
 		_player.SetCharacter(GameState.GetCharacter(_character));
 	}
 	
-	public void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)
+	public virtual void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)
 	{
 		if (updatePlayer) _player.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
 	}
+
+	public virtual void SetCurrentTurn(bool currentTurn) => _isCurrentTurn = currentTurn;
 }

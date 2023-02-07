@@ -26,8 +26,8 @@ namespace Betrayal.ConsoleServer
         private static GameState gameState = GameState.lobby;
 
         private static float lobbyCountdownTimer;
-        private static List<ushort> turnOrder;
-        private static int turnOrderIndex;
+        public static List<ushort> TurnOrder;
+        public static int TurnOrderIndex;
 
         private static bool GameStarted => gameState == GameState.playingGame;
 
@@ -110,6 +110,8 @@ namespace Betrayal.ConsoleServer
             PlayerData.Add(clientId, new PlayerData());
             CheckAllPlayersReady();
 
+            ProgramMessageHandler.PlayerJoinedServer(clientId);
+
             Console.WriteLine($"Client connected: ({clientId})");
         }
 
@@ -151,19 +153,27 @@ namespace Betrayal.ConsoleServer
             if (allLoaded)
             {
                 gameState = GameState.playingGame;
-                turnOrderIndex = 0;
-                turnOrder = new List<ushort>();
+                TurnOrderIndex = 0;
+                TurnOrder = new List<ushort>();
                 foreach ((ushort clientId, PlayerData playerData) in PlayerData)
                 {
                     if (playerData.Character > 0)
-                        turnOrder.Add(clientId);
+                        TurnOrder.Add(clientId);
                 }
 
                 Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.setupGame);
+                message.AddUShorts(TurnOrder.ToArray());
                 SendMessageToAll(message);
 
                 Console.WriteLine("All Players Loaded. Setting Up Game!");
             }
+        }
+
+        public static ushort IncrementTurnOrder()
+        {
+            TurnOrderIndex++;
+            if (TurnOrderIndex >= TurnOrder.Count) TurnOrderIndex = 0;
+            return TurnOrder[TurnOrderIndex];
         }
 
         #region Messages
