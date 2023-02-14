@@ -97,6 +97,7 @@ public class Room : MonoBehaviour
 	
 	public void RunEvent(bool local)
 	{
+		if (!local) return;
 		if (_event) EventController.Instance.CreateEvent(this);
 		if (_omen) EventController.Instance.CreateOmen(this);
 		if (_item && _secondItem) EventController.Instance.CreateIem(this);
