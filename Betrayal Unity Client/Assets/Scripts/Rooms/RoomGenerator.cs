@@ -51,7 +51,7 @@ public class RoomGenerator : MonoBehaviour
 			Debug.LogError("Room Exists! Do not Place Room");
 			return;
 		}
-		var prefab = _controller.GetNextRoom(_floor);
+		var prefab = _controller.GetRandomRoom(_floor);
 		
 		// Figure out rotation (Test door connections)
 		int rot = 0;
@@ -64,14 +64,10 @@ public class RoomGenerator : MonoBehaviour
 				break;
 			case 2:
 			case 3:
+				var validRotations = new List<Orient>();
 				int totalConnections = 0;
-				var rotations = new List<Orient>();
-				
-				Log($"FIND ROTATION FOR {prefab.name}");
-				// Test all rotations
 				for (int i = 0; i < 4; i++)
 				{
-					Log($"Rotation ({i})");
 					int connections = 0;
 					var localOrientations = prefab.GetDoorLocalOrientations();
 					// Test for connections at each possible door
@@ -84,21 +80,15 @@ public class RoomGenerator : MonoBehaviour
 						{
 							connections += orientation == connection ? 11 : 1;
 						}
-						Log($" - Door Orientation {localOrientation} to {orientation} found {otherRoom}");
 					}
-					if (connections > totalConnections)
+					if (connections == totalConnections) validRotations.Add((Orient)i);
+					else if (connections > totalConnections)
 					{
 						totalConnections = connections;
-						rotations = new List<Orient>() { (Orient)i };
+						validRotations = new List<Orient>() { (Orient)i };
 					}
-					else if (connections == totalConnections)
-					{
-						rotations.Add((Orient)i);
-					}
-					Log($" - Connections ({connections} / {totalConnections})");
 				}
-				Log($"Rotation: {rot}");
-				rot = (int)rotations[Random.Range(0, rotations.Count)];
+				rot = (int)validRotations[Random.Range(0, validRotations.Count)];
 				break;
 			case 4:
 			default:
@@ -106,11 +96,11 @@ public class RoomGenerator : MonoBehaviour
 				rot = Random.Range(0, 4);
 				break;
 		}
-		PlaceRoom(prefab, x, z, rot);
+		PlaceRoom(prefab, x, z, rot, true);
 		if (NetworkManager.Instance) NetworkManager.OnCreateNewRoomLocally(prefab.Id, (int)_floor, x, z, rot);
 	}
 
-	public Room PlaceRoom(Room prefab, int x, int z, int rot)
+	public Room PlaceRoom(Room prefab, int x, int z, int rot, bool local = false)
 	{
 		Debug.Log($"Place room ({prefab.name}) at {x}, {z} with rotation {rot}");
 		
@@ -129,6 +119,8 @@ public class RoomGenerator : MonoBehaviour
 		room.SetGenerator(this);
 		room.CheckGenerateDoors();
 		room.ShowTop(_controller.ShowRoomTops);
+		
+		room.RunEvent(local);
 		
 		return room;
 	}

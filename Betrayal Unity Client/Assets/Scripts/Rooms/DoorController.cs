@@ -1,14 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DoorController : MonoBehaviour
 {
-	[SerializeField] private Transform _pivot;
+	[Header("Settings")]
 	[SerializeField] private float _openSpeed;
 	[SerializeField] private float _rotYClosed = 0;
 	[SerializeField] private float _rotYOpen = 90;
 	
+	[Header("References")]
+	[SerializeField] private Transform _pivot;
+	[SerializeField] private GameObject _labels;
+	[SerializeField] private TMP_Text _frontLabelText;
+	[SerializeField] private TMP_Text _backLabelText;
+	
+	[Header("Debug")]
 	[SerializeField, ReadOnly] private Room _room;
 	[SerializeField, ReadOnly] private Orient _worldOrient;
 	[SerializeField, ReadOnly] private bool _open;
@@ -25,9 +33,17 @@ public class DoorController : MonoBehaviour
 	
 	public void Open(bool createRoom = true)
 	{
+		if (_open) return;
 		_open = true;
 		_moving = true;
 		if (createRoom) _room.OnDoorOpen(_worldOrient);
+	}
+	
+	public void SetLabels(string forwardsRoom, string backwardsRoom)
+	{
+		_labels.SetActive(true);
+		_frontLabelText.text = forwardsRoom;
+		_backLabelText.text = backwardsRoom;
 	}
 	
 	private void Update()

@@ -15,6 +15,7 @@ public class Item : ScriptableObject
 {
 	[Header("Data")]
 	[SerializeField] private string _name;
+	[SerializeField] private int _id;
 	[SerializeField] private bool _omen;
 	[SerializeField] private ItemType _type;
 
@@ -23,6 +24,8 @@ public class Item : ScriptableObject
 	[SerializeField] private string _description;
 	
 	public string Name => _name;
+	public int Id => _id;
+	public bool Omen => _omen;
 	public ItemType Type => _type;
 	public string Description => _description;
 	public Sprite IconSprite => _icon;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +28,7 @@ public class PlayerActionManager : MonoBehaviour
     [SerializeField] private InteractionController _firstPersonInteraction;
     [SerializeField] private SpectatorMovement _spectatorMovement;
     
+	public static bool IsSpectating;
     public PlayerState State => _playerState;
     private bool InGame => State == PlayerState.InGame;
     private bool Spectating => State == PlayerState.Spectating;
@@ -140,6 +141,8 @@ public class PlayerActionManager : MonoBehaviour
         if (_logState) Debug.Log($"Player State switched to {newState}", gameObject);
         _playerState = newState;
         
+	    if (InGame) IsSpectating = false;
+	    if (Spectating) IsSpectating = true;
         _firstPersonMovement.SetCanMove(InGame);
         _firstPersonInteraction.SetCameraActive(!Spectating);
         _spectatorMovement.SetCameraActive(Spectating);

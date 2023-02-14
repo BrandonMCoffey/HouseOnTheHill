@@ -14,6 +14,12 @@ public class Room : MonoBehaviour
 	[SerializeField] private bool _groundFloor;
 	[SerializeField] private bool _lowerFloor;
 	
+	[Header("Event")]
+	[SerializeField] private bool _event;
+	[SerializeField] private bool _omen;
+	[SerializeField] private bool _item;
+	[SerializeField] private bool _secondItem;
+	
 	[Header("Doors")]
 	[FormerlySerializedAs("_posZDoor")]
 	[SerializeField] private bool _localPosZDoor;
@@ -37,6 +43,7 @@ public class Room : MonoBehaviour
 	[SerializeField, ReadOnly] private Orient _orientation = Orient.PosZ;
 	[SerializeField, ReadOnly] private List<DoorController> _doors = new List<DoorController>();
 
+	public string Name => _name;
 	public int Id => _id;
 	public int Z { get => _z; set => _z = value; }
 	public int X { get => _x; set => _x = value; }
@@ -88,6 +95,14 @@ public class Room : MonoBehaviour
 		_generator.PlaceRoomLocally(X + x, Z + z, ReverseOrientation(dir));
 	}
 	
+	public void RunEvent(bool local)
+	{
+		if (_event) EventController.Instance.CreateEvent(this);
+		if (_omen) EventController.Instance.CreateOmen(this);
+		if (_item && _secondItem) EventController.Instance.CreateIem(this);
+		else if (_item || _secondItem) EventController.Instance.CreateTwoItems(this);
+	}
+	
 	public void CheckGenerateDoors()
 	{
 		GenerateDoor(AddOrientation(_orientation, Orient.PosZ), _localPosZDoor);
@@ -104,16 +119,19 @@ public class Room : MonoBehaviour
 			{
 				var door = connectedRoom.GetDoor(ReverseOrientation(worldOrient));
 				
-				// Existing door with a connection
-				if (door && create)
+				if (door)
 				{
-					door.Open(false);
-				}
-				// Existing door -- but no connection -- lock other door
-				else if (door && !create)
-				{
-					connectedRoom.DestroyDoor(door);
-					SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient);
+					// Existing door with a connection
+					if (create) door.Open(false);
+					
+					// Existing door -- but no connection -- lock other door
+					if (!create)
+					{
+						connectedRoom.DestroyDoor(door);
+						SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient);
+					}
+					
+					door.SetLabels(connectedRoom.Name, Name);
 				}
 				// Create a locked door -- no connection
 				else if (!door && create)

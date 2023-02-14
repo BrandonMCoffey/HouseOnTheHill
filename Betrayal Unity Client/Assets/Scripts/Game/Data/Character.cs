@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Trait
+{
+	Speed,
+	Might,
+	Sanity,
+	Knowledge
+}
+
 [CreateAssetMenu(menuName = "Betrayal/Character")]
 public class Character : ScriptableObject
 {
 	[SerializeField] private string _name;
 	[SerializeField] private Color _color;
+	[SerializeField] private GameObject _art;
 	
 	[Header("Traits")]
 	[SerializeField] private CharacterTrait _speed;
@@ -23,11 +32,22 @@ public class Character : ScriptableObject
 	
 	public string Name => _name;
 	public Color Color => _color;
+	public GameObject Art => _art;
 	
-	public CharacterTrait Speed => _speed;
-	public CharacterTrait Might => _might;
-	public CharacterTrait Sanity => _sanity;
-	public CharacterTrait Knowledge => _knowledge;
+	public int GetTraitIndex(Trait trait) => GetTrait(trait).Index;
+	public int GetTraitValue(Trait trait, int index) => GetTrait(trait).GetValue(index);
+	
+	public CharacterTrait GetTrait(Trait trait)
+	{
+		return trait switch
+		{
+			Trait.Speed => _speed,
+			Trait.Might => _might,
+			Trait.Sanity => _sanity,
+			Trait.Knowledge => _knowledge,
+			_ => null,
+		};
+	}
 	
 	private void OnValidate()
 	{

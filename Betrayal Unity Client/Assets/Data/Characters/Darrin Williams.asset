@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 174a61e4571ed73489250e5ca0008c25, type: 3}
-  m_Name: Darrin Flash Williams
+  m_Name: Darrin Williams
   m_EditorClassIdentifier: 
-  _name: Darrin Flash Williams
+  _name: Darrin "Flash" Williams
   _color: {r: 0.745283, g: 0.10898005, b: 0.10898005, a: 1}
+  _art: {fileID: 919132149155446097, guid: 66e2ae719e8482647b119717360cfc7c, type: 3}
   _speed:
     Index: 5
     Value1: 4

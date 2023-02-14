@@ -109,8 +109,29 @@ namespace Betrayal.ConsoleServer
         [MessageHandler((ushort)ClientToServerId.gameLoaded)]
         private static void HandleLocalUserGameLoaded(ushort fromClientId, Message message)
         {
-            Program.PlayerData[fromClientId].GameLoaded = true;
-            Program.CheckAllPlayersLoaded();
+            if (Program.GameStarted)
+            {
+                Message sendMessage = Message.Create(MessageSendMode.reliable, ServerToClientId.setupGame);
+                sendMessage.AddUShorts(Program.TurnOrder.ToArray());
+                Program.SendMessageToClient(sendMessage, fromClientId);
+
+                foreach (var room in Program.Rooms)
+                {
+                    var roomMessage = Message.Create(MessageSendMode.reliable, ServerToClientId.receiveRoomCreated);
+                    roomMessage.AddUShort(room.Client);
+                    roomMessage.AddInt(room.Id);
+                    roomMessage.AddInt(room.Floor);
+                    roomMessage.AddInt(room.X);
+                    roomMessage.AddInt(room.Z);
+                    roomMessage.AddInt(room.Rot);
+                    Program.SendMessageToClient(roomMessage, fromClientId);
+                }
+            }
+            else
+            {
+                Program.PlayerData[fromClientId].GameLoaded = true;
+                Program.CheckAllPlayersLoaded();
+            }
         }
 
         [MessageHandler((ushort)ClientToServerId.updateLocalUserTransform)]
@@ -136,6 +157,8 @@ namespace Betrayal.ConsoleServer
         private static void HandleCreateNewRoom(ushort fromClientId, Message message)
         {
             var data = message.GetInts(5); // roomId, floor, x, z, rot
+
+            Program.Rooms.Add(new RoomData(fromClientId, data));
             ProgramMessageHelper.SendIntArrayMessage(fromClientId, data, ServerToClientId.receiveRoomCreated, MessageSendMode.reliable);
 
             PrintUserEvent(fromClientId, $"New Room Created ({data[0]})");

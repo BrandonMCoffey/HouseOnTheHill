@@ -199,6 +199,10 @@ MonoBehaviour:
   _upperFloor: 0
   _groundFloor: 1
   _lowerFloor: 0
+  _event: 0
+  _omen: 1
+  _item: 0
+  _secondItem: 0
   _localPosZDoor: 0
   _localPosXDoor: 0
   _localNegZDoor: 1

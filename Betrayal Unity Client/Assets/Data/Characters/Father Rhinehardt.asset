@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Father Rhinehardt
   _color: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
+  _art: {fileID: 919132149155446097, guid: c63670b47cc2748489d103e06ac96be5, type: 3}
   _speed:
     Index: 3
     Value1: 2

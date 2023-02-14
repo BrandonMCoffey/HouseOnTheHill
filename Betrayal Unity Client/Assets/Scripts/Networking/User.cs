@@ -76,7 +76,7 @@ public class User : MonoBehaviour
 	
 	public virtual void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)
 	{
-		if (updatePlayer) _player.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
+		if (updatePlayer && _player) _player.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
 	}
 
 	public virtual void SetCurrentTurn(bool currentTurn) => _isCurrentTurn = currentTurn;

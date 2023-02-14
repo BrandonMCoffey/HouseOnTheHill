@@ -29,7 +29,9 @@ namespace Betrayal.ConsoleServer
         public static List<ushort> TurnOrder;
         public static int TurnOrderIndex;
 
-        private static bool GameStarted => gameState == GameState.playingGame;
+        public static List<RoomData> Rooms;
+
+        public static bool GameStarted => gameState == GameState.playingGame;
 
         #endregion
 
@@ -68,6 +70,7 @@ namespace Betrayal.ConsoleServer
             connectedClients = new List<ushort>();
             PlayerData = new Dictionary<ushort, PlayerData>();
             leftoverPlayerData = new List<PlayerData>();
+            Rooms = new List<RoomData>();
 
             server.ClientConnected += NewPlayerConnected;
             server.ClientDisconnected += PlayerLeft;
@@ -111,6 +114,12 @@ namespace Betrayal.ConsoleServer
             CheckAllPlayersReady();
 
             ProgramMessageHandler.PlayerJoinedServer(clientId);
+
+            if (GameStarted)
+            {
+                Message message = Message.Create(MessageSendMode.reliable, ServerToClientId.loadGameScene);
+                SendMessageToClient(message, clientId);
+            }
 
             Console.WriteLine($"Client connected: ({clientId})");
         }

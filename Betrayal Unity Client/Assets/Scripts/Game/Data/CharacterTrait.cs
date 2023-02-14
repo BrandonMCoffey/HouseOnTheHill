@@ -16,4 +16,20 @@ public class CharacterTrait
 	public int Value6;
 	public int Value7;
 	public int Value8;
+	
+	public int GetValue(int index)
+	{
+		return index switch
+		{
+			1 => Value1,
+				2 => Value2,
+				3 => Value3,
+				4 => Value4,
+				5 => Value5,
+				6 => Value6,
+				7 => Value7,
+				8 => Value8,
+			_ => -1
+		};
+	}
 }

@@ -104,12 +104,20 @@ public class RoomController : MonoBehaviour
 		return null;
 	}
 	
-	private Room GetRandomRoom()
+	public Room GetRandomRoom(Floor floor)
 	{
-		int index = Random.Range(0, _rooms.Count);
-		var room = _rooms[index];
-		_rooms.RemoveAt(index);
-		return room;
+		int iterations = 0;
+		while (true)
+		{
+			int index = Random.Range(0, _rooms.Count);
+			var room = _rooms[index];
+			_rooms.RemoveAt(index);
+			if (_ignoreFloorDebug || room.OnFloor(floor)) return room;
+			_rooms.Add(room);
+			if (iterations > 1000) break;
+		}
+		Debug.LogError("No Rooms left in stack.", gameObject);
+		return null;
 	}
 }
 

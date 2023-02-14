@@ -34,4 +34,24 @@ namespace Betrayal.ConsoleServer
                                      $"- Character: {Character} with trait indexes {SpeedIndex},{MightIndex},{SanityIndex},{KnowledgeIndex}\n" +
                                      $"- Position: Room {RoomIndex} + with offset {RoomOffset} and rotation {Rotation}";
     }
+
+    internal struct RoomData
+    {
+        public ushort Client;
+        public int Id;
+        public int Floor;
+        public int X;
+        public int Z;
+        public int Rot;
+
+        public RoomData(ushort clientId, IReadOnlyList<int> data)
+        {
+            Client = clientId;
+            Id = data[0];
+            Floor = data[1];
+            X = data[2];
+            Z = data[3];
+            Rot = data[4];
+        }
+    }
 }
