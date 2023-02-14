@@ -2194,6 +2194,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseItem: {fileID: 1512291207}
+  _items: []
+  _parent: {fileID: 0}
+  _refreshDisplay: 0
+  _connectPlayer: 0
 --- !u!114 &369805576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6099,6 +6103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _switcher: {fileID: 994227714}
   _localPlayer: {fileID: 0}
+  _spectating: 0
 --- !u!1 &1018877641
 GameObject:
   m_ObjectHideFlags: 0

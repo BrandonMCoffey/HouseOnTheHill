@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Brandon Jaspers
   _color: {r: 0.25256371, g: 0.735849, b: 0.2256141, a: 1}
-  _art: {fileID: 919132149155446097, guid: baa5d2bac0eea1c428677cb1e2211479, type: 3}
+  _art: {fileID: 903805597824757946, guid: 142e049daee197b4d9b37f8fb6d354f9, type: 3}
   _speed:
     Index: 3
     Value1: 3

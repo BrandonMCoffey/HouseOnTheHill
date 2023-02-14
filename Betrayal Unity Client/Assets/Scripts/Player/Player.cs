@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
 	
 	[SerializeField, ReadOnly] private List<Item> _itemsHeld;
 	
+	public System.Action OnItemsUpdated = delegate { };
+	
 	public bool IsLocal => _user.IsLocal;
 	public Character Character => _character;
 	public List<Item> ItemsHeld => _itemsHeld;
@@ -61,5 +63,6 @@ public class Player : MonoBehaviour
 	public void CollectItem(Item item)
 	{
 		_itemsHeld.Add(item);
+		OnItemsUpdated?.Invoke();
 	}
 }

@@ -8,23 +8,30 @@ public class InventoryDisplayManager : MonoBehaviour
 	[SerializeField] private InventoryDisplayItem _baseItem;
 	[SerializeField, ReadOnly] private List<InventoryDisplayItem> _items;
 
-	private Transform _parent;
-	private bool _refreshDisplay = true;
+	[SerializeField, ReadOnly] private Transform _parent;
+	[SerializeField, ReadOnly] private bool _refreshDisplay;
+	[SerializeField, ReadOnly] private bool _connectPlayer;
 
     private void Start()
     {
         _parent = _baseItem.transform.parent;
 	    _baseItem.gameObject.SetActive(false);
 	    _refreshDisplay = true;
+	    _connectPlayer = true;
     }
 	
 	private void Update()
 	{
 		if (_refreshDisplay) UpdateItems();
+		if (_connectPlayer && CanvasController.LocalPlayer)
+		{
+			CanvasController.LocalPlayer.OnItemsUpdated += RefreshDisplay;
+		}
 	}
 	
-
-    [Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = ButtonMode.InPlayMode)]
+	private void RefreshDisplay() => _refreshDisplay = true;
+	
     private void UpdateItems()
     {
 	    var player = CanvasController.LocalPlayer;

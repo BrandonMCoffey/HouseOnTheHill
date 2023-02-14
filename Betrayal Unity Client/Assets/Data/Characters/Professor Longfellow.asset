@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Professor Longfellow
   _color: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
-  _art: {fileID: 919132149155446097, guid: 2a0545c507501574880910e1f0d9de6f, type: 3}
+  _art: {fileID: 903805597824757946, guid: b5afc4419cddc234b924ce8ef2cc9c76, type: 3}
   _speed:
     Index: 4
     Value1: 2
