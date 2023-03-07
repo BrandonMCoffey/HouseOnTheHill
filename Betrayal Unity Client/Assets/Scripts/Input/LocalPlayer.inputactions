@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LookAround",
+                    "type": "PassThrough",
+                    "id": "11a418c3-d763-4ebd-98c4-d0653d1094dc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "PauseGame",
                     "type": "Button",
                     "id": "3bbdb6ab-86ee-4c5a-b4e6-8f09d275ecdd",
@@ -327,6 +336,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dffe05b8-d929-4452-a8f2-1d7ea79ddc58",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookAround",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

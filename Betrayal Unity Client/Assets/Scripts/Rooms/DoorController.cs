@@ -20,9 +20,11 @@ public class DoorController : MonoBehaviour
 	[SerializeField, ReadOnly] private Room _room;
 	[SerializeField, ReadOnly] private Orient _worldOrient;
 	[SerializeField, ReadOnly] private bool _open;
+	[SerializeField, ReadOnly] private bool _connected;
 	[SerializeField, ReadOnly] private float _rotY;
 	[SerializeField, ReadOnly] private bool _moving;
 	
+	public Transform Pivot => _pivot;
 	public Orient WorldOrient => _worldOrient;
 	
 	public void SetRoom(Room room, Orient worldOrient)
@@ -36,7 +38,18 @@ public class DoorController : MonoBehaviour
 		if (_open) return;
 		_open = true;
 		_moving = true;
-		if (createRoom) _room.OnDoorOpen(_worldOrient);
+		if (createRoom)
+		{
+			_room.OnDoorOpen(_worldOrient);
+			GameController.Instance.StartEventPhase(this);
+		}
+	}
+	
+	public void OpenCloseConnected(bool open)
+	{
+		if (!_connected) return;
+		_open = open;
+		_moving = true;
 	}
 	
 	public void SetLabels(string forwardsRoom, string backwardsRoom)

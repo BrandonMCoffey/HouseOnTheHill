@@ -52,11 +52,11 @@ public class User : MonoBehaviour
 		if (!_local) RemoteCharacters.Add(_character);
 		OnUpdatePlayerStates?.Invoke();
 		
-		if (GameState.GameStarted)
+		if (GameData.GameStarted)
 		{
 			foreach (var player in PlayerManager.Players)
 			{
-				if (player.Character == GameState.GetCharacter(_character))
+				if (player.Character == GameData.GetCharacter(_character))
 					_player = player;
 			}
 		}
@@ -71,7 +71,7 @@ public class User : MonoBehaviour
 	public virtual void SetPlayer(Player player)
 	{
 		_player = player;
-		_player.SetCharacter(GameState.GetCharacter(_character));
+		_player.SetCharacter(GameData.GetCharacter(_character));
 	}
 	
 	public virtual void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)

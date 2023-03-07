@@ -24,7 +24,7 @@ public class LocalPlayerTraitDisplay : MonoBehaviour
 	private void UpdateDisplays()
 	{
 		var player = CanvasController.LocalPlayer;
-		if (player == null) return;
+		if (player == null || player.Character == null) return;
 		_characterName.text = player.Character.Name;
 		foreach (var display in _traitDisplays)
 		{

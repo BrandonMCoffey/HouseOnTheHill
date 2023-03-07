@@ -16,21 +16,14 @@ public class MovementController : MonoBehaviour
 	[SerializeField] private CharacterController _controller;
 	[SerializeField, ReadOnly] private bool _canMove = true;
 	
-	[SerializeField, ReadOnly] private Vector2 _moveDirectionInput;
-	[SerializeField, ReadOnly] private bool _sprintInput;
-	[SerializeField, ReadOnly] private bool _jumpInput;
-	[SerializeField, ReadOnly] private Vector2 _lookDirectionInput;
 	[SerializeField, ReadOnly] private Vector3 _moveDirection = Vector3.zero;
 	private float rotationX = 0;
 	
-	private float MoveSpeed => _sprintInput ? _runningSpeed : _walkingSpeed;
+	private float MoveSpeed => PlayerInputManager.Sprint ? _runningSpeed : _walkingSpeed;
 	private bool CanJump => _canJump && _controller.isGrounded;
 
+	public Transform CameraParent => _cameraParent;
 	public void SetCanMove(bool canMove) => _canMove = canMove;
-	public void SetSprinting(bool sprint) => _sprintInput = sprint;
-	public void SetMoveDir(Vector2 dir) => _moveDirectionInput = dir;
-	public void SetLookDir(Vector2 dir) => _lookDirectionInput = dir;
-	public void SetJumpThisFrame() => _jumpInput = true;
 
 	private void OnValidate()
 	{
@@ -43,16 +36,16 @@ public class MovementController : MonoBehaviour
 		Cursor.visible = false;
 	}
 
-	private void Update()
+	public void ProcessMovement()
 	{
 		if (!_canMove) return;
 		float movementDirectionY = _moveDirection.y;
 		
-		_moveDirection = transform.forward * _moveDirectionInput.y + transform.right * _moveDirectionInput.x;
+		var moveDirInput = PlayerInputManager.MoveDir;
+		_moveDirection = transform.forward * moveDirInput.y + transform.right * moveDirInput.x;
 		_moveDirection *= MoveSpeed;
 
-		_moveDirection.y = CanJump && _jumpInput ? _jumpSpeed : movementDirectionY;
-		_jumpInput = false;
+		_moveDirection.y = CanJump && PlayerInputManager.Jump ? _jumpSpeed : movementDirectionY;
 
 		if (!_controller.isGrounded) _moveDirection.y -= _gravity * Time.deltaTime;
 
@@ -60,10 +53,11 @@ public class MovementController : MonoBehaviour
 
 		if (_canMove)
 		{
-			rotationX += -_lookDirectionInput.y * _lookSpeed;
+			var lookDirInput = PlayerInputManager.LookDir;
+			rotationX += -lookDirInput.y * _lookSpeed;
 			rotationX = Mathf.Clamp(rotationX, -_lookXLimit, _lookXLimit);
 			_cameraParent.localRotation = Quaternion.Euler(rotationX, 0, 0);
-			transform.rotation *= Quaternion.Euler(0, _lookDirectionInput.x * _lookSpeed, 0);
+			transform.rotation *= Quaternion.Euler(0, lookDirInput.x * _lookSpeed, 0);
 		}
 		SendTransformToNetwork();
 	}

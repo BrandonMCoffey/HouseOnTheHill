@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameState : MonoBehaviour
+public class GameData : MonoBehaviour
 {
-	public static GameState Instance;
+	public static GameData Instance;
 	
 	[SerializeField] private string _userName = "Player";
 	[SerializeField] private string _serverIp = "127.0.0.1";

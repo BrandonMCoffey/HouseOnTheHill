@@ -130,8 +130,8 @@ public class NetworkManager : MonoBehaviour
 
 	public void Connect()
 	{
-		_ip = GameState.ServerIp;
-		_port = GameState.ServerPort;
+		_ip = GameData.ServerIp;
+		_port = GameData.ServerPort;
 		
 		Client.Connect($"{_ip.Trim()}:{_port}");
 	}
@@ -145,10 +145,10 @@ public class NetworkManager : MonoBehaviour
 		
 		// Create Local User
 		var localUser = Instantiate(_localUserPrefab, transform);
-		localUser.CreateUser(Client.Id, true, GameState.UserName);
+		localUser.CreateUser(Client.Id, true, GameData.UserName);
 		AllUsers.Add(Client.Id, localUser);
 		OnUpdateAllUsers?.Invoke();
-		NetworkManager.OnLocalUserCreated(GameState.UserName);
+		NetworkManager.OnLocalUserCreated(GameData.UserName);
 	}
 
 	private void FailedToConnect(object sender, EventArgs e)

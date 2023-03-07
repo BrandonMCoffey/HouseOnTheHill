@@ -18,11 +18,6 @@ public class RoomController : MonoBehaviour
 	[SerializeField] private bool _ignoreFloorDebug;
 	[SerializeField] private List<Room> _rooms = new List<Room>();
 	[SerializeField] private bool _showTops;
-	
-	[Header("Doors")]
-	[SerializeField] private DoorController _doorPrefab;
-	[SerializeField] private Transform _doorParent;
-	[SerializeField, ReadOnly] private List<DoorController> _doors;
 
 	public bool ShowRoomTops => _showTops;
 	
@@ -51,13 +46,11 @@ public class RoomController : MonoBehaviour
 		room.ShowTop(ShowRoomTops);
 	}
 	
-	public void CreateDoor(DoorSpawner spawner)
+	public void OpenAllConnectedDoors(bool open)
 	{
-		var door = Instantiate(_doorPrefab, _doorParent);
-		door.transform.SetPositionAndRotation(spawner.transform.position, spawner.transform.rotation);
-		//door.SetController(this);
-		Destroy(spawner.gameObject);
-		_doors.Add(door);
+		_upperFloor.OpenAllConnectedDoors(open);
+		_groundFloor.OpenAllConnectedDoors(open);
+		_lowerFloor.OpenAllConnectedDoors(open);
 	}
 
 	public static void CreateRoomRemotely(int roomId, int floor, int x, int z, int rot)

@@ -6,8 +6,8 @@ using UnityEngine;
 public enum PlayerState
 {
     None,
-    Spectating,
-    InGame,
+	Exploration,
+	Event,
     InPauseMenu,
     InInventory
 }
@@ -15,107 +15,96 @@ public enum PlayerState
 public class PlayerActionManager : MonoBehaviour
 {
     [SerializeField] private bool _logAction;
-    [SerializeField] private bool _logMovement;
     [SerializeField] private bool _logState;
-    [SerializeField] private PlayerState _defaultState;
     [SerializeField, ReadOnly] private PlayerState _playerState = PlayerState.None;
 
     [Header("External References")]
     [SerializeField] private RoomController _roomController;
     
-    [Header("Player References")]
+	[Header("Player References")]
     [SerializeField] private MovementController _firstPersonMovement;
     [SerializeField] private InteractionController _firstPersonInteraction;
-    [SerializeField] private SpectatorMovement _spectatorMovement;
+	[SerializeField] private DoorOpenSequence _doorOpenSequence;
     
-	public static bool IsSpectating;
-    public PlayerState State => _playerState;
-    private bool InGame => State == PlayerState.InGame;
-    private bool Spectating => State == PlayerState.Spectating;
+	private bool _exploration = true;
+	private bool InGame => _playerState == PlayerState.Exploration || _playerState == PlayerState.Event;
+
+	public Transform CameraParent => _firstPersonMovement.CameraParent;
 
     private void Awake()
     {
         _playerState = PlayerState.None;
-        TrySetState(_defaultState);
-    }
-
-    [Button]
-    public void SwitchToFirstPerson()
-    {
-        CloseAnyMenu();
-        TrySetState(PlayerState.InGame);
-    }
-
-    [Button]
-    public void SwitchToSpectator()
-    {
-        CloseAnyMenu();
-        TrySetState(PlayerState.Spectating);
-    }
-
-    public void Move(Vector2 moveDir)
-    {
-        LogMovement("Move: " + moveDir);
-        _firstPersonMovement.SetMoveDir(moveDir);
-    }
-
-    public void Look(Vector2 look)
-    {
-        LogMovement("Look: " + look);
-        _firstPersonMovement.SetLookDir(look);
-    }
-
-    public void Sprint(bool sprint)
-    {
-        LogAction($"Sprinting: {sprint}");
-        _firstPersonMovement.SetSprinting(sprint);
-    }
-
-    public void Jump(bool jump)
-    {
-        LogAction("Jump");
-        _firstPersonMovement.SetJumpThisFrame();
     }
     
-    public void Interact()
-    {
-        LogAction("Interact");
-        _firstPersonInteraction.Interact();
-    }
+	private void Update()
+	{
+		if (InGame)
+		{
+			_firstPersonMovement.ProcessMovement();
+		}
+	}
+	
+	private void OnEnable()
+	{
+		PlayerInputManager.Interact += Interact;
+		PlayerInputManager.Pause += OpenPauseMenu;
+		PlayerInputManager.OpenInventory += OpenInventory;
+	}
+	
+	private void OnDisable()
+	{
+		PlayerInputManager.Interact -= Interact;
+		PlayerInputManager.Pause -= OpenPauseMenu;
+		PlayerInputManager.OpenInventory -= OpenInventory;
+	}
 
-    public void Rotate(bool rotate)
-    {
-        LogAction("Rotate: " + rotate);
-        _spectatorMovement.SetRotate(rotate);
-    }
-
-    public void Pan(bool pan)
-    {
-        LogAction("Pan: " + pan);
-        _spectatorMovement.SetPan(pan);
-    }
-
-    public void MouseMovement(Vector2 mouseMovement)
-    {
-        LogMovement("Mouse Movement: " + mouseMovement);
-        _spectatorMovement.SetMouseMovement(mouseMovement);
-    }
-
-    public void Zoom(float zoom)
-    {
-        LogMovement("Zoom: " + zoom);
-        _spectatorMovement.Zoom(zoom);
-    }
+	public void DisablePlayerMovement() => _firstPersonMovement.SetCanMove(false);
+	public void SetPlayerEnabled(bool active, bool exploration = true)
+	{
+		CloseAnyMenu();
+		TrySetState(active ? (exploration ? PlayerState.Exploration : PlayerState.Event) : PlayerState.None);
+        
+		_exploration = exploration;
+		if (exploration) CanvasController.OpenExplorationHud();
+		else CanvasController.OpenEventHud();
+		
+		_firstPersonMovement.SetCanMove(active);
+		
+		_firstPersonInteraction.SetCameraActive(active);
+		_firstPersonInteraction.SetCanOpenDoor(exploration);
+	}
+	
+	public void PlayDoorOpenSequence(DoorController door)
+	{
+		_doorOpenSequence.PlaySequence(door, this);
+	}
+    
+	private void Interact(bool interact)
+	{
+		if (!interact || !InGame) return;
+		LogAction("Interact");
+		_firstPersonInteraction.Interact();
+	}
     
     public void OpenPauseMenu()
-    {
+	{
+		if (CanvasController.PauseMenuOpen)
+		{
+			CloseAnyMenu();
+			return;
+		}
         LogAction("Open Pause Menu");
         CanvasController.OpenPauseMenu();
         CheckUiState();
     }
 
     public void OpenInventory()
-    {
+	{
+		if (CanvasController.InventoryOpen)
+		{
+			CloseAnyMenu();
+			return;
+		}
         LogAction("Open Inventory");
         CanvasController.OpenInventory();
         CheckUiState();
@@ -123,8 +112,9 @@ public class PlayerActionManager : MonoBehaviour
 
     public void CloseAnyMenu()
     {
-        LogAction("Close Any Menu");
-        CanvasController.CloseMenu();
+	    LogAction("Close Any Menu");
+	    if (_exploration) CanvasController.OpenExplorationHud();
+	    else CanvasController.OpenEventHud();
         CheckUiState();
     }
 
@@ -132,29 +122,16 @@ public class PlayerActionManager : MonoBehaviour
     {
         if (CanvasController.PauseMenuOpen) TrySetState(PlayerState.InPauseMenu);
         else if (CanvasController.InventoryOpen) TrySetState(PlayerState.InInventory);
-        else TrySetState(PlayerState.InGame);
+        else TrySetState(_exploration ? PlayerState.Exploration : PlayerState.Event);
     }
     
     private bool TrySetState(PlayerState newState)
     {
-        if (newState == State) return false;
+	    if (newState == _playerState) return false;
         if (_logState) Debug.Log($"Player State switched to {newState}", gameObject);
         _playerState = newState;
         
-	    if (InGame) IsSpectating = false;
-	    if (Spectating) IsSpectating = true;
-        _firstPersonMovement.SetCanMove(InGame);
-        _firstPersonInteraction.SetCameraActive(!Spectating);
-        _spectatorMovement.SetCameraActive(Spectating);
-        
-        _roomController.SetShowRoomTops(!Spectating);
-        
         return true;
-    }
-
-    private void LogMovement(string message)
-    {
-        if (_logMovement) Debug.Log(message, gameObject);
     }
 
     private void LogAction(string message)

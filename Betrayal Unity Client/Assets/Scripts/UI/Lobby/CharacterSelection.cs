@@ -22,9 +22,9 @@ public class CharacterSelection : MonoBehaviour
 	
 	private void Start()
 	{
-		_options = new List<CharacterButton>(GameState.CharacterCount);
+		_options = new List<CharacterButton>(GameData.CharacterCount);
 		_baseCharacter.gameObject.SetActive(true);
-		for (int i = 0; i < GameState.CharacterCount; i++)
+		for (int i = 0; i < GameData.CharacterCount; i++)
 		{
 			var c = Instantiate(_baseCharacter, transform);
 			c.SetCharacterIndex(i);

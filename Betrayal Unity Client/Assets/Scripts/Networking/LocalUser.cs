@@ -6,16 +6,12 @@ public class LocalUser : User
 {
 	public static LocalUser Instance;
 
-	private PlayerManager _playerManager;
+	private GameController _gameController;
 	
 	private void Awake()
 	{
 		Instance = this;
-	}
-
-	public void SetPlayerManager(PlayerManager manager)
-	{
-		_playerManager = manager;
+		_gameController = FindObjectOfType<GameController>();
 	}
 	
 	public override void SetCharacter(int character)
@@ -39,8 +35,8 @@ public class LocalUser : User
 	public override void SetCurrentTurn(bool currentTurn)
 	{
 		base.SetCurrentTurn(currentTurn);
-		if (currentTurn) _playerManager.SwitchToFirstPerson();
-		else _playerManager.SwitchToSpectator();
+		if (currentTurn) _gameController.StartExplorationPhase();
+		else _gameController.StartSpectatePhase();
 	}
 
 	public void EndTurn()

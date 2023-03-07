@@ -16,6 +16,7 @@ public class RoomGenerator : MonoBehaviour
 	[SerializeField] private DoorController _doorPrefab;
 	[SerializeField] private GameObject _lockedDoorPrefab;
 	[SerializeField] private Transform _doorParent;
+	[SerializeField] private List<DoorController> _doors;
 	
 	private const float RoomSize = 8f;
 	private const float OneOverRoomSize = 1f/RoomSize;
@@ -40,6 +41,15 @@ public class RoomGenerator : MonoBehaviour
 			room.SetGenerator(this);
 			room.CheckGenerateDoors();
 			_controller.AddPlacedRoom(room);
+		}
+	}
+	
+	[Button]
+	public void OpenAllConnectedDoors(bool open)
+	{
+		foreach (var door in _doors)
+		{
+			if (!door) door.OpenCloseConnected(open);
 		}
 	}
 	
@@ -133,7 +143,12 @@ public class RoomGenerator : MonoBehaviour
 	public bool HasRoom(int x, int z) => _placedRooms.Any(room => room.X == x && room.Z == z);
 	public Room GetRoom(int x, int z) => _placedRooms.FirstOrDefault(room => room.X == x && room.Z == z);
 	
-	public DoorController CreateDoor() => Instantiate(_doorPrefab, _doorParent);
+	public DoorController CreateDoor()
+	{
+		var door = Instantiate(_doorPrefab, _doorParent);
+		_doors.Add(door);
+		return door;
+	}
 	public GameObject CreateLockedDoor() => Instantiate(_lockedDoorPrefab, _doorParent);
 
 	private void Log(string message)

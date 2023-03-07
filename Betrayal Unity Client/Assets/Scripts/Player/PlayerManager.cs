@@ -1,20 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-	[SerializeField] private bool _forceFirstPersonMode;
 	[SerializeField] private Player _localPlayer;
 	[SerializeField] private PlayerActionManager _localPlayerActions;
 	[SerializeField] private Player _remotePlayerPrefab;
 
-	public static System.Action OnPlayersLoaded = delegate { };
+	public static Action OnPlayersLoaded = delegate { };
 	public static List<Player> Players;
+	
+	public Player LocalPlayer => _localPlayer;
 	
 	private void Start()
 	{
 		Players = new List<Player>();
+		if (CanvasController.Instance) CanvasController.Instance.SetPlayerManager(this);
 		if (!NetworkManager.Instance) return;
 		NetworkManager.OnGameLoaded();
 		bool localPlayerExists = false;
@@ -32,20 +35,7 @@ public class PlayerManager : MonoBehaviour
 				if (user.IsLocal) _localPlayer = player;
 			}
 		}
-		if (_forceFirstPersonMode) _localPlayerActions.SwitchToFirstPerson();
-		else SwitchToSpectator();
 		if (!localPlayerExists) _localPlayer.gameObject.SetActive(false);
-		LocalUser.Instance.SetPlayerManager(this);
 		OnPlayersLoaded?.Invoke();
-	}
-
-	public void SwitchToFirstPerson()
-	{
-		if (!_forceFirstPersonMode) _localPlayerActions.SwitchToFirstPerson();
-	}
-
-	public void SwitchToSpectator()
-	{
-		if (!_forceFirstPersonMode) _localPlayerActions.SwitchToSpectator();
 	}
 }

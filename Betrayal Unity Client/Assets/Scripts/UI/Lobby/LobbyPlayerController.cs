@@ -43,7 +43,7 @@ public class LobbyPlayerController : MonoBehaviour
 		{
 			_displays.Add(Instantiate(_baseDisplay, transform));
 		}
-		_displays[index].SetName(user.UserName, user.Character > 0 ? GameState.GetCharacter(user.Character).Name : "Spectator");
+		_displays[index].SetName(user.UserName, user.Character > 0 ? GameData.GetCharacter(user.Character).Name : "Spectator");
 		_displays[index].SetReady(user.Ready);
 		_displays[index].gameObject.SetActive(true);
 	}

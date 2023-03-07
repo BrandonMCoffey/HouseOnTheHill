@@ -2,77 +2,68 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CanvasController : MonoBehaviour
 {
     public static CanvasController Instance;
 
     [SerializeField] private PanelSwitcher _switcher;
-	[SerializeField] private Player _localPlayer;
 	[SerializeField] private bool _spectating;
+	[SerializeField] private TMP_Text _currentRoom;
+	[SerializeField] private CircleSlices _stepsTaken;
 	
-	public static Player LocalPlayer => Instance._localPlayer;
+	public static Player LocalPlayer => Instance._manager.LocalPlayer;
 
     public static bool PauseMenuOpen => Instance._switcher.CurrentlyOpenPanel == 1;
     public static bool InventoryOpen => Instance._switcher.CurrentlyOpenPanel == 2;
+
+	private PlayerManager _manager;
 
     private void Awake()
     {
         Instance = this;
     }
     
-	private void OnEnable()
+	private void Start()
 	{
-		PlayerManager.OnPlayersLoaded += SetLocalPlayer;
+		if (!_manager) _manager = FindObjectOfType<PlayerManager>();
 	}
 	
-	private void OnDisable()
+	public void SetPlayerManager(PlayerManager manager)
 	{
-		PlayerManager.OnPlayersLoaded -= SetLocalPlayer;
-	}
-	
-	[Button]
-	private void SetLocalPlayer()
-	{
-		foreach (var player in PlayerManager.Players)
-		{
-			if (player.IsLocal)
-			{
-				_localPlayer = player;
-				return;
-			}
-		}
-	}
-	
-	private void Update()
-	{
-		if (_spectating != PlayerActionManager.IsSpectating)
-		{
-			_spectating = PlayerActionManager.IsSpectating;
-			if (_switcher.CurrentlyOpenPanel == 0 || _switcher.CurrentlyOpenPanel == 3)
-			{
-				Instance._switcher.OpenPanel(PlayerActionManager.IsSpectating ? 3 : 0);
-			}
-		}
+		_manager = manager;
 	}
 
-    public static void CloseMenu()
+	public static void OpenExplorationHud()
 	{
-		Instance._switcher.OpenPanel(PlayerActionManager.IsSpectating ? 3 : 0);
+		Instance._switcher.OpenPanel(0);
         HideMouse(true);
-    }
+	}
+
+	public static void OpenEventHud()
+	{
+		Instance._switcher.OpenPanel(1);
+		HideMouse(true);
+	}
 
     public static void OpenPauseMenu()
     {
-        Instance._switcher.OpenPanel(1);
+	    Instance._switcher.OpenPanel(2);
         HideMouse(false);
     }
 
     public static void OpenInventory()
     {
-        Instance._switcher.OpenPanel(2);
+	    Instance._switcher.OpenPanel(3);
         HideMouse(false);
     }
+    
+	public static void OpenSpectatorMenu()
+	{
+		Instance._switcher.OpenPanel(4);
+		HideMouse(false);
+	}
 
     private static void HideMouse(bool hide)
     {
@@ -84,4 +75,8 @@ public class CanvasController : MonoBehaviour
     {
         LocalUser.Instance.EndTurn();
     }
+    
+	public static void SetCurrentRoom(string roomName) => Instance._currentRoom.text = roomName;
+	public static void SetMaxSteps(int max) => Instance._stepsTaken.SetMax(max);
+	public static void SetStepsTaken(int steps) => Instance._stepsTaken.SetFilled(steps);
 }

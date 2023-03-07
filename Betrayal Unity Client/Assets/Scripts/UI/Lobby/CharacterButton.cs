@@ -51,7 +51,7 @@ public class CharacterButton : MonoBehaviour
 	[Button]
 	private void SetupCharacter()
 	{
-		var character = GameState.GetCharacter(_characterIndex);
+		var character = GameData.GetCharacter(_characterIndex);
 		_nameText.text = character.Name;
 		_colorImage.color = character.Color;
 	}
