@@ -5,13 +5,10 @@ using UnityEngine;
 public class LocalUser : User
 {
 	public static LocalUser Instance;
-
-	private GameController _gameController;
 	
 	private void Awake()
 	{
 		Instance = this;
-		_gameController = FindObjectOfType<GameController>();
 	}
 	
 	public override void SetCharacter(int character)
@@ -35,8 +32,8 @@ public class LocalUser : User
 	public override void SetCurrentTurn(bool currentTurn)
 	{
 		base.SetCurrentTurn(currentTurn);
-		if (currentTurn) _gameController.StartExplorationPhase();
-		else _gameController.StartSpectatePhase();
+		if (currentTurn) GameController.Instance.StartExplorationPhase();
+		else GameController.Instance.StartSpectatePhase();
 	}
 
 	public void EndTurn()

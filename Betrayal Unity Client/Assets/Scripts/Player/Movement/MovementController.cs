@@ -35,6 +35,12 @@ public class MovementController : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 	}
+	
+	public void MoveTo(Vector3 pos)
+	{
+		_controller.Move(pos - transform.position);
+		SendTransformToNetwork();
+	}
 
 	public void ProcessMovement()
 	{

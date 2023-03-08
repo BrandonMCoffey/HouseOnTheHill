@@ -3,16 +3,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum UiState
+{
+	Hud,
+	Inventory,
+	Pause
+}
+
 public class PlayerManager : MonoBehaviour
 {
 	[SerializeField] private Player _localPlayer;
-	[SerializeField] private PlayerActionManager _localPlayerActions;
 	[SerializeField] private Player _remotePlayerPrefab;
+	[SerializeField] private PlayerActionManager _localPlayerActions;
+	[SerializeField] private PlayerActionManager _localSpectatorActions;
+	
+	[SerializeField] private bool _logUiActions;
+	[SerializeField] private UiState _uiState = UiState.Hud;
+	[SerializeField, ReadOnly] private bool _ignoreInput;
 
+	public static bool MenuOpen;
 	public static Action OnPlayersLoaded = delegate { };
 	public static List<Player> Players;
 	
 	public Player LocalPlayer => _localPlayer;
+	
+	private void OnEnable()
+	{
+		GameController.UpdatePhase += CanvasController.OpenHud;
+		CanvasController.MenuStateChanged += CheckUiState;
+		PlayerInputManager.Pause += OpenPauseMenu;
+		PlayerInputManager.OpenInventory += OpenInventory;
+	}
+	
+	private void OnDisable()
+	{
+		GameController.UpdatePhase -= CanvasController.OpenHud;
+		CanvasController.MenuStateChanged -= CheckUiState;
+		PlayerInputManager.Pause -= OpenPauseMenu;
+		PlayerInputManager.OpenInventory -= OpenInventory;
+	}
 	
 	private void Start()
 	{
@@ -37,5 +66,51 @@ public class PlayerManager : MonoBehaviour
 		}
 		if (!localPlayerExists) _localPlayer.gameObject.SetActive(false);
 		OnPlayersLoaded?.Invoke();
+	}
+	
+	public void SetIgnoreInput(bool ignoreInput) => _ignoreInput = ignoreInput;
+	
+	public void OpenPauseMenu()
+	{
+		if (_ignoreInput) return;
+		if (CanvasController.PauseMenuOpen)
+		{
+			CloseAnyMenu();
+			return;
+		}
+		LogAction("Open Pause Menu");
+		CanvasController.OpenPauseMenu();
+	}
+
+	public void OpenInventory()
+	{
+		if (_ignoreInput) return;
+		if (CanvasController.InventoryOpen)
+		{
+			CloseAnyMenu();
+			return;
+		}
+		LogAction("Open Inventory");
+		CanvasController.OpenInventory();
+	}
+
+	public void CloseAnyMenu()
+	{
+		if (_ignoreInput) return;
+		LogAction("Close Any Menu");
+		CanvasController.OpenHud();
+	}
+
+	private void CheckUiState()
+	{
+		if (CanvasController.PauseMenuOpen) _uiState = UiState.Pause;
+		else if (CanvasController.InventoryOpen) _uiState = UiState.Inventory;
+		else _uiState = UiState.Hud;
+		MenuOpen = _uiState != UiState.Hud;
+	}
+
+	private void LogAction(string message)
+	{
+		if (_logUiActions) Debug.Log(message, gameObject);
 	}
 }

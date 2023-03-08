@@ -9,14 +9,14 @@ public class CanvasController : MonoBehaviour
     public static CanvasController Instance;
 
     [SerializeField] private PanelSwitcher _switcher;
-	[SerializeField] private bool _spectating;
-	[SerializeField] private TMP_Text _currentRoom;
+	[SerializeField] private EnterRoomDisplay _enterRoomDisplay;
 	[SerializeField] private CircleSlices _stepsTaken;
 	
 	public static Player LocalPlayer => Instance._manager.LocalPlayer;
 
-    public static bool PauseMenuOpen => Instance._switcher.CurrentlyOpenPanel == 1;
-    public static bool InventoryOpen => Instance._switcher.CurrentlyOpenPanel == 2;
+	public static Action MenuStateChanged = delegate { };
+	public static bool PauseMenuOpen => Instance._switcher.CurrentlyOpenPanel == 2;
+	public static bool InventoryOpen => Instance._switcher.CurrentlyOpenPanel == 3;
 
 	private PlayerManager _manager;
 
@@ -34,7 +34,23 @@ public class CanvasController : MonoBehaviour
 	{
 		_manager = manager;
 	}
-
+	
+	public static void OpenHud()
+	{
+		switch (GameController.Phase)
+		{
+		case GamePhase.ExplorationPhase:
+			OpenExplorationHud();
+			break;
+		case GamePhase.EventPhase:
+			OpenEventHud();
+			break;
+		case GamePhase.SpectatePhase:
+			OpenSpectatorHud();
+			break;
+		}
+	}
+	
 	public static void OpenExplorationHud()
 	{
 		Instance._switcher.OpenPanel(0);
@@ -59,7 +75,7 @@ public class CanvasController : MonoBehaviour
         HideMouse(false);
     }
     
-	public static void OpenSpectatorMenu()
+	public static void OpenSpectatorHud()
 	{
 		Instance._switcher.OpenPanel(4);
 		HideMouse(false);
@@ -68,7 +84,8 @@ public class CanvasController : MonoBehaviour
     private static void HideMouse(bool hide)
     {
         Cursor.lockState = hide ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !hide;
+	    Cursor.visible = !hide;
+	    MenuStateChanged?.Invoke();
     }
 
     public void EndTurn()
@@ -76,7 +93,12 @@ public class CanvasController : MonoBehaviour
         LocalUser.Instance.EndTurn();
     }
     
-	public static void SetCurrentRoom(string roomName) => Instance._currentRoom.text = roomName;
+	public void QuitGame()
+	{
+		GameController.QuitGame();
+	}
+    
+	public static void DisplayNewRoom(string roomName) => Instance._enterRoomDisplay.DisplayRoomName(roomName);
 	public static void SetMaxSteps(int max) => Instance._stepsTaken.SetMax(max);
 	public static void SetStepsTaken(int steps) => Instance._stepsTaken.SetFilled(steps);
 }

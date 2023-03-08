@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,12 +10,19 @@ public class GameController : MonoBehaviour
 	[SerializeField] private GamePhase _startingPhase = GamePhase.ExplorationPhase;
 	[SerializeField, ReadOnly] private GamePhase _phase = GamePhase.None;
 	[SerializeField, ReadOnly] private int _stepsTaken;
-	[SerializeField, ReadOnly] private int _maxSteps;
+	[SerializeField, ReadOnly] private int _maxSteps = 8;
+	[SerializeField, ReadOnly] private Room _currentRoom;
 	
 	[Header("References")]
 	[SerializeField] private PlayerActionManager _player;
 	[SerializeField] private SpectatorActionManager _spectator;
 	[SerializeField] private RoomController _roomController;
+	
+	public static GamePhase Phase => Instance._phase;
+	public static Action UpdatePhase = delegate { };
+	public static bool CurrentTurn => Phase == GamePhase.ExplorationPhase || Phase == GamePhase.EventPhase;
+	public static Action<string> UpdateCurrentRoom = delegate { };
+	public static string CurrentRoomName => Instance._currentRoom ? Instance._currentRoom.Name : "";
 	
 	private void OnValidate()
 	{
@@ -26,11 +34,24 @@ public class GameController : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
+		_maxSteps = 8;
 	}
 	
 	private void Start()
     {
-	    if (NetworkManager.Instance == null) SetPhase(_startingPhase);
+	    if (NetworkManager.Instance == null)
+	    {
+		    switch (_startingPhase)
+		    {
+		    case GamePhase.ExplorationPhase:
+		    case GamePhase.EventPhase:
+			    StartExplorationPhase();
+			    break;
+		    case GamePhase.SpectatePhase:
+			    StartSpectatePhase();
+			    break;
+		    }
+	    }
     }
     
 	private void SetLocalPlayerCurrentTurn()
@@ -38,25 +59,10 @@ public class GameController : MonoBehaviour
 		StartExplorationPhase();
 	}
 	
-	private void SetPhase(GamePhase phase)
-	{
-		switch (phase)
-		{
-		case GamePhase.ExplorationPhase:
-		case GamePhase.EventPhase:
-			StartExplorationPhase();
-			break;
-		case GamePhase.SpectatePhase:
-			StartSpectatePhase();
-			break;
-		}
-	}
-    
 	[Button]
 	public void StartExplorationPhase()
 	{
-		if (_phase == GamePhase.ExplorationPhase) return;
-		_phase = GamePhase.ExplorationPhase;
+		if (!TrySetPhase(GamePhase.ExplorationPhase)) return;
         
 		_player.enabled = true;
 		_player.SetPlayerEnabled(true);
@@ -72,40 +78,57 @@ public class GameController : MonoBehaviour
 	
 	public void StartEventPhase(DoorController door)
 	{
-		if (_phase == GamePhase.EventPhase) return;
-		_phase = GamePhase.EventPhase;
+		if (!TrySetPhase(GamePhase.EventPhase)) return;
 		
 		_roomController.OpenAllConnectedDoors(false);
 		_player.PlayDoorOpenSequence(door);
+		CanvasController.OpenEventHud();
 	}
 	
 	[Button]
 	public void StartSpectatePhase()
 	{
-		if (_phase == GamePhase.SpectatePhase) return;
-		_phase = GamePhase.SpectatePhase;
+		if (!TrySetPhase(GamePhase.SpectatePhase)) return;
 		
 		_player.SetPlayerEnabled(false);
-		_roomController.SetShowRoomTops(false);
 		_player.enabled = false;
+		_roomController.SetShowRoomTops(false);
+		_roomController.OpenAllConnectedDoors(true);
 		_spectator.enabled = true;
 		_spectator.SetSpectatorEnabled(true);
 	}
 	
 	public static void EnterNewRoom(Room room)
 	{
-		CanvasController.SetCurrentRoom(room.Name);
+		Instance._currentRoom = room;
+		UpdateCurrentRoom?.Invoke(room.Name);
 		Instance._stepsTaken++;
 		Instance.CheckStepsTaken();
 	}
 	
+	private bool TrySetPhase(GamePhase phase)
+	{
+		if (_phase == phase) return false;
+		_phase = phase;
+		UpdatePhase?.Invoke();
+		Debug.Log("Game Phase: " + phase.ToString(), gameObject);
+		return true;
+	}
+	
 	public void CheckStepsTaken()
 	{
+		if (_phase != GamePhase.ExplorationPhase) return;
 		CanvasController.SetStepsTaken(_stepsTaken);
 		if (_stepsTaken >= _maxSteps)
 		{
 			LocalUser.Instance.EndTurn();
 		}
+	}
+	
+	public static void QuitGame()
+	{
+		if (NetworkManager.Instance) NetworkManager.Disconnect();
+		else UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 }
 

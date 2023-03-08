@@ -49,7 +49,7 @@ public class RoomGenerator : MonoBehaviour
 	{
 		foreach (var door in _doors)
 		{
-			if (!door) door.OpenCloseConnected(open);
+			if (door) door.OpenCloseConnected(open);
 		}
 	}
 	
@@ -106,8 +106,9 @@ public class RoomGenerator : MonoBehaviour
 				rot = Random.Range(0, 4);
 				break;
 		}
-		PlaceRoom(prefab, x, z, rot, true);
+		var room = PlaceRoom(prefab, x, z, rot, true);
 		if (NetworkManager.Instance) NetworkManager.OnCreateNewRoomLocally(prefab.Id, (int)_floor, x, z, rot);
+		CanvasController.DisplayNewRoom(room.Name);
 	}
 
 	public Room PlaceRoom(Room prefab, int x, int z, int rot, bool local = false)

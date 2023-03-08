@@ -37,6 +37,7 @@ public class DoorController : MonoBehaviour
 	{
 		if (_open) return;
 		_open = true;
+		_connected = true;
 		_moving = true;
 		if (createRoom)
 		{
@@ -45,6 +46,7 @@ public class DoorController : MonoBehaviour
 		}
 	}
 	
+	[Button]
 	public void OpenCloseConnected(bool open)
 	{
 		if (!_connected) return;
