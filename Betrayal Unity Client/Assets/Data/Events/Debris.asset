@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 7
   _name: Debris
-  _description: 
+  _description: Plaster falls from the walls and ceiling.

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   _name: Angry Being
-  _description: 
+  _description: "It emerges from the slime on the wall next to you.\r"

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 17
   _name: Image in the Mirror Take
-  _description: 
+  _description: "There is an old mirror in this room. Your frightened reflection
+    moves on its own. You realize it is you from another time. Your reflection writes
+    on the mirror:\r\ntHIs will HElp\r\nThen it hands you an item through the mirror.\r"

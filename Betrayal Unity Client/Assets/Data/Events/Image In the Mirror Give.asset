@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 16
   _name: Image In the Mirror Give
-  _description: 
+  _description: "There is an old mirror in this room. Your frightened reflection
+    moves on its own. You realize it is you from another time. You need to help your
+    reflection, so you write on the mirror:\r\ntHIs will HElp\r\nYou then hand an
+    item through the mirror.\r"

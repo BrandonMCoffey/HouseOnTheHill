@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 21
   _name: Locked Safe
-  _description: 
+  _description: "Behind a portrait is a wall safe.\r\nIt is trapped, of course.\r"

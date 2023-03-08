@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 6
   _name: Creepy Puppet
-  _description: 
+  _description: You see one of those dolls that give you the willies. It jumps at
+    you with a tiny spear.

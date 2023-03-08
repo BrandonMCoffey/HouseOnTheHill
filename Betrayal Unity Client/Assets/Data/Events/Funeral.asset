@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 11
   _name: Funeral
-  _description: 
+  _description: "You see an open coffin.\r\nYou're inside it.\r"

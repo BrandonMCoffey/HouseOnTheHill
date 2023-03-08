@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 3
   _name: Burning Man
-  _description: 
+  _description: A man on fire runs through the room. His skin bubbles and cracks,
+    falling away from him and leaving a fiery skull that clatters to the ground,
+    bounces, rolls, and disappears.

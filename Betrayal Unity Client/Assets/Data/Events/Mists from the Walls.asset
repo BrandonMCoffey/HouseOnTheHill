@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 22
   _name: Mists from the Walls
-  _description: 
+  _description: "Mists pour out from the walls.\r\nThere are faces in the mist, human
+    and . . . inhuman.\r"

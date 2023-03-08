@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 13
   _name: Groundskeeper
-  _description: 
+  _description: You turn to see a man in groundskeeper clothing. He raises his shovel
+    and charges. Inches from your face, he disappears, leaving muddy footprints,
+    and nothing more.

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 36
   _name: Something Slimy
-  _description: 
+  _description: "What's around your ankle?\r\nA bug? A tentacle?\r\nA dead hand clawing?\r"

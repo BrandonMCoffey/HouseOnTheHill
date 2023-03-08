@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 25
   _name: Phone Call
-  _description: 
+  _description: "A phone rings in the room.\r\nYou feel compelled to answer it.\r"

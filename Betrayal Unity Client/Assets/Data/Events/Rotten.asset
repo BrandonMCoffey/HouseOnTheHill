@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 28
   _name: Rotten
-  _description: 
+  _description: "The smell in this room, it's horrible.\r\nSmells like death, like
+    blood.\r\nA slaughterhouse smell.\r"

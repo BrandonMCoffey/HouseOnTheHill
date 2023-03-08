@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 44
   _name: Whoops!
-  _description: 
+  _description: Before you can leap away from it, you're knocked over. A giggling
+    voice runs away from you.

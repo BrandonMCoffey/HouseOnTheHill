@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 20
   _name: Lights Out
-  _description: 
+  _description: "Your flashlight goes out.\r\nDon't worry, someone else has batteries.\r"

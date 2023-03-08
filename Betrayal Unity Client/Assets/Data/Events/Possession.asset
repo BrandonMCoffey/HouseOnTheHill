@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 26
   _name: Possession
-  _description: 
+  _description: A shadow separates from the wall. As you stand in shock, the shadow
+    surrounds you and chills you to the core.

@@ -8,7 +8,7 @@ public class EventBase : ScriptableObject
 	[Header("Data")]
 	[SerializeField] private int _id;
 	[SerializeField] private string _name;
-	[SerializeField] private string _description;
+	[SerializeField, TextArea] private string _description;
 	
 	public int Id => _id;
 	public void SetId(int id) => _id = id;

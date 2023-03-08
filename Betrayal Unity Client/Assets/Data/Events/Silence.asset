@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 32
   _name: Silence
-  _description: 
+  _description: Underground, everything goes silent. Even the sound of breathing
+    is gone.

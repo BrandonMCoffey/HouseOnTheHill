@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 38
   _name: The Beckoning
-  _description: 
+  _description: "Outside.\r\nYou must get outside.\r\nFly to freedom!\r"

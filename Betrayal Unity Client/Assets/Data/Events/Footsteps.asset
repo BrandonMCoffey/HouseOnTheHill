@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 10
   _name: Footsteps
-  _description: 
+  _description: The floorboards slowly creak. Dust rises. Footprints appear on the
+    dirty floor. And then, as they reach you, they are gone.
