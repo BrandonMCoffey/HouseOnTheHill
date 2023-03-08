@@ -1,4 +1,5 @@
 ﻿using Riptide;
+using Riptide.Transports.Udp;
 using Riptide.Utils;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Betrayal.ConsoleServer
         private static bool isRunning;
 
         private const ushort Timeout = 10000; // 10s
-        private const ushort Port = 7777;
+        private const ushort Port = 8192;
 
         private const float LobbyCountdown = 5;
 
@@ -65,8 +66,9 @@ namespace Betrayal.ConsoleServer
             {
                 TimeoutTime = Timeout
             };
-            server.Start(Port, 6);
+            server.Start(Port, 10);
 
+            TurnOrder = new List<ushort>();
             connectedClients = new List<ushort>();
             PlayerData = new Dictionary<ushort, PlayerData>();
             leftoverPlayerData = new List<PlayerData>();
@@ -163,7 +165,6 @@ namespace Betrayal.ConsoleServer
             {
                 gameState = GameState.playingGame;
                 TurnOrderIndex = 0;
-                TurnOrder = new List<ushort>();
                 foreach ((ushort clientId, PlayerData playerData) in PlayerData)
                 {
                     if (playerData.Character > 0)
