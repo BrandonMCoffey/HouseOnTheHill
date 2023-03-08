@@ -6,8 +6,8 @@ using UnityEngine.Serialization;
 
 public class Room : MonoBehaviour
 {
-	[SerializeField] private string _name;
 	[SerializeField] private int _id;
+	[SerializeField] private string _name;
 	
 	[Header("Floors")]
 	[SerializeField] private bool _upperFloor;
@@ -43,8 +43,9 @@ public class Room : MonoBehaviour
 	[SerializeField, ReadOnly] private Orient _orientation = Orient.PosZ;
 	[SerializeField, ReadOnly] private List<DoorController> _doors = new List<DoorController>();
 
-	public string Name => _name;
 	public int Id => _id;
+	public void SetId(int id) => _id = id;
+	public string Name => _name;
 	public int Z { get => _z; set => _z = value; }
 	public int X { get => _x; set => _x = value; }
 	public Orient Orientation { get => _orientation; set => _orientation = value; }

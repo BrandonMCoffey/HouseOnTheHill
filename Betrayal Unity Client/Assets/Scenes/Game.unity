@@ -18945,8 +18945,6 @@ MonoBehaviour:
   _localPlayer: {fileID: 952545823}
   _remotePlayerPrefab: {fileID: -3709889284261313170, guid: c8020b5d92f29e14cbdcd75b5e3d7367,
     type: 3}
-  _localPlayerActions: {fileID: 1747243355}
-  _localSpectatorActions: {fileID: 0}
   _logUiActions: 0
   _uiState: 0
   _ignoreInput: 0

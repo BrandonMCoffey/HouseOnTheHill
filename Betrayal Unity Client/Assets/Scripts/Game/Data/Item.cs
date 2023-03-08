@@ -14,8 +14,8 @@ public enum ItemType
 public class Item : ScriptableObject
 {
 	[Header("Data")]
-	[SerializeField] private string _name;
 	[SerializeField] private int _id;
+	[SerializeField] private string _name;
 	[SerializeField] private bool _omen;
 	[SerializeField] private ItemType _type;
 
@@ -23,8 +23,9 @@ public class Item : ScriptableObject
 	[SerializeField] private Sprite _icon;
 	[SerializeField] private string _description;
 	
-	public string Name => _name;
 	public int Id => _id;
+	public void SetId(int id) => _id = id;
+	public string Name => _name;
 	public bool Omen => _omen;
 	public ItemType Type => _type;
 	public string Description => _description;

@@ -14,8 +14,6 @@ public class PlayerManager : MonoBehaviour
 {
 	[SerializeField] private Player _localPlayer;
 	[SerializeField] private Player _remotePlayerPrefab;
-	[SerializeField] private PlayerActionManager _localPlayerActions;
-	[SerializeField] private PlayerActionManager _localSpectatorActions;
 	
 	[SerializeField] private bool _logUiActions;
 	[SerializeField] private UiState _uiState = UiState.Hud;
