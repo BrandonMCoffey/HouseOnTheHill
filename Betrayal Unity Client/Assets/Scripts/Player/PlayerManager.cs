@@ -6,8 +6,9 @@ using UnityEngine;
 public enum UiState
 {
 	Hud,
+	EventPopup,
 	Inventory,
-	Pause
+	Pause,
 }
 
 public class PlayerManager : MonoBehaviour
@@ -70,8 +71,8 @@ public class PlayerManager : MonoBehaviour
 	
 	public void OpenPauseMenu()
 	{
-		if (_ignoreInput) return;
-		if (CanvasController.PauseMenuOpen)
+		if (_ignoreInput || CanvasController.EventPopupOpen) return;
+		if (CanvasController.PauseMenuOpen || CanvasController.InventoryOpen)
 		{
 			CloseAnyMenu();
 			return;
@@ -101,7 +102,8 @@ public class PlayerManager : MonoBehaviour
 
 	private void CheckUiState()
 	{
-		if (CanvasController.PauseMenuOpen) _uiState = UiState.Pause;
+		if (CanvasController.EventPopupOpen) _uiState = UiState.EventPopup;
+		else if (CanvasController.PauseMenuOpen) _uiState = UiState.Pause;
 		else if (CanvasController.InventoryOpen) _uiState = UiState.Inventory;
 		else _uiState = UiState.Hud;
 		MenuOpen = _uiState != UiState.Hud;

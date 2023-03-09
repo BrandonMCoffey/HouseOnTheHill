@@ -64,5 +64,6 @@ public class Player : MonoBehaviour
 	{
 		_itemsHeld.Add(item);
 		OnItemsUpdated?.Invoke();
+		CanvasController.OpenEventPrompt(item.Name + " Collected!", item.Description);
 	}
 }

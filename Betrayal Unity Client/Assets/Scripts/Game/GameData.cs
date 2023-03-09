@@ -10,7 +10,6 @@ public class GameData : MonoBehaviour
 	[SerializeField] private string _serverIp = "127.0.0.1";
 	[SerializeField] private ushort _serverPort = 7777;
 	[SerializeField] private List<Character> _characters = new List<Character>();
-	[SerializeField] private List<Item> _items = new List<Item>();
 	
 	[SerializeField, ReadOnly] private bool _gameStarted;
 	

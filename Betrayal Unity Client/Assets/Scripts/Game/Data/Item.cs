@@ -21,7 +21,7 @@ public class Item : ScriptableObject
 
 	[Header("Other")]
 	[SerializeField] private Sprite _icon;
-	[SerializeField] private string _description;
+	[SerializeField, TextArea] private string _description;
 	
 	public int Id => _id;
 	public void SetId(int id) => _id = id;

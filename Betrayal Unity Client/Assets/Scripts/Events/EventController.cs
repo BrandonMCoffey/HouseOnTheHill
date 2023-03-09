@@ -8,7 +8,8 @@ public class EventController : MonoBehaviour
 	
 	[SerializeField] private List<EventBase> _events;
 	[SerializeField] private List<Item> _items;
-	
+
+	[SerializeField] private float _eventPopupDelay = 2;
 	[SerializeField] private CollectableItem _itemPrefab;
 	[SerializeField] private Vector3 _collectableRoomOffset = Vector3.up;
 	
@@ -19,7 +20,14 @@ public class EventController : MonoBehaviour
 	
 	public void CreateEvent(Room room)
 	{
-		
+		StartCoroutine(CreateEventRoutine(room));
+	}
+
+	private IEnumerator CreateEventRoutine(Room room)
+	{
+		yield return new WaitForSeconds(_eventPopupDelay);
+		var e = GetRandomEvent();
+		CanvasController.OpenEventPrompt(e.Name, e.Description);
 	}
 	
 	public void CreateOmen(Room room)

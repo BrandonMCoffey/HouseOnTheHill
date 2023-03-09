@@ -86,10 +86,10 @@ public class RoomGenerator : MonoBehaviour
 						var orientation = Room.AddOrientation(localOrientation, (Orient)i);
 						(int xOffset, int zOffset) = Room.GetOffset(orientation);
 						var otherRoom = GetRoom(x + xOffset, z + zOffset);
-						if (otherRoom && otherRoom.HasDoorWithOrientation(Room.ReverseOrientation(orientation)))
-						{
+						if (!otherRoom) continue;
+						if (otherRoom.HasDoorWithOrientation(Room.ReverseOrientation(orientation)))
 							connections += orientation == connection ? 11 : 1;
-						}
+						else connections--;
 					}
 					if (connections == totalConnections) validRotations.Add((Orient)i);
 					else if (connections > totalConnections)

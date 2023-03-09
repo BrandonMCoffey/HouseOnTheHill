@@ -17,7 +17,7 @@ public class MovementController : MonoBehaviour
 	[SerializeField, ReadOnly] private bool _canMove = true;
 	
 	[SerializeField, ReadOnly] private Vector3 _moveDirection = Vector3.zero;
-	private float rotationX = 0;
+	private float _rotationX = 0;
 	
 	private float MoveSpeed => PlayerInputManager.Sprint ? _runningSpeed : _walkingSpeed;
 	private bool CanJump => _canJump && _controller.isGrounded;
@@ -60,9 +60,9 @@ public class MovementController : MonoBehaviour
 		if (_canMove)
 		{
 			var lookDirInput = PlayerInputManager.LookDir;
-			rotationX += -lookDirInput.y * _lookSpeed;
-			rotationX = Mathf.Clamp(rotationX, -_lookXLimit, _lookXLimit);
-			_cameraParent.localRotation = Quaternion.Euler(rotationX, 0, 0);
+			_rotationX += -lookDirInput.y * _lookSpeed;
+			_rotationX = Mathf.Clamp(_rotationX, -_lookXLimit, _lookXLimit);
+			_cameraParent.localRotation = Quaternion.Euler(_rotationX, 0, 0);
 			transform.rotation *= Quaternion.Euler(0, lookDirInput.x * _lookSpeed, 0);
 		}
 		SendTransformToNetwork();

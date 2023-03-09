@@ -18,16 +18,14 @@ public class Room : MonoBehaviour
 	[SerializeField] private bool _event;
 	[SerializeField] private bool _omen;
 	[SerializeField] private bool _item;
+	[SerializeField, ShowIf("_item")] private Transform _itemLocation;
 	[SerializeField] private bool _secondItem;
+	[SerializeField, ShowIf("_secondItem")] private Transform _secondItemLocation;
 	
 	[Header("Doors")]
-	[FormerlySerializedAs("_posZDoor")]
 	[SerializeField] private bool _localPosZDoor;
-	[FormerlySerializedAs("_posXDoor")]
 	[SerializeField] private bool _localPosXDoor;
-	[FormerlySerializedAs("_negZDoor")]
 	[SerializeField] private bool _localNegZDoor;
-	[FormerlySerializedAs("_negXDoor")]
 	[SerializeField] private bool _localNegXDoor;
 	[SerializeField, ReadOnly] private int _doorCount;
 	
@@ -115,38 +113,36 @@ public class Room : MonoBehaviour
 		void GenerateDoor(Orient worldOrient, bool create)
 		{
 			(int x, int z) = GetOffset(worldOrient);
-			
 			var connectedRoom = _generator.GetRoom(X + x, Z + z);
-			if (connectedRoom)
+			if (!connectedRoom && create)
 			{
-				var door = connectedRoom.GetDoor(ReverseOrientation(worldOrient));
-				
-				if (door)
-				{
-					// Existing door with a connection
-					if (create) door.Open(false);
-					
-					// Existing door -- but no connection -- lock other door
-					if (!create)
-					{
-						connectedRoom.DestroyDoor(door);
-						SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient);
-					}
-					
-					door.SetLabels(connectedRoom.Name, Name);
-				}
-				// Create a locked door -- no connection
-				else if (!door && create)
-				{
-					SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient, true);
-				}
-			}
-			else if (create)
-			{
+				// Create a door that can be explored (No connection until the player opens it)
 				var door = _generator.CreateDoor();
 				door.SetRoom(this, worldOrient);
 				SetDoorTransform(door.transform, worldOrient);
 				_doors.Add(door);
+			}
+			else if (connectedRoom)
+			{
+				// Connected room already exists
+				var door = connectedRoom.GetDoor(ReverseOrientation(worldOrient));
+				switch (door != null, create)
+				{
+					case (true, true):
+						// Existing door with a connection
+						door.Open(false);
+						door.SetLabels(connectedRoom.Name, Name);
+						break;
+					case (false, true):
+						// Create a locked door -- no connection
+						SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient, true);
+						break;
+					case (true, false):
+						// Existing door -- but no connection -- lock other door
+						connectedRoom.DestroyDoor(door);
+						SetDoorTransform(_generator.CreateLockedDoor().transform, worldOrient);
+						break;
+				}
 			}
 		}
 	}

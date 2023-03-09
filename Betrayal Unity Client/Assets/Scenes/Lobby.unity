@@ -4502,6 +4502,7 @@ MonoBehaviour:
   - {fileID: 1339288181}
   - {fileID: 302101661}
   _openPanel: 0
+  _debug: 0
 --- !u!114 &1966742257
 MonoBehaviour:
   m_ObjectHideFlags: 0
