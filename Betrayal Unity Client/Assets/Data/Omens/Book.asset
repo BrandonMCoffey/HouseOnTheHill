@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Book
   m_EditorClassIdentifier: 
-  _id: 21
+  _id: 23
   _name: Book
   _omen: 1
   _type: 0
   _icon: {fileID: 0}
-  _description: 
+  _description: 'A diary or lab notes?
+
+    Ancient script or modern ravings?'

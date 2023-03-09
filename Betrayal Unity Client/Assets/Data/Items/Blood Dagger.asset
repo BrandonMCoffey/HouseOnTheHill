@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Blood Dagger
   m_EditorClassIdentifier: 
+  _id: 6
   _name: Blood Dagger
+  _omen: 0
   _type: 1
+  _icon: {fileID: 0}
+  _description: A nasty weapon. Needles and tubes extend from the handle and plunge
+    right into your veins.

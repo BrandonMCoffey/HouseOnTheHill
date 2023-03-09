@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
-  _id: 31
+  _id: 33
   _name: Spear
   _omen: 1
   _type: 1
   _icon: {fileID: 0}
-  _description: 
+  _description: A weapon pulsing with power.

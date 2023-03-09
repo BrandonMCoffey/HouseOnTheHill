@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Bite
   m_EditorClassIdentifier: 
-  _id: 20
+  _id: 22
   _name: Bite
   _omen: 1
   _type: 0
   _icon: {fileID: 0}
-  _description: 
+  _description: "A growl, the scent of death.\r\nPain. Darkness. Gone.\r"

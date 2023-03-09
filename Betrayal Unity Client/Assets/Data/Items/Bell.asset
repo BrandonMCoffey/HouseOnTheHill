@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Bell
   m_EditorClassIdentifier: 
+  _id: 5
   _name: Bell
+  _omen: 0
   _type: 0
+  _icon: {fileID: 0}
+  _description: A brass bell that makes a resonant clang.

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Spirit Board
   m_EditorClassIdentifier: 
-  _id: 32
+  _id: 34
   _name: Spirit Board
   _omen: 1
   _type: 0
   _icon: {fileID: 0}
-  _description: 
+  _description: A board with letters and numbers to call the dead.

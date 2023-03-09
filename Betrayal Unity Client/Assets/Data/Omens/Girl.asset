@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Girl
   m_EditorClassIdentifier: 
-  _id: 24
+  _id: 26
   _name: Girl
   _omen: 1
   _type: 2
   _icon: {fileID: 0}
-  _description: 
+  _description: "A girl.\nTrapped.\nAlone.\r\nYou free her!\r"

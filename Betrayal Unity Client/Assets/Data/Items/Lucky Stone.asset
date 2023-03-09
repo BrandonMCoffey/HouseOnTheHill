@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8d77ea19a37e1458be26a9c436ba3e, type: 3}
   m_Name: Lucky Stone
   m_EditorClassIdentifier: 
+  _id: 13
   _name: Lucky Stone
+  _omen: 0
   _type: 0
+  _icon: {fileID: 0}
+  _description: A smooth, ordinary-looking rock. You sense it will bring you good
+    fortune.
