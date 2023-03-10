@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Coffey_Utils.Editor.Buttons.Utils;
+using ButtonAttributeEditor.Utils;
 using UnityEditor;
 using UnityEngine;
 
-namespace Coffey_Utils.Editor.Buttons
+namespace ButtonAttributeEditor
 {
     using Object = UnityEngine.Object;
 
@@ -70,8 +70,8 @@ namespace Coffey_Utils.Editor.Buttons
             }
 
             private static TEditor CreateEditor<TEditor>(Object obj)
-                where TEditor : UnityEditor.Editor {
-                return (TEditor)UnityEditor.Editor.CreateEditor(obj, typeof(TEditor));
+                where TEditor : Editor {
+                return (TEditor)Editor.CreateEditor(obj, typeof(TEditor));
             }
         }
     }

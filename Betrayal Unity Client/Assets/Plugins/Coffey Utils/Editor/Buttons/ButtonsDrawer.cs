@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Coffey_Utils.Editor.Buttons
+namespace ButtonAttributeEditor
 {
     public class ButtonsDrawer
     {
