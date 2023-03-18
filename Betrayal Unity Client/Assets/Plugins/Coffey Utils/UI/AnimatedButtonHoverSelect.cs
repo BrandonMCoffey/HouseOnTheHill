@@ -10,9 +10,9 @@ public class AnimatedButtonHoverSelect : MonoBehaviour, ISelectHandler, IDeselec
 	[SerializeField] private SfxReference _sfxOnClick;
 	[SerializeField] private bool _animateScale = true;
 	[SerializeField, ShowIf("_animateScale")] private Transform _transform;
-	[SerializeField, ShowIf("_animateScale")] private float _animationTime = 1f;
-	[SerializeField, ShowIf("_animateScale")] private float _widthScale = 1.03f;
-	[SerializeField, ShowIf("_animateScale")] private float _heightScale = 1.03f;
+	[SerializeField, ShowIf("_animateScale")] private float _animationTime = 0.2f;
+	[SerializeField, ShowIf("_animateScale")] private float _widthScale = 1.06f;
+	[SerializeField, ShowIf("_animateScale")] private float _heightScale = 1.12f;
 	[SerializeField, ShowIf("_animateScale")] private AnimationCurve _deltaCurve
 		= new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
 		
