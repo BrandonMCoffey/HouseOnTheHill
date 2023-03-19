@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
 	[SerializeField] private GameObject _art;
+	[SerializeField] private TMP_Text _userName;
 	
 	[Header("Debug")]
 	[SerializeField, ReadOnly] private User _user;
@@ -28,7 +30,11 @@ public class Player : MonoBehaviour
 		PlayerManager.Players.Remove(this);
 	}
 	
-	public void SetUser(User user) => _user = user;
+	public void SetUser(User user)
+	{
+		_user = user;
+		_userName.text = user.UserName;
+	}
 	
 	[Button]
 	public void SetCharacter(Character character)
