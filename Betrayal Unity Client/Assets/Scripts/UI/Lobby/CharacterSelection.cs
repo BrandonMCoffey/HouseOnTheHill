@@ -31,12 +31,14 @@ public class CharacterSelection : MonoBehaviour
 			_options.Add(c);
 		}
 		_baseCharacter.gameObject.SetActive(false);
+		gameObject.SetActive(false);
 	}
 	
 	public void Select(int i)
 	{
 		DeselectAll();
 		LocalUser.Instance.SetCharacter(i);
+		gameObject.SetActive(false);
 	}
 	
 	private void DeselectAll()
