@@ -23,6 +23,7 @@ public class MovementController : MonoBehaviour
 	private bool CanJump => _canJump && _controller.isGrounded;
 
 	public Transform CameraParent => _cameraParent;
+
 	public void SetCanMove(bool canMove) => _canMove = canMove;
 
 	private void OnValidate()

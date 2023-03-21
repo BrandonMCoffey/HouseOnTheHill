@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour
 		StartExplorationPhase();
 	}
 	
-	[Button]
+	[Button(Mode = ButtonMode.InPlayMode)]
 	public void StartExplorationPhase()
 	{
 		if (!TrySetPhase(GamePhase.ExplorationPhase)) return;
@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
 		CanvasController.OpenEventHud();
 	}
 	
-	[Button]
+	[Button(Mode = ButtonMode.InPlayMode)]
 	public void StartSpectatePhase()
 	{
 		if (!TrySetPhase(GamePhase.SpectatePhase)) return;

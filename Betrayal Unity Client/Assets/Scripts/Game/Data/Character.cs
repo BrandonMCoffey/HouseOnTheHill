@@ -37,6 +37,11 @@ public class Character : ScriptableObject
 	public int GetTraitIndex(Trait trait) => GetTrait(trait).Index;
 	public int GetTraitValue(Trait trait, int index) => GetTrait(trait).GetValue(index);
 	
+	public int GetDefaultTraitValue(Trait trait)
+	{
+		var t = GetTrait(trait);
+		return t.GetValue(t.Index);
+	}
 	public CharacterTrait GetTrait(Trait trait)
 	{
 		return trait switch

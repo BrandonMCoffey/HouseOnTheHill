@@ -12,7 +12,7 @@ public class User : MonoBehaviour
 	
 	[Header("Lobby Data")]
 	[SerializeField, ReadOnly] protected bool _ready;
-	[SerializeField, ReadOnly] protected int _character = -1;
+	[SerializeField, ReadOnly] protected int _character = -2;
 	
 	[Header("Game Data")]
 	[SerializeField, ReadOnly] protected bool _isCurrentTurn;
@@ -31,6 +31,8 @@ public class User : MonoBehaviour
 		_id = id;
 		_local = local;
 		_name = name;
+		_ready = false;
+		_character = -10;
 		gameObject.name = $"{(local ? "Local" : "Remote")} User ({_name})";
 		OnUpdatePlayerStates?.Invoke();
 	}
@@ -39,7 +41,7 @@ public class User : MonoBehaviour
 	{
 		if (!_local) 
 		{
-			RemoteCharacters.Remove(_character);
+			if (_character >= 0) RemoteCharacters.Remove(_character);
 			OnUpdatePlayerStates?.Invoke();
 		}
 		Destroy(gameObject);
@@ -47,9 +49,9 @@ public class User : MonoBehaviour
 	
 	public virtual void SetCharacter(int character)
 	{
-		if (!_local) RemoteCharacters.Remove(_character);
+		if (!_local && _character >= 0) RemoteCharacters.Remove(_character);
 		_character = character;
-		if (!_local) RemoteCharacters.Add(_character);
+		if (!_local && _character >= 0) RemoteCharacters.Add(_character);
 		OnUpdatePlayerStates?.Invoke();
 		
 		if (GameData.GameStarted)

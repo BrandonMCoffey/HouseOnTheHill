@@ -12,7 +12,7 @@ public class GameData : MonoBehaviour
 	[SerializeField] private List<Character> _characters = new List<Character>();
 	
 	[SerializeField, ReadOnly] private bool _gameStarted;
-	
+
 	private void Awake()
 	{
 		if (Instance != null && Instance != this)
@@ -38,7 +38,7 @@ public class GameData : MonoBehaviour
 	}
 	
 	public static int CharacterCount => Instance._characters.Count;
-	public static Character GetCharacter(int index) => Instance._characters[index];
+	public static Character GetCharacter(int index) => index < 0 ? null : Instance._characters[index];
 	
 	public static bool GameStarted => Instance._gameStarted;
 }

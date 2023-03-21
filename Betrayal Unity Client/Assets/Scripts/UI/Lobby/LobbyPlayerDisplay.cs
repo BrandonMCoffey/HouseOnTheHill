@@ -15,7 +15,7 @@ public class LobbyPlayerDisplay : MonoBehaviour
 	
 	[Header("References")]
 	[SerializeField] private TMP_Text _userNameText;
-	[SerializeField] private Image _selectedImage;
+	[SerializeField] private GameObject _selectedImage;
 	[SerializeField] private TMP_Text _characterNameText;
 	[SerializeField] private Image _characterPortrait;
 	[SerializeField] private GameObject _noCharacterSelected;
@@ -26,23 +26,22 @@ public class LobbyPlayerDisplay : MonoBehaviour
 	[SerializeField] private Button _readyButton;
 	[SerializeField] private Image _readyImage;
 	[SerializeField] private TMP_Text _readyText;
-	
-	private static Color _checkmarkColor = Color.black;
-	private static Color _invisibleColor = new Color(0, 0, 0, 0);
-	
+
 	public void SetUser(bool isLocal, string userName, Character character)
 	{
+		_selected = isLocal;
 		_userNameText.text = userName;
 		_readyButton.interactable = isLocal;
+		_selectedImage.SetActive(_selected);
 		if (character)
 		{
 			_characterNameText.text = character.Name;
 			_characterPortrait.color = character.Color;
 			SetCharacterObjectsActive(true);
-			_characterTrait1Text.text = character.GetTrait(Trait.Might).ToString();
-			_characterTrait2Text.text = character.GetTrait(Trait.Speed).ToString();
-			_characterTrait3Text.text = character.GetTrait(Trait.Sanity).ToString();
-			_characterTrait4Text.text = character.GetTrait(Trait.Knowledge).ToString();
+			_characterTrait1Text.text = character.GetDefaultTraitValue(Trait.Might).ToString();
+			_characterTrait2Text.text = character.GetDefaultTraitValue(Trait.Speed).ToString();
+			_characterTrait3Text.text = character.GetDefaultTraitValue(Trait.Sanity).ToString();
+			_characterTrait4Text.text = character.GetDefaultTraitValue(Trait.Knowledge).ToString();
 		}
 		else
 		{
@@ -61,8 +60,11 @@ public class LobbyPlayerDisplay : MonoBehaviour
 		_characterTrait4Text.gameObject.SetActive(active);
 	}
 	
+	public void ToggleReady() => LocalUser.Instance.ToggleReady();
 	public void SetReady(bool ready)
 	{
 		_readyImage.color = ready ? _readyColor : _notReadyColor;
+		if (_selected) _readyText.text = ready ? "Ready!" : "Ready?";
+		else _readyText.text = ready ? "Ready" : "Not Ready";
 	}
 }

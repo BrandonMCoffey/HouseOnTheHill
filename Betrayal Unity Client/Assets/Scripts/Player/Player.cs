@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 	public void SetUser(User user)
 	{
 		_user = user;
-		_userName.text = user.UserName;
+		if (_userName) _userName.text = user.UserName + (IsLocal ? " (You)" : "");
 	}
 	
 	[Button]

@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _art: {fileID: 4400993151437422549}
-  _userName: {fileID: 0}
+  _userName: {fileID: 668146197931961604}
   _user: {fileID: 0}
   _character: {fileID: 0}
   _speedIndex: 0

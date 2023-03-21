@@ -10,13 +10,26 @@ public class LocalUser : User
 	{
 		Instance = this;
 	}
+
+	public void OnChoosingCharacter()
+	{
+		if (Character == -10) SetCharacter(-9);
+		SetReady(false);
+	}
+
+	public void StopChoosingCharacter()
+	{
+		if (Character == -9) SetCharacter(-10);
+	}
 	
 	public override void SetCharacter(int character)
 	{
 		base.SetCharacter(character);
 		NetworkManager.OnLocalUserSelectCharacter(character);
+		if (character == -1) SetReady(true);
 	}
 	
+	public void ToggleReady() => SetReady(!Ready);
 	public override void SetReady(bool ready)
 	{
 		base.SetReady(ready);

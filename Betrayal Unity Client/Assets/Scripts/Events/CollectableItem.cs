@@ -14,10 +14,12 @@ public class CollectableItem : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		var player = other.GetComponent<Player>();
-		if (player)
-		{
-			player.CollectItem(_item);
-			Destroy(gameObject);
-		}
+		if (player) CollectItem(player);
+	}
+
+	public void CollectItem(Player player)
+	{
+		player.CollectItem(_item);
+		Destroy(gameObject);
 	}
 }

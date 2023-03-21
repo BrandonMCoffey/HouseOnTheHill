@@ -17,7 +17,7 @@ namespace Betrayal.ConsoleServer
 
         public bool Ready;
         public bool GameLoaded;
-        public int Character = -1;
+        public int Character = -10;
 
         public int SpeedIndex = -1;
         public int MightIndex = -1;

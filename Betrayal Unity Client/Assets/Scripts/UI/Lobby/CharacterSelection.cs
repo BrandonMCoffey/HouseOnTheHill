@@ -7,17 +7,20 @@ using TMPro;
 public class CharacterSelection : MonoBehaviour
 {
 	[SerializeField] private CharacterButton _baseCharacter;
+	[SerializeField] private Transform _characterParent;
 	
 	[SerializeField, ReadOnly] private List<CharacterButton> _options;
 	
 	private void OnEnable()
 	{
 		User.OnUpdatePlayerStates += LockCharacters;
+		LocalUser.Instance.OnChoosingCharacter();
 	}
 	
 	private void OnDisable()
 	{
 		User.OnUpdatePlayerStates -= LockCharacters;
+		LocalUser.Instance.StopChoosingCharacter();
 	}
 	
 	private void Start()
@@ -26,19 +29,21 @@ public class CharacterSelection : MonoBehaviour
 		_baseCharacter.gameObject.SetActive(true);
 		for (int i = 0; i < GameData.CharacterCount; i++)
 		{
-			var c = Instantiate(_baseCharacter, transform);
+			var c = Instantiate(_baseCharacter, _characterParent);
+			c.SetController(this);
 			c.SetCharacterIndex(i);
 			_options.Add(c);
 		}
 		_baseCharacter.gameObject.SetActive(false);
-		gameObject.SetActive(false);
 	}
+	
+	public void Close() => gameObject.SetActive(false);
 	
 	public void Select(int i)
 	{
 		DeselectAll();
 		LocalUser.Instance.SetCharacter(i);
-		gameObject.SetActive(false);
+		Close();
 	}
 	
 	private void DeselectAll()

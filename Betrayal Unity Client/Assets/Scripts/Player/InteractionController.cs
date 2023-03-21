@@ -21,6 +21,11 @@ public class InteractionController : MonoBehaviour
 					door.Open();
 				}
 			}
+			var collectable = hit.collider.GetComponent<CollectableItem>();
+			if (collectable)
+			{
+				collectable.CollectItem(CanvasController.LocalPlayer);
+			}
 		}
 	}
 

@@ -6,6 +6,7 @@ public class SpectatorActionManager : MonoBehaviour
 {
 	[SerializeField] private bool _logAction;
 	[SerializeField] private SpectatorMovement _spectatorMovement;
+	[SerializeField] private GameObject _localPlayerNameTag;
 	
 	private bool InGame => !PlayerManager.MenuOpen && GameController.Phase == GamePhase.SpectatePhase;
 	
@@ -13,11 +14,13 @@ public class SpectatorActionManager : MonoBehaviour
 	{
 		_spectatorMovement.SetMouseMovement(PlayerInputManager.LookDir);
 	}
-
+	
 	public void SetSpectatorEnabled(bool active)
 	{
+		LogAction("Spectator Mode " + (active ? "Enabled" : "Disabled"));
 		_spectatorMovement.SetCameraActive(active);
 		if (active) CanvasController.OpenSpectatorHud();
+		if (_localPlayerNameTag) _localPlayerNameTag.SetActive(active);
 	}
 	
 	private void OnEnable()

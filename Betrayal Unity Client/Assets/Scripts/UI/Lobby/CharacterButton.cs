@@ -25,10 +25,10 @@ public class CharacterButton : MonoBehaviour
 	[SerializeField, ReadOnly] private bool _disabled;
 	
 	public int Index => _characterIndex;
+	public void SetController(CharacterSelection controller) => _controller = controller;
 	
 	private void OnValidate()
 	{
-		if (!_controller) _controller = transform.parent.GetComponent<CharacterSelection>();
 		if (_button) _buttonImage = _button.GetComponent<Image>();
 	}
 	
