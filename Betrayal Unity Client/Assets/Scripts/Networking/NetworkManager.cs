@@ -54,6 +54,7 @@ public class NetworkManager : MonoBehaviour
     
 	public static Dictionary<ushort, User> AllUsers;
 	public static Action OnUpdateAllUsers = delegate { };
+	public static Action<User> OnSetUsersTurn = delegate { };
 
 	public Client Client { get; private set; }
 
@@ -338,6 +339,7 @@ public class NetworkManager : MonoBehaviour
 		{
 			pair.Value.SetCurrentTurn(pair.Key == playersTurn);
 		}
+		OnSetUsersTurn?.Invoke(AllUsers[playersTurn]);
 	}
 
 	#endregion

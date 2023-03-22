@@ -6,25 +6,17 @@ using UnityEngine.UI;
 public class PopupBase : MonoBehaviour
 {
 	[SerializeField] private RectTransform _popup;
-	[SerializeField] private Image _background;
+	[SerializeField] private CanvasGroup _alphaGroup;
 	[SerializeField] private float _popupOpenTime = 0.5f;
 	[SerializeField] private float _popupCloseTime = 0.1f;
 	[SerializeField] private AnimationCurve _popupCurve
 		= new AnimationCurve(new Keyframe(0, 0), new Keyframe(1, 1));
+		
+	public float OpenTime => _popupOpenTime;
+	public float CloseTime => _popupCloseTime;
 	
 	private float _delta;
 	private Coroutine _routine;
-	private Color _backgroundColor = Color.white;
-	private float _backgroundAlpha = 1;
-	
-	private void Awake()
-	{
-		if (_background)
-		{
-			_backgroundColor = _background.color;
-			_backgroundAlpha = _backgroundColor.a;
-		}
-	}
 	
 	[Button(Mode = ButtonMode.InPlayMode, Spacing = 20)]
 	public virtual void OpenPopup()
@@ -73,12 +65,14 @@ public class PopupBase : MonoBehaviour
 	
 	private void UpdatePopup()
 	{
-		float s = _popupCurve.Evaluate(_delta);
-		_popup.localScale = new Vector3(s, s, 1);
-		if (_background)
+		if (_popup)
 		{
-			_backgroundColor.a = _delta * _backgroundAlpha;
-			_background.color = _backgroundColor;
+			float s = _popupCurve.Evaluate(_delta);
+			_popup.localScale = new Vector3(s, s, 1);
+		}
+		if (_alphaGroup)
+		{
+			_alphaGroup.alpha = _delta;
 		}
 	}
 }
