@@ -15,7 +15,8 @@ public class RoomController : MonoBehaviour
 	
 	[Header("Rooms")]
 	[SerializeField] private float _roomSize;
-	[SerializeField] private bool _ignoreFloorDebug;
+	[SerializeField] private bool _randomizeRoomOrder = true;
+	[SerializeField] private bool _ignoreValidRoomFloor;
 	[SerializeField] private List<Room> _rooms = new List<Room>();
 	[SerializeField] private bool _showTops;
 
@@ -27,6 +28,21 @@ public class RoomController : MonoBehaviour
 	{
 		Instance = this;
 		_activeRooms = new Dictionary<int, Room>();
+	}
+	
+	private void Start()
+	{
+		if (_randomizeRoomOrder)
+		{
+			Room room;
+			for (int i = 0; i < _rooms.Count; i++)
+			{
+				var o = Random.Range(0, _rooms.Count);
+				room = _rooms[i];
+				_rooms[i] = _rooms[o];
+				_rooms[o] = room;
+			}
+		}
 	}
 	
 	[Button(Mode = ButtonMode.InPlayMode)]
@@ -90,24 +106,8 @@ public class RoomController : MonoBehaviour
 		{
 			var nextRoom = _rooms[0];
 			_rooms.RemoveAt(0);
-			if (_ignoreFloorDebug || nextRoom.OnFloor(floor)) return nextRoom;
+			if (_ignoreValidRoomFloor || nextRoom.OnFloor(floor)) return nextRoom;
 			_rooms.Add(nextRoom);
-		}
-		Debug.LogError("No Rooms left in stack.", gameObject);
-		return null;
-	}
-	
-	public Room GetRandomRoom(Floor floor)
-	{
-		int iterations = 0;
-		while (true)
-		{
-			int index = Random.Range(0, _rooms.Count);
-			var room = _rooms[index];
-			_rooms.RemoveAt(index);
-			if (_ignoreFloorDebug || room.OnFloor(floor)) return room;
-			_rooms.Add(room);
-			if (iterations > 1000) break;
 		}
 		Debug.LogError("No Rooms left in stack.", gameObject);
 		return null;

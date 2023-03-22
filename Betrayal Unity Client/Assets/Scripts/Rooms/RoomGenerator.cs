@@ -61,7 +61,7 @@ public class RoomGenerator : MonoBehaviour
 			Debug.LogError("Room Exists! Do not Place Room");
 			return;
 		}
-		var prefab = _controller.GetRandomRoom(_floor);
+		var prefab = _controller.GetNextRoom(_floor);
 		
 		// Figure out rotation (Test door connections)
 		int rot = 0;

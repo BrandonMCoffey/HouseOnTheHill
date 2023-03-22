@@ -36,22 +36,28 @@ public class InventoryDisplayManager : MonoBehaviour
     {
 	    var player = CanvasController.LocalPlayer;
 	    if (player == null) return;
-	    int items = player.ItemsHeld.Count;
-	    for (int i = _items.Count; i < items; i++)
+	    int i = 0;
+	    foreach (var item in player.ItemsHeld)
 	    {
-	    	_items.Add(CreateItem());
+		    TryGetCreateDisplay(i++, item);
 	    }
-	    for (int i = 0; i < items; i++)
+	    for (; i < _items.Count; i++)
 	    {
-	    	_items[i].gameObject.SetActive(true);
-	    	_items[i].SetItem(player.ItemsHeld[i]);
-	    }
-	    for (int i = items; i < _items.Count; i++)
-	    {
-	    	_items[i].gameObject.SetActive(false);
+		    _items[i].gameObject.SetActive(false);
 	    }
 	    _refreshDisplay = false;
     }
 
-    private InventoryDisplayItem CreateItem() => Instantiate(_baseItem, _parent);
+	private InventoryDisplayItem CreateItem() => Instantiate(_baseItem, _parent);
+    
+	
+	private void TryGetCreateDisplay(int index, Item item)
+	{
+		if (index >= _items.Count)
+		{
+			_items.Add(Instantiate(_baseItem, _parent));
+		}
+		_items[index].gameObject.SetActive(true);
+		_items[index].SetItem(item);
+	}
 }

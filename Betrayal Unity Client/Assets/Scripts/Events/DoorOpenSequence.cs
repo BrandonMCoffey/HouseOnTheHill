@@ -16,7 +16,6 @@ public class DoorOpenSequence : MonoBehaviour
 		_animationCam.SetActive(false);
 	}
 	
-	[Button]
 	public void PlaySequence(DoorController door)
 	{
 		StartCoroutine(AnimateDoorRoutine(door));

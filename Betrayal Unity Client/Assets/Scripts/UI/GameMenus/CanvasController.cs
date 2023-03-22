@@ -100,7 +100,8 @@ public class CanvasController : MonoBehaviour
 
     public void EndTurn()
     {
-        LocalUser.Instance.EndTurn();
+	    if (LocalUser.Instance) LocalUser.Instance.EndTurn();
+	    else GameController.Instance.StartExplorationPhase();
     }
     
 	public void QuitGame()
