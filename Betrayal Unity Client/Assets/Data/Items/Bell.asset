@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 0
   _icon: {fileID: 0}
   _description: A brass bell that makes a resonant clang.
+  _effectsDescription: Effects...

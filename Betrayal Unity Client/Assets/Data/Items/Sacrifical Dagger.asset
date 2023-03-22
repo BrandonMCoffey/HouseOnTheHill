@@ -16,6 +16,10 @@ MonoBehaviour:
   _name: Sacrifical Dagger
   _omen: 0
   _type: 1
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: e8b093c4417a22e41bb82c0a9d0e5d4c, type: 3}
   _description: A twisted shard of iron covered in mysterious symbols and stained
     with blood.
+  _effectsDescription: "When making a Might Attack with this weapon, roll 3\nextra
+    dice, but you must make a Knowledge Roll first:\n    6+ No Effect.\n    3-5 Lose
+    1 from a Mental Trait.\n    0-2 The dagger twists in your hand! Take 2 dice of\n           
+    of physical damage. You can't attack this turn."

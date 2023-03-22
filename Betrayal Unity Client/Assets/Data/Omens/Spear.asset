@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 1
   _icon: {fileID: 0}
   _description: A weapon pulsing with power.
+  _effectsDescription: Effects...

@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 1
   _icon: {fileID: 0}
   _description: An old, potent-looking weapon.
+  _effectsDescription: Effects...

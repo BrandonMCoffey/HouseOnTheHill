@@ -19,9 +19,12 @@ public class Item : ScriptableObject
 	[SerializeField] private bool _omen;
 	[SerializeField] private ItemType _type;
 
-	[Header("Other")]
+	[Header("Descriptors")]
 	[SerializeField] private Sprite _icon;
 	[SerializeField, TextArea] private string _description;
+	
+	[Header("Effects")]
+	[SerializeField, TextArea] private string _effectsDescription;
 	
 	public int Id => _id;
 	public void SetId(int id) => _id = id;
@@ -30,6 +33,7 @@ public class Item : ScriptableObject
 	public ItemType Type => _type;
 	public string Description => _description;
 	public Sprite IconSprite => _icon;
+	public string EffectsDescription => _effectsDescription;
 	
 	private void OnValidate()
 	{

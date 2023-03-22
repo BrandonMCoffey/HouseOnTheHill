@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 0
   _icon: {fileID: 0}
   _description: A doctor's bag, depleted in some critical resources.
+  _effectsDescription: Effects...

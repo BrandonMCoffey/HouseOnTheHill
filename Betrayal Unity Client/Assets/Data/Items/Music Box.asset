@@ -19,3 +19,4 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _description: A hand-crafted antique. It plays a haunting melody that gets stuck
     in your head.
+  _effectsDescription: Effects...

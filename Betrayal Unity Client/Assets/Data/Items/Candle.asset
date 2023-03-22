@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 0
   _icon: {fileID: 0}
   _description: It makes the shadows move - at least, you hope it's doing that.
+  _effectsDescription: Effects...

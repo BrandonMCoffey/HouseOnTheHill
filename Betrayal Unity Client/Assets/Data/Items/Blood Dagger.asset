@@ -19,3 +19,4 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _description: A nasty weapon. Needles and tubes extend from the handle and plunge
     right into your veins.
+  _effectsDescription: Effects...

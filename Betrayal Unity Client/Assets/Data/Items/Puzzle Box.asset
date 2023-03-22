@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 0
   _icon: {fileID: 0}
   _description: There must be a way to open it.
+  _effectsDescription: Effects...

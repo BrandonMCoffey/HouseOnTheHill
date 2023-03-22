@@ -19,3 +19,4 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _description: A smooth, ordinary-looking rock. You sense it will bring you good
     fortune.
+  _effectsDescription: Effects...

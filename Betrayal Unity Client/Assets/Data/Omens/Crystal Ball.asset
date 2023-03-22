@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 0
   _icon: {fileID: 0}
   _description: Hazy images appear in the glass.
+  _effectsDescription: Effects...

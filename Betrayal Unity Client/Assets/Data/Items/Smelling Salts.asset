@@ -18,3 +18,4 @@ MonoBehaviour:
   _type: 0
   _icon: {fileID: 0}
   _description: Whew, that's a lungful.
+  _effectsDescription: Effects...
