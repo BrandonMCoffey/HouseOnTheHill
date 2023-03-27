@@ -17,7 +17,7 @@ public class LobbyPlayerController : MonoBehaviour
 	[SerializeField] private List<TMP_Text> _spectators;
 
 	[Header("Character Selection")]
-	[SerializeField] private GameObject _characterSelection;
+	[SerializeField] private Canvas _characterSelection;
 	
 	private void OnEnable()
 	{
@@ -80,5 +80,23 @@ public class LobbyPlayerController : MonoBehaviour
 		if (user.IsLocal) _joinButton.gameObject.SetActive(false);
 		_joinButton.SetParent(null);
 		_joinButton.SetParent(_displayParent);
+	}
+	
+	public void OpenCharacterSelection()
+	{
+		_characterSelection.enabled = true;
+		LocalUser.Instance.OnChoosingCharacter();
+	}
+	
+	public void SelectCharacter(int index)
+	{
+		LocalUser.Instance.SetCharacter(index);
+		CloseCharacterSelection();
+	}
+	
+	public void CloseCharacterSelection()
+	{
+		_characterSelection.enabled = false;
+		LocalUser.Instance.StopChoosingCharacter();
 	}
 }

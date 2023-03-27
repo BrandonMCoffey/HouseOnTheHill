@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-	public static GameData Instance;
+	private static GameData _instance;
+	public static GameData Instance
+	{
+		get 
+		{
+			if (_instance) return _instance;
+			_instance = FindObjectOfType<GameData>();
+			return _instance;
+		}
+	}
 	
 	[SerializeField] private string _userName = "Player";
 	[SerializeField] private string _serverIp = "127.0.0.1";
@@ -15,12 +24,12 @@ public class GameData : MonoBehaviour
 
 	private void Awake()
 	{
-		if (Instance != null && Instance != this)
+		if (_instance != null && _instance != this)
 		{
 			Destroy(gameObject);
 			return;
 		}
-		Instance = this;
+		_instance = this;
 		DontDestroyOnLoad(this);
 	}
 	
@@ -39,6 +48,7 @@ public class GameData : MonoBehaviour
 	
 	public static int CharacterCount => Instance._characters.Count;
 	public static Character GetCharacter(int index) => index < 0 ? null : Instance._characters[index];
+	public static int GetCharacterIndex(Character character) => Instance._characters.IndexOf(character);
 	
 	public static bool GameStarted => Instance._gameStarted;
 }
