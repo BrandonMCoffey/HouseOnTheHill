@@ -24,7 +24,7 @@ public class InteractionController : MonoBehaviour
 			var collectable = hit.collider.GetComponent<CollectableItem>();
 			if (collectable)
 			{
-				collectable.CollectItem(CanvasController.LocalPlayer);
+				collectable.CollectItem();
 			}
 		}
 	}

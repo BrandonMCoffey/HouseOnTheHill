@@ -13,13 +13,14 @@ public class CanvasController : MonoBehaviour
 	[SerializeField] private CircleSlices _stepsTaken;
 	
 	[SerializeField] private EventPopup _eventPopup;
+	[SerializeField] private ItemPickupDisplay _itemPopup;
 	
 	public static Player LocalPlayer => Instance._manager.LocalPlayer;
 
 	public static Action MenuStateChanged = delegate { };
-	public static bool EventPopupOpen => Instance._switcher.CurrentlyOpenPanel == 2;
-	public static bool PauseMenuOpen => Instance._switcher.CurrentlyOpenPanel == 3;
+	public static bool EventPopupOpen => Instance._switcher.CurrentlyOpenPanel == 2 || Instance._switcher.CurrentlyOpenPanel == 3;
 	public static bool InventoryOpen => Instance._switcher.CurrentlyOpenPanel == 4;
+	public static bool PauseMenuOpen => Instance._switcher.CurrentlyOpenPanel == 7;
 
 	private PlayerManager _manager;
 
@@ -72,22 +73,35 @@ public class CanvasController : MonoBehaviour
 		Instance._eventPopup.OpenPopup(header, description);
 		HideMouse(false);
 	}
-
-    public static void OpenPauseMenu()
-    {
-	    Instance._switcher.OpenPanel(3);
-        HideMouse(false);
-    }
+	
+	public static void OpenItemPrompt(Item item)
+	{
+		Instance._switcher.OpenPanel(3);
+		Instance._itemPopup.OpenPopup(item);
+		HideMouse(false);
+	}
 
     public static void OpenInventory()
     {
 	    Instance._switcher.OpenPanel(4);
         HideMouse(false);
     }
+
+	public static void OpenEndTurnHud()
+	{
+		Instance._switcher.OpenPanel(5);
+		HideMouse(true);
+	}
     
 	public static void OpenSpectatorHud()
 	{
-		Instance._switcher.OpenPanel(5);
+		Instance._switcher.OpenPanel(6);
+		HideMouse(false);
+	}
+	
+	public static void OpenPauseMenu()
+	{
+		Instance._switcher.OpenPanel(7);
 		HideMouse(false);
 	}
 

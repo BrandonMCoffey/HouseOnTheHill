@@ -13,6 +13,10 @@ public class EventController : MonoBehaviour
 	[SerializeField] private CollectableItem _itemPrefab;
 	[SerializeField] private Vector3 _collectableRoomOffset = Vector3.up;
 	
+	public static System.Action<int> OnUpdateItemsToCollect = delegate { };
+	
+	private List<Item> _itemsToCollect = new List<Item>();
+	
 	private void Awake()
 	{
 		Instance = this;
@@ -39,23 +43,38 @@ public class EventController : MonoBehaviour
 	public void CreateIem(Room room)
 	{
 		var collectable = CreateCollectableItem(room);
-		collectable.SetItem(GetRandomItem());
+		var item = GetRandomItem();
+		collectable.SetItem(item);
+		_itemsToCollect.Add(item);
+		OnUpdateItemsToCollect?.Invoke(_itemsToCollect.Count);
 	}
 	
 	public void CreateTwoItems(Room room)
 	{
 		var collectable1 = CreateCollectableItem(room);
 		collectable1.transform.position -= Vector3.right;
-		collectable1.SetItem(GetRandomItem());
+		var item1 = GetRandomItem();
+		collectable1.SetItem(item1);
+		_itemsToCollect.Add(item1);
 		var collectable2 = CreateCollectableItem(room);
 		collectable2.transform.position += Vector3.right;
-		collectable2.SetItem(GetRandomItem());
+		var item2 = GetRandomItem();
+		collectable2.SetItem(item2);
+		_itemsToCollect.Add(item2);
+		OnUpdateItemsToCollect?.Invoke(_itemsToCollect.Count);
 	}
 	
 	private CollectableItem CreateCollectableItem(Room room)
 	{
 		var pos = room.transform.position + _collectableRoomOffset;
 		return Instantiate(_itemPrefab, pos, Quaternion.identity, transform);
+	}
+	
+	public void CollectItem(Item item)
+	{
+		_itemsToCollect.Remove(item);
+		CanvasController.LocalPlayer.CollectItem(item);
+		OnUpdateItemsToCollect?.Invoke(_itemsToCollect.Count);
 	}
 	
 	private EventBase GetRandomEvent()

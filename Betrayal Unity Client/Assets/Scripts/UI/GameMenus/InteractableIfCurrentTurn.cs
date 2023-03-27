@@ -14,12 +14,12 @@ public class InteractableIfCurrentTurn : MonoBehaviour
 	
 	private void OnEnable()
 	{
-		GameController.UpdatePhase += CheckPhase;
+		GameController.OnUpdatePhase += CheckPhase;
 	}
 	
 	private void OnDisable()
 	{
-		GameController.UpdatePhase -= CheckPhase;
+		GameController.OnUpdatePhase -= CheckPhase;
 	}
 	
 	private void CheckPhase()

@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
 	
 	private void OnEnable()
 	{
-		GameController.UpdatePhase += CanvasController.OpenHud;
+		GameController.OnUpdatePhase += CanvasController.OpenHud;
 		CanvasController.MenuStateChanged += CheckUiState;
 		PlayerInputManager.Pause += OpenPauseMenu;
 		PlayerInputManager.OpenInventory += OpenInventory;
@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
 	
 	private void OnDisable()
 	{
-		GameController.UpdatePhase -= CanvasController.OpenHud;
+		GameController.OnUpdatePhase -= CanvasController.OpenHud;
 		CanvasController.MenuStateChanged -= CheckUiState;
 		PlayerInputManager.Pause -= OpenPauseMenu;
 		PlayerInputManager.OpenInventory -= OpenInventory;

@@ -110,4 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33408ce2994f204f937b001049a011e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _localPlayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   _item: {fileID: 0}

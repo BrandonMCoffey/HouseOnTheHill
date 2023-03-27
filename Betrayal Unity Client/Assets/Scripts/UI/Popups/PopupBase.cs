@@ -72,6 +72,8 @@ public class PopupBase : MonoBehaviour
 		}
 		if (_alphaGroup)
 		{
+			_alphaGroup.blocksRaycasts = _delta > 0;
+			_alphaGroup.interactable = _delta == 1;
 			_alphaGroup.alpha = _delta;
 		}
 	}

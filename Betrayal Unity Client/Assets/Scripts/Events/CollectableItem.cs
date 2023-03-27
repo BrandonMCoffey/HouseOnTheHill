@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CollectableItem : MonoBehaviour
 {
-	[SerializeField, ReadOnly] private Item _item;
+	[SerializeField] private LayerMask _localPlayerMask;
+	[SerializeField] private Item _item;
 	
 	public void SetItem(Item item)
 	{
@@ -13,13 +14,16 @@ public class CollectableItem : MonoBehaviour
 	
 	private void OnTriggerEnter(Collider other)
 	{
-		var player = other.GetComponent<Player>();
-		if (player) CollectItem(player);
+		if (_localPlayerMask == (_localPlayerMask | (1 << other.gameObject.layer)))
+		{
+			CollectItem();
+		}
 	}
 
-	public void CollectItem(Player player)
+	[Button]
+	public void CollectItem()
 	{
-		player.CollectItem(_item);
+		EventController.Instance.CollectItem(_item);
 		Destroy(gameObject);
 	}
 }

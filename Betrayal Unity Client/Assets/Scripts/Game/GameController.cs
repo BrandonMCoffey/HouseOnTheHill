@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
 	
 	[SerializeField] private GamePhase _startingPhase = GamePhase.ExplorationPhase;
 	[SerializeField, ReadOnly] private GamePhase _phase = GamePhase.None;
+	[SerializeField, ReadOnly] private int _itemsToCollect;
 	[SerializeField, ReadOnly] private int _stepsTaken;
 	[SerializeField, ReadOnly] private int _maxSteps = 8;
 	[SerializeField, ReadOnly] private Room _currentRoom;
@@ -19,7 +20,8 @@ public class GameController : MonoBehaviour
 	[SerializeField] private RoomController _roomController;
 	
 	public static GamePhase Phase => Instance._phase;
-	public static Action UpdatePhase = delegate { };
+	public static Action OnUpdatePhase = delegate { };
+	public static Action OnUpdateObjectives = delegate { };
 	public static bool CurrentTurn => Phase == GamePhase.ExplorationPhase || Phase == GamePhase.EventPhase;
 	public static Action<string> UpdateCurrentRoom = delegate { };
 	public static string CurrentRoomName => Instance._currentRoom ? Instance._currentRoom.Name : "";
@@ -35,6 +37,16 @@ public class GameController : MonoBehaviour
 	{
 		Instance = this;
 		_maxSteps = 8;
+	}
+	
+	private void OnEnable()
+	{
+		EventController.OnUpdateItemsToCollect += CheckItemsToCollect;
+	}
+	
+	private void OnDisable()
+	{
+		EventController.OnUpdateItemsToCollect -= CheckItemsToCollect;
 	}
 	
 	private void Start()
@@ -85,6 +97,47 @@ public class GameController : MonoBehaviour
 		CanvasController.OpenEventHud();
 	}
 	
+	public List<string> GetObjectives()
+	{
+		List<string> list = new List<string>();
+		switch (Phase)
+		{
+		case GamePhase.ExplorationPhase:
+			list.Add("Explore a New Room");
+			break;
+		case GamePhase.EventPhase:
+			if (_itemsToCollect > 1) list.Add($"Pickup {_itemsToCollect} Items");
+			else if (_itemsToCollect == 1) list.Add($"Pickup 1 Item");
+			else list.Add("Explore the Room");
+			//list.Add("Make a Haunt Roll");
+			break;
+		case GamePhase.SpectatePhase:
+			list.Add("Watch Active Player");
+			list.Add("Plan your next move");
+			break;
+		}
+		return list;
+	}
+	
+	private void CheckItemsToCollect(int itemsToCollect)
+	{
+		_itemsToCollect = itemsToCollect;
+		OnUpdateObjectives?.Invoke();
+		CheckCanEndTurn();
+	}
+	
+	private void CheckCanEndTurn()
+	{
+		if (_itemsToCollect == 0) StartEndTurnPhase();
+	}
+
+	public void StartEndTurnPhase()
+	{
+		if (!TrySetPhase(GamePhase.EventPhase)) return;
+		
+		CanvasController.OpenEndTurnHud();
+	}
+	
 	[Button(Mode = ButtonMode.InPlayMode)]
 	public void StartSpectatePhase()
 	{
@@ -110,7 +163,8 @@ public class GameController : MonoBehaviour
 	{
 		if (_phase == phase) return false;
 		_phase = phase;
-		UpdatePhase?.Invoke();
+		OnUpdatePhase?.Invoke();
+		OnUpdateObjectives?.Invoke();
 		Debug.Log("Game Phase: " + phase.ToString(), gameObject);
 		return true;
 	}
@@ -136,6 +190,7 @@ public enum GamePhase
 {
 	ExplorationPhase,
 	EventPhase,
+	EndTurnPhase,
 	SpectatePhase,
 	None
 }
