@@ -2855,6 +2855,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 517959888}
     m_Modifications:
+    - target: {fileID: 2384520806197988993, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807128712098, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2996,6 +3001,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Zoe Ingstrom
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384520807319763190, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.0000153
       objectReference: {fileID: 0}
     - target: {fileID: 2384520807477051120, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
@@ -4639,6 +4649,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 517959888}
     m_Modifications:
+    - target: {fileID: 2384520806197988993, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807128712098, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4780,6 +4795,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Jenny LeClerc
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384520807319763190, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.0000153
       objectReference: {fileID: 0}
     - target: {fileID: 2384520807477051120, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
@@ -5612,6 +5632,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 517959888}
     m_Modifications:
+    - target: {fileID: 2384520806197988993, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807128712098, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5754,6 +5779,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Professor Longfellow
       objectReference: {fileID: 0}
+    - target: {fileID: 2384520807319763190, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.0000153
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807477051120, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_text
@@ -5879,7 +5909,7 @@ MonoBehaviour:
   - {fileID: 1151275153}
   - {fileID: 12541681}
   - {fileID: 1710398278}
-  _characterSelection: {fileID: 0}
+  _characterSelection: {fileID: 431208789}
 --- !u!1 &1353159698
 GameObject:
   m_ObjectHideFlags: 0
@@ -7613,6 +7643,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 517959888}
     m_Modifications:
+    - target: {fileID: 2384520806197988993, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807128712098, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_Pivot.x
@@ -7754,6 +7789,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Vivian Lopez
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384520807319763190, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.0000153
       objectReference: {fileID: 0}
     - target: {fileID: 2384520807477051120, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
@@ -8527,6 +8567,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 517959888}
     m_Modifications:
+    - target: {fileID: 2384520806197988993, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807128712098, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_Pivot.x
@@ -8669,6 +8714,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Ox Bellows
       objectReference: {fileID: 0}
+    - target: {fileID: 2384520807319763190, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.0000153
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807477051120, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_text
@@ -8756,6 +8806,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 517959888}
     m_Modifications:
+    - target: {fileID: 2384520806197988993, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 2384520807128712098, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}
       propertyPath: m_Pivot.x
@@ -8897,6 +8952,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Peter Akimoto
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384520807319763190, guid: 8f4e78fc697203345a555f1b3aa72b64,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.0000153
       objectReference: {fileID: 0}
     - target: {fileID: 2384520807477051120, guid: 8f4e78fc697203345a555f1b3aa72b64,
         type: 3}

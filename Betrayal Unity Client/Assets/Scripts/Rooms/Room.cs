@@ -17,6 +17,7 @@ public class Room : MonoBehaviour
 	[Header("Event")]
 	[SerializeField] private bool _event;
 	[SerializeField] private bool _omen;
+	[SerializeField, ShowIf("_omen")] private Transform _omenLocation;
 	[SerializeField] private bool _item;
 	[SerializeField, ShowIf("_item")] private Transform _itemLocation;
 	[SerializeField] private bool _secondItem;

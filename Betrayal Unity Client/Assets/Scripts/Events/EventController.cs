@@ -34,10 +34,12 @@ public class EventController : MonoBehaviour
 		CanvasController.OpenEventPrompt(e.Name, e.Description);
 	}
 	
-	public void CreateOmen(Room room)
+	private EventBase GetRandomEvent()
 	{
-		var collectable = CreateCollectableItem(room);
-		collectable.SetItem(GetRandomOmen());
+		int index = Random.Range(0, _events.Count);
+		var e = _events[index];
+		_events.RemoveAt(index);
+		return e;
 	}
 	
 	public void CreateIem(Room room)
@@ -77,14 +79,14 @@ public class EventController : MonoBehaviour
 		OnUpdateItemsToCollect?.Invoke(_itemsToCollect.Count);
 	}
 	
-	private EventBase GetRandomEvent()
-	{
-		int index = Random.Range(0, _events.Count);
-		var e = _events[index];
-		_events.RemoveAt(index);
-		return e;
-	}
 	private Item GetRandomItem() => GetRandomOmen(false);
+	
+	public void CreateOmen(Room room)
+	{
+		var collectable = CreateCollectableItem(room);
+		collectable.SetItem(GetRandomOmen());
+	}
+	
 	private Item GetRandomOmen(bool omen = true)
 	{
 		int iter = 0;

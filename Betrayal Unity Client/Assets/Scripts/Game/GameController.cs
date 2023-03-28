@@ -115,6 +115,9 @@ public class GameController : MonoBehaviour
 			list.Add("Watch Active Player");
 			list.Add("Plan your next move");
 			break;
+		case GamePhase.HauntPhase:
+			list.Add("Escape! Get to the Lobby");
+			break;
 		}
 		return list;
 	}
@@ -190,6 +193,7 @@ public enum GamePhase
 {
 	ExplorationPhase,
 	EventPhase,
+	HauntPhase,
 	EndTurnPhase,
 	SpectatePhase,
 	None
