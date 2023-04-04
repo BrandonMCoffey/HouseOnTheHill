@@ -107,7 +107,7 @@ public class SpectatorMovement : MonoBehaviour
 	private void Pan()
 	{
 		var offset = -_pivot.right * _mouseMovementInput.x + -_pivot.up * _mouseMovementInput.y;
-		Move(_pivot, _pivot.position + offset * _panningSensitivity);
+		Move(_pivot, offset * _panningSensitivity);
 	}
 
 	public void Zoom(float amount)
