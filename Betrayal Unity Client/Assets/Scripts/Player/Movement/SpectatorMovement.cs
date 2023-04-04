@@ -5,19 +5,30 @@ using UnityEngine.EventSystems;
 
 public class SpectatorMovement : MonoBehaviour
 {
-	[SerializeField, HighlightIfNull] private Transform _pivot;
-	[SerializeField, HighlightIfNull] private Transform _camera;
-	[SerializeField] private BoxCollider _bounds;
+	[Header("Sensitivity")]
 	[SerializeField] private float _rotationSensitivity = 0.1f;
 	[SerializeField] private float _panningSensitivity = 0.1f;
 	[SerializeField] private float _zoomingSensitivity = 0.01f;
 	[SerializeField] private float _lookingSensitivity = 0.1f;
+	[SerializeField] private float _flySpeedMultSensitivity = 0.01f;
+	
+	[Header("Speed")]
 	[SerializeField] private float _flySpeed = 10f;
 	[SerializeField] private float _fastFlySpeed = 25f;
-	[SerializeField] private float _flySpeedMultSensitivity = 0.01f;
 	[SerializeField] private Vector2 _flySpeedMultMinMax = new Vector2(0.5f, 4f);
+	
+	[Header("Bounds")]
 	[SerializeField] private Vector2 _zoomMinMax = new Vector2(5, 50);
+	[SerializeField] private Vector3 _flyBoundsCenter = Vector3.up * 25;
+	[SerializeField] private Vector3 _flyBoundsSize = Vector3.one * 50;
+	[SerializeField] private float _flyBoundsFalloffMax = 25;
+	[SerializeField, ReadOnly] private float _inverseFalloff;
+	
+	[Header("References")]
+	[SerializeField, HighlightIfNull] private Transform _pivot;
+	[SerializeField, HighlightIfNull] private Transform _camera;
 
+	[Header("Debug")]
 	[SerializeField, ReadOnly] private bool _rotating;
 	[SerializeField, ReadOnly] private bool _panning;
 	[SerializeField, ReadOnly] private bool _looking;
@@ -28,9 +39,13 @@ public class SpectatorMovement : MonoBehaviour
 
 	public void SetCameraActive(bool active) => _camera.gameObject.SetActive(active);
 	
+	private void OnValidate()
+	{
+		if (_flyBoundsFalloffMax > 0) _inverseFalloff = 1f / _flyBoundsFalloffMax;
+	}
+	
 	private void Start()
 	{
-		_bounds.isTrigger = true;
 		_zoom = -_camera.localPosition.z;
 		_flySpeedMultiplier = 1;
 	}
@@ -92,7 +107,7 @@ public class SpectatorMovement : MonoBehaviour
 	private void Pan()
 	{
 		var offset = -_pivot.right * _mouseMovementInput.x + -_pivot.up * _mouseMovementInput.y;
-		_pivot.position += offset * _panningSensitivity;
+		Move(_pivot, _pivot.position + offset * _panningSensitivity);
 	}
 
 	public void Zoom(float amount)
@@ -122,7 +137,36 @@ public class SpectatorMovement : MonoBehaviour
 		_flySpeedSmooth = Mathf.Lerp(_flySpeedSmooth, goal, 10f * Time.deltaTime);
 		var forward = PlayerInputManager.MoveDir.y * _flySpeedSmooth * Time.deltaTime;
 		var right = PlayerInputManager.MoveDir.x * _flySpeedSmooth * Time.deltaTime;
-		_camera.position += _camera.forward * forward;
-		_camera.position += _camera.right * right;
+		
+		Move(_camera, _camera.forward * forward + _camera.right * right);
+	}
+	
+	private void Move(Transform t, Vector3 moveDir)
+	{
+		var p = t.position;
+		moveDir.x = BoundsCheck(moveDir.x, p.x, _flyBoundsCenter.x, _flyBoundsSize.x);
+		moveDir.y = BoundsCheck(moveDir.y, p.y, _flyBoundsCenter.y, _flyBoundsSize.y);
+		moveDir.z = BoundsCheck(moveDir.z, p.z, _flyBoundsCenter.z, _flyBoundsSize.z);
+		
+		t.position += moveDir;
+	}
+	
+	private float BoundsCheck(float value, float pos, float center, float size)
+	{
+		// Pos Z (Forwards)
+		var over = pos - center - size * 0.5f;
+		if (over > 0 && value > 0) value *= Mathf.Clamp01(1 - over * _inverseFalloff);
+		// Neg Z (Backwards)
+		over = pos + center + size * 0.5f;
+		if (over < 0 && value < 0) value *= Mathf.Clamp01(1 + over * _inverseFalloff);
+		return value;
+	}
+	
+	private void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireCube(_flyBoundsCenter, _flyBoundsSize);
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireCube(_flyBoundsCenter, _flyBoundsSize + Vector3.one * _flyBoundsFalloffMax);
 	}
 }

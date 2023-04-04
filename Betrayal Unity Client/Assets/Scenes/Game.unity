@@ -3395,51 +3395,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &371938465
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 371938466}
-  - component: {fileID: 371938467}
-  m_Layer: 0
-  m_Name: Bounds
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &371938466
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371938465}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 592543665}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &371938467
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371938465}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 50, y: 4, z: 50}
-  m_Center: {x: 15, y: 2, z: 0}
 --- !u!1 &387993787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4805,7 +4760,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1240100266}
-  - {fileID: 371938466}
   m_Father: {fileID: 1747243353}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4821,18 +4775,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2b93979ce8ca345b7bc0116a9ff3fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pivot: {fileID: 1240100266}
-  _camera: {fileID: 1741020361}
-  _bounds: {fileID: 371938467}
   _rotationSensitivity: 0.1
   _panningSensitivity: 0.02
   _zoomingSensitivity: 0.005
   _lookingSensitivity: 0.1
+  _flySpeedMultSensitivity: 0.001
   _flySpeed: 10
   _fastFlySpeed: 25
-  _flySpeedMultSensitivity: 0.001
   _flySpeedMultMinMax: {x: 0.5, y: 4}
   _zoomMinMax: {x: 5, y: 50}
+  _flyBoundsCenter: {x: 25, y: 5, z: 0}
+  _flyBoundsSize: {x: 80, y: 25, z: 100}
+  _flyBoundsFalloffMax: 40
+  _inverseFalloff: 0.025
+  _pivot: {fileID: 1240100266}
+  _camera: {fileID: 1741020361}
   _rotating: 0
   _panning: 0
   _looking: 0
@@ -8461,7 +8418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1237beb7d3645c54d900978685a0d041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingPhase: 0
+  _startingPhase: 4
   _phase: 3
   _itemsToCollect: 0
   _stepsTaken: 0
@@ -11365,6 +11322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _activeIndex: -1
+  _cameraTransform: {fileID: 0}
   _enabledOptions: []
 --- !u!1 &1221802645
 GameObject:
