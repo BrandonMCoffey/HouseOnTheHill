@@ -7,6 +7,7 @@ public enum UiState
 {
 	Hud,
 	EventPopup,
+	ItemPopup,
 	Inventory,
 	Pause,
 }
@@ -71,8 +72,8 @@ public class PlayerManager : MonoBehaviour
 	
 	public void OpenPauseMenu()
 	{
-		if (_ignoreInput || CanvasController.EventPopupOpen) return;
-		if (CanvasController.PauseMenuOpen || CanvasController.InventoryOpen)
+		if (_ignoreInput) return;
+		if (CanvasController.PauseMenuOpen)
 		{
 			CloseAnyMenu();
 			return;
@@ -103,6 +104,7 @@ public class PlayerManager : MonoBehaviour
 	private void CheckUiState()
 	{
 		if (CanvasController.EventPopupOpen) _uiState = UiState.EventPopup;
+		else if (CanvasController.ItemPopupOpen) _uiState = UiState.ItemPopup;
 		else if (CanvasController.PauseMenuOpen) _uiState = UiState.Pause;
 		else if (CanvasController.InventoryOpen) _uiState = UiState.Inventory;
 		else _uiState = UiState.Hud;

@@ -29,10 +29,10 @@ public class PopupBase : MonoBehaviour
 	public virtual void ClosePopup()
 	{
 		if (_routine != null) StopCoroutine(_routine);
-		_routine = StartCoroutine(ScaleRoutine(0, CanvasController.OpenHud));
+		_routine = StartCoroutine(ScaleRoutine(0));
 	}
 	
-	private IEnumerator ScaleRoutine(float goal, System.Action onComplete = null)
+	private IEnumerator ScaleRoutine(float goal)
 	{
 		if (_delta == goal) yield return null;
 		else if (_delta < goal)
@@ -59,7 +59,6 @@ public class PopupBase : MonoBehaviour
 			_delta = 0;
 			UpdatePopup();
 		}
-		onComplete?.Invoke();
 		_routine = null;
 	}
 	

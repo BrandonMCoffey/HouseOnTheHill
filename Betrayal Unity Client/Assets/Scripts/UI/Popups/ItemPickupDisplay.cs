@@ -12,12 +12,11 @@ public class ItemPickupDisplay : PopupBase
 	[SerializeField] private Image _itemIconImage;
 	[SerializeField] private TMP_Text _itemEffectsText;
 	
-	public void OpenPopup(Item item)
+	public void SetValues(Item item)
 	{
 		_itemNameText.text = item.Name;
 		_itemDescriptionText.text = item.Description;
 		_itemIconImage.sprite = item.IconSprite;
 		_itemEffectsText.text = item.EffectsDescription;
-		base.OpenPopup();
 	}
 }

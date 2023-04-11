@@ -14,15 +14,18 @@ public class CanvasController : MonoBehaviour
 	
 	[SerializeField] private EventPopup _eventPopup;
 	[SerializeField] private ItemPickupDisplay _itemPopup;
+	[SerializeField] private PopupBase _inventoryPopup;
 	
 	public static Player LocalPlayer => Instance._manager.LocalPlayer;
 
 	public static Action MenuStateChanged = delegate { };
-	public static bool EventPopupOpen => Instance._switcher.CurrentlyOpenPanel == 2 || Instance._switcher.CurrentlyOpenPanel == 3;
+	public static bool EventPopupOpen => Instance._switcher.CurrentlyOpenPanel == 2;
+	public static bool ItemPopupOpen => Instance._switcher.CurrentlyOpenPanel == 3;
 	public static bool InventoryOpen => Instance._switcher.CurrentlyOpenPanel == 4;
 	public static bool PauseMenuOpen => Instance._switcher.CurrentlyOpenPanel == 7;
 
 	private PlayerManager _manager;
+	private Coroutine _routine;
 
     private void Awake()
     {
@@ -55,61 +58,57 @@ public class CanvasController : MonoBehaviour
 		}
 	}
 	
-	public static void OpenExplorationHud()
-	{
-		Instance._switcher.OpenPanel(0);
-        HideMouse(true);
-	}
-
-	public static void OpenEventHud()
-	{
-		Instance._switcher.OpenPanel(1);
-		HideMouse(true);
-	}
-	
+	public static void OpenExplorationHud() => Instance.AttemptOpenPanel(0, true);
+	public static void OpenEventHud() => Instance.AttemptOpenPanel(1, true);
 	public static void OpenEventPrompt(string header, string description)
 	{
-		Instance._switcher.OpenPanel(2);
-		Instance._eventPopup.OpenPopup(header, description);
-		HideMouse(false);
+		Instance._eventPopup.SetValues(header, description);
+		Instance.AttemptOpenPanel(2, false);
 	}
-	
 	public static void OpenItemPrompt(Item item)
 	{
-		Instance._switcher.OpenPanel(3);
-		Instance._itemPopup.OpenPopup(item);
-		HideMouse(false);
+		Instance._itemPopup.SetValues(item);
+		Instance.AttemptOpenPanel(3, false);
 	}
-
-    public static void OpenInventory()
-    {
-	    Instance._switcher.OpenPanel(4);
-        HideMouse(false);
-    }
-
-	public static void OpenEndTurnHud()
+	public static void OpenInventory() => Instance.AttemptOpenPanel(4, false);
+	public static void OpenEndTurnHud() => Instance.AttemptOpenPanel(5, true);
+	public static void OpenSpectatorHud() => Instance.AttemptOpenPanel(6, false);
+	public static void OpenPauseMenu() => Instance.AttemptOpenPanel(7, false);
+	
+	private void AttemptOpenPanel(int panelIndex, bool hideMouse)
 	{
-		Instance._switcher.OpenPanel(5);
-		HideMouse(true);
-	}
-    
-	public static void OpenSpectatorHud()
-	{
-		Instance._switcher.OpenPanel(6);
-		HideMouse(false);
+		Debug.Log(panelIndex);
+		HideMouse(hideMouse);
+		if (_routine != null) StopCoroutine(_routine);
+		if (EventPopupOpen) _routine = StartCoroutine(ClosePopupDelay(_eventPopup, panelIndex));
+		else if (ItemPopupOpen) _routine = StartCoroutine(ClosePopupDelay(_itemPopup, panelIndex));
+		else if (InventoryOpen) _routine = StartCoroutine(ClosePopupDelay(_inventoryPopup, panelIndex));
+		else OpenPanel(panelIndex);
 	}
 	
-	public static void OpenPauseMenu()
+	private IEnumerator ClosePopupDelay(PopupBase closePopup, int panelIndex)
 	{
-		Instance._switcher.OpenPanel(7);
-		HideMouse(false);
+		closePopup.ClosePopup();
+		yield return new WaitForSeconds(closePopup.CloseTime);
+		OpenPanel(panelIndex);
+		_routine = null;
+	}
+	
+	private void OpenPanel(int panelIndex)
+	{
+		_switcher.OpenPanel(panelIndex);
+		
+		if (EventPopupOpen) _eventPopup.OpenPopup();
+		else if (ItemPopupOpen) _itemPopup.OpenPopup();
+		else if (InventoryOpen) _inventoryPopup.OpenPopup();
+		
+		MenuStateChanged?.Invoke();
 	}
 
     private static void HideMouse(bool hide)
     {
         Cursor.lockState = hide ? CursorLockMode.Locked : CursorLockMode.None;
 	    Cursor.visible = !hide;
-	    MenuStateChanged?.Invoke();
     }
 
     public void EndTurn()
