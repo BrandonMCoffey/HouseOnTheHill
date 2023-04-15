@@ -22,9 +22,11 @@ public class GameController : MonoBehaviour
 	public static GamePhase Phase => Instance._phase;
 	public static Action OnUpdatePhase = delegate { };
 	public static Action OnUpdateObjectives = delegate { };
-	public static bool CurrentTurn => Phase == GamePhase.ExplorationPhase || Phase == GamePhase.EventPhase;
+	public static bool CurrentTurn => Phase == GamePhase.ExplorationPhase || Phase == GamePhase.EventPhase || Phase == GamePhase.EndTurnPhase;
 	public static Action<string> UpdateCurrentRoom = delegate { };
 	public static string CurrentRoomName => Instance._currentRoom ? Instance._currentRoom.Name : "";
+	
+	private bool _endTurn;
 	
 	private void OnValidate()
 	{
@@ -66,6 +68,14 @@ public class GameController : MonoBehaviour
 	    }
     }
     
+	private void Update()
+	{
+		if (_endTurn && CanvasController.HudOpen)
+		{
+			StartEndTurnPhase();
+		}
+	}
+    
 	private void SetLocalPlayerCurrentTurn()
 	{
 		StartExplorationPhase();
@@ -86,6 +96,7 @@ public class GameController : MonoBehaviour
 		_maxSteps = 5;
 		CanvasController.SetMaxSteps(5); // TODO: Get Character Speed _maxSteps
 		CanvasController.SetStepsTaken(_stepsTaken = -1); // Check first room?
+		CanvasController.OpenExplorationHud();
 	}
 	
 	public void StartEventPhase(DoorController door)
@@ -131,12 +142,12 @@ public class GameController : MonoBehaviour
 	
 	private void CheckCanEndTurn()
 	{
-		if (_itemsToCollect == 0) StartEndTurnPhase();
+		if (_itemsToCollect == 0) _endTurn = true;
 	}
 
 	public void StartEndTurnPhase()
 	{
-		if (!TrySetPhase(GamePhase.EventPhase)) return;
+		if (!TrySetPhase(GamePhase.EndTurnPhase)) return;
 		
 		CanvasController.OpenEndTurnHud();
 	}

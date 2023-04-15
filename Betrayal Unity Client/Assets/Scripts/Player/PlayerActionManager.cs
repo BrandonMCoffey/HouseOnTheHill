@@ -50,7 +50,11 @@ public class PlayerActionManager : MonoBehaviour
     
 	private void Interact(bool interact)
 	{
-		if (!interact || !InGame) return;
+		if (!interact) return;
+		
+		if (GameController.Phase == GamePhase.EndTurnPhase) CanvasController.EndTurn();
+		
+		if (!InGame) return;
 		LogAction("Interact");
 		_firstPersonInteraction.Interact();
 	}
