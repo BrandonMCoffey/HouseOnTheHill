@@ -6,6 +6,7 @@ using TMPro;
 public class Player : MonoBehaviour
 {
 	[SerializeField] private GameObject _art;
+	[SerializeField] private Transform _cameraParent;
 	[SerializeField] private TMP_Text _userName;
 	
 	[Header("Debug")]
@@ -63,6 +64,12 @@ public class Player : MonoBehaviour
 			Trait.Knowledge => _knowledgeIndex,
 			_ => -1,
 		};
+	}
+	
+	public void SetPositionAndRotationValues(Vector3 pos, Quaternion rot, Quaternion cameraRot)
+	{
+		transform.SetPositionAndRotation(pos, rot);
+		_cameraParent.transform.localRotation = cameraRot;
 	}
 	
 	public void CollectItem(Item item)

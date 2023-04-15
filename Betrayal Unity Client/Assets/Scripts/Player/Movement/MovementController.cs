@@ -71,6 +71,6 @@ public class MovementController : MonoBehaviour
 	
 	private void SendTransformToNetwork()
 	{
-		if (LocalUser.Instance) LocalUser.Instance.SetTransform(transform.position, transform.eulerAngles);
+		if (LocalUser.Instance) LocalUser.Instance.SetTransform(transform.position, transform.eulerAngles, _cameraParent.localEulerAngles);
 	}
 }

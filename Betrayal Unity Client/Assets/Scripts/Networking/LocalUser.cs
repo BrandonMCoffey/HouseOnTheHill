@@ -36,10 +36,10 @@ public class LocalUser : User
 		NetworkManager.OnLocalUserReadyUp(ready);
 	}
 	
-	public override void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)
+	public override void SetTransform(Vector3 pos, Vector3 rot, Vector3 cameraRot, bool updatePlayer = true)
 	{
-		base.SetTransform(pos, rot, false);
-		NetworkManager.OnUpdateLocalUserTransformCharacter(pos, rot);
+		base.SetTransform(pos, rot, cameraRot, false);
+		NetworkManager.OnUpdateLocalUserTransformCharacter(pos, rot, cameraRot);
 	}
 
 	public override void SetCurrentTurn(bool currentTurn)

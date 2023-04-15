@@ -137,7 +137,7 @@ namespace Betrayal.ConsoleServer
         [MessageHandler((ushort)ClientToServerId.updateLocalUserTransform)]
         private static void HandleUpdateLocalUserTransform(ushort fromClientId, Message message)
         {
-            var data = message.GetFloats(6);
+            var data = message.GetFloats(9);
             ProgramMessageHelper.SendFloatArrayMessage(fromClientId, data, ServerToClientId.updateRemoteUserTransform, MessageSendMode.unreliable);
         }
 

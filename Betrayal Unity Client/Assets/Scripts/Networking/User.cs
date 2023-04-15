@@ -76,9 +76,9 @@ public class User : MonoBehaviour
 		_player.SetCharacter(GameData.GetCharacter(_character));
 	}
 	
-	public virtual void SetTransform(Vector3 pos, Vector3 rot, bool updatePlayer = true)
+	public virtual void SetTransform(Vector3 pos, Vector3 rot, Vector3 cameraRot, bool updatePlayer = true)
 	{
-		if (updatePlayer && _player) _player.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
+		if (updatePlayer && _player) _player.SetPositionAndRotationValues(pos, Quaternion.Euler(rot), Quaternion.Euler(cameraRot));
 	}
 
 	public virtual void SetCurrentTurn(bool currentTurn) => _isCurrentTurn = currentTurn;

@@ -55,6 +55,15 @@ public static class MessageHelper
 		NetworkManager.Instance.Client.Send(message);
 	}
     
+	public static void SendPlayerTransformMessage(Vector3 pos, Vector3 rot, Vector3 cameraRot, ClientToServerId messageType, MessageSendMode sendMode)
+	{
+		var message = Message.Create(sendMode, messageType);
+		message.Add(pos);
+		message.Add(rot);
+		message.Add(cameraRot);
+		NetworkManager.Instance.Client.Send(message);
+	}
+    
 	public static void SendRoomGenerationMessage(int roomId, Vector3 pos, Vector3 rot, ClientToServerId messageType, MessageSendMode sendMode)
 	{
 		var message = Message.Create(sendMode, messageType);

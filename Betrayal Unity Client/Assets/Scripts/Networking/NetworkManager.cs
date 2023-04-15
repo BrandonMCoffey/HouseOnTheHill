@@ -281,9 +281,9 @@ public class NetworkManager : MonoBehaviour
 	}
 	
 	// Player Transform
-	public static void OnUpdateLocalUserTransformCharacter(Vector3 pos, Vector3 rot)
+	public static void OnUpdateLocalUserTransformCharacter(Vector3 pos, Vector3 rot, Vector3 cameraRot)
 	{
-		MessageHelper.SendTransformMessage(pos, rot, ClientToServerId.updateLocalUserTransform, MessageSendMode.unreliable);
+		MessageHelper.SendPlayerTransformMessage(pos, rot, cameraRot, ClientToServerId.updateLocalUserTransform, MessageSendMode.unreliable);
 	}
 	[MessageHandler((ushort)ServerToClientId.updateRemoteUserTransform)]
 	private static void UpdateRemoteUserTransformResponse(Message message)
@@ -291,7 +291,8 @@ public class NetworkManager : MonoBehaviour
 		var fromClientId = message.GetUShort();
 		var pos = message.GetVector3();
 		var rot = message.GetVector3();
-		AllUsers[fromClientId].SetTransform(pos, rot);
+		var cameraRot = message.GetVector3();
+		AllUsers[fromClientId].SetTransform(pos, rot, cameraRot);
 	}
 	
 	// Room Generation

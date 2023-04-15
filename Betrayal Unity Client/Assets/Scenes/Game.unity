@@ -1040,9 +1040,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2115385099}
-        m_TargetAssemblyTypeName: PopupBase, Assembly-CSharp
-        m_MethodName: ClosePopup
+      - m_Target: {fileID: 1747243354}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: CloseAnyMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8364,9 +8364,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1926053302}
-        m_TargetAssemblyTypeName: EventPopup, Assembly-CSharp
-        m_MethodName: ClosePopup
+      - m_Target: {fileID: 1747243354}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: CloseAnyMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8458,7 +8458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1237beb7d3645c54d900978685a0d041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingPhase: 4
+  _startingPhase: 0
   _phase: 3
   _itemsToCollect: 0
   _stepsTaken: 0
@@ -8948,6 +8948,7 @@ MonoBehaviour:
   _eventPopup: {fileID: 1926053302}
   _itemPopup: {fileID: 2115385099}
   _inventoryPopup: {fileID: 369805577}
+  _endTurnPopup: {fileID: 1819462148}
 --- !u!1 &1000693741
 GameObject:
   m_ObjectHideFlags: 0
@@ -16331,6 +16332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1819462146}
   - component: {fileID: 1819462147}
+  - component: {fileID: 1819462148}
   m_Layer: 5
   m_Name: EndTurnHUD
   m_TagString: Untagged
@@ -16380,6 +16382,46 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1819462148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819462145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f59c5776fd79e4bb0ad9c1d3ef0c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popup: {fileID: 1734077699}
+  _alphaGroup: {fileID: 0}
+  _popupOpenTime: 0.5
+  _popupCloseTime: 0.1
+  _popupCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1829774681
 GameObject:
   m_ObjectHideFlags: 0
