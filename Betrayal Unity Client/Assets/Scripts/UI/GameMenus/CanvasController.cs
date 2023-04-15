@@ -49,6 +49,7 @@ public class CanvasController : MonoBehaviour
 		_manager = manager;
 	}
 	
+	[Button]
 	public static void OpenHud()
 	{
 		switch (GameController.Phase)
@@ -66,7 +67,6 @@ public class CanvasController : MonoBehaviour
 			OpenSpectatorHud();
 			break;
 		}
-		Debug.Log("Open Hud", Instance.gameObject);
 	}
 	
 	public static void OpenExplorationHud() => Instance.AttemptOpenPanel(0, true);
@@ -88,7 +88,6 @@ public class CanvasController : MonoBehaviour
 	
 	private void AttemptOpenPanel(int panelIndex, bool hideMouse)
 	{
-		Debug.Log(panelIndex);
 		HideMouse(hideMouse);
 		if (_routine != null) StopCoroutine(_routine);
 		if (EventPopupOpen) _routine = StartCoroutine(ClosePopupDelay(_eventPopup, panelIndex));
@@ -124,8 +123,9 @@ public class CanvasController : MonoBehaviour
 	    Cursor.visible = !hide;
     }
 
+	[Button]
 	public static void EndTurn()
-    {
+	{
 	    if (LocalUser.Instance) LocalUser.Instance.EndTurn();
 	    else GameController.Instance.StartExplorationPhase();
     }

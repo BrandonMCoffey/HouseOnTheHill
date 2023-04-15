@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "InteractSecondary",
+                    "type": "Button",
+                    "id": "bd3f47a3-40c6-4a33-b6f1-a2ed30a2429a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pan",
                     "type": "PassThrough",
                     "id": "74b8c134-6f44-4d7a-8611-1304ab9d0875",
@@ -242,17 +251,6 @@
                 },
                 {
                     "name": "",
-                    "id": "040e9e16-2fae-4e0c-bc37-a1c9e720da91",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "bf3a961c-af47-4f8a-a198-3954e3943665",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
@@ -347,6 +345,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LookAround",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "040e9e16-2fae-4e0c-bc37-a1c9e720da91",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "InteractSecondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

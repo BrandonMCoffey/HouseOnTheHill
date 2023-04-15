@@ -73,6 +73,7 @@ public class GameController : MonoBehaviour
 		if (_endTurn && CanvasController.HudOpen)
 		{
 			StartEndTurnPhase();
+			_endTurn = false;
 		}
 	}
     

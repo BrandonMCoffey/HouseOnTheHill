@@ -42,8 +42,13 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnInteract(InputValue value)
 	{
+		if (value.isPressed && GameController.Phase == GamePhase.EndTurnPhase) CanvasController.EndTurn();
 		Interact?.Invoke(value.isPressed);
-    }
+	}
+	private void OnInteractSecondary(InputValue value)
+	{
+		Interact?.Invoke(value.isPressed);
+	}
 
     private void OnPan(InputValue value)
 	{
