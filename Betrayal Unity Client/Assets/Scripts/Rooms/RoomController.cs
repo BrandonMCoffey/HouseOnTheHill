@@ -86,6 +86,25 @@ public class RoomController : MonoBehaviour
 		}
 	}
 	
+	public DoorController GetRandomOpenDoor(int floor)
+	{
+		switch ((Floor)floor)
+		{
+		case Floor.Upper:
+			return Instance._upperFloor.GetRandomOpenDoor();
+		case Floor.Ground:
+			return Instance._groundFloor.GetRandomOpenDoor();
+		case Floor.Lower:
+			return Instance._lowerFloor.GetRandomOpenDoor();
+		}
+		return null;
+	}
+	
+	public void MysticElevatorTeleport()
+	{
+		
+	}
+	
 	private Room GetRoomById(int roomId)
 	{
 		foreach (var room in _rooms)

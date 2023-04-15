@@ -12,6 +12,7 @@ public class CanvasController : MonoBehaviour
 	[SerializeField] private EnterRoomDisplay _enterRoomDisplay;
 	[SerializeField] private CircleSlices _stepsTaken;
 	
+	[SerializeField] private InteractPopup _explorationInteractPopup;
 	[SerializeField] private EventPopup _eventPopup;
 	[SerializeField] private ItemPickupDisplay _itemPopup;
 	[SerializeField] private PopupBase _inventoryPopup;
@@ -70,6 +71,16 @@ public class CanvasController : MonoBehaviour
 	}
 	
 	public static void OpenExplorationHud() => Instance.AttemptOpenPanel(0, true);
+	public static void OpenExplorationInteractPopup(string text, bool open = true)
+	{
+		var popup = Instance._explorationInteractPopup;
+		if (open)
+		{
+			popup.SetValues(text);
+			popup.OpenPopup();
+		}
+		else popup.ClosePopup();
+	}
 	public static void OpenEventHud() => Instance.AttemptOpenPanel(1, true);
 	public static void OpenEventPrompt(string header, string description)
 	{

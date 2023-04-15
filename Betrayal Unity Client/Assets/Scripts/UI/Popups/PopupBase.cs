@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PopupBase : MonoBehaviour
 {
+	[SerializeField] private bool _startClosed = true;
 	[SerializeField] private RectTransform _popup;
 	[SerializeField] private CanvasGroup _alphaGroup;
 	[SerializeField] private float _popupOpenTime = 0.5f;
@@ -17,6 +18,12 @@ public class PopupBase : MonoBehaviour
 	
 	private float _delta;
 	private Coroutine _routine;
+	
+	private void Awake()
+	{
+		_delta = _startClosed ? 0 : 1;
+		UpdatePopup();
+	}
 	
 	[Button(Mode = ButtonMode.InPlayMode, Spacing = 20)]
 	public virtual void OpenPopup()

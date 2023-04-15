@@ -113,6 +113,9 @@ public class Room : MonoBehaviour
 		else if (_item || _secondItem) EventController.Instance.CreateTwoItems(this);
 	}
 	
+	public DoorController GetRandomOpenDoor() => _doors.FirstOrDefault(d => !d.DoorHasConnection);
+	
+	[Button(Mode = ButtonMode.InPlayMode)]
 	public void CheckGenerateDoors()
 	{
 		GenerateDoor(AddOrientation(_orientation, Orient.PosZ), _localPosZDoor);

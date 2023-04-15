@@ -12,6 +12,7 @@ public class PlayerInputManager : MonoBehaviour
 	public static Vector2 LookDir { get; private set; }
 	public static bool Sprint { get; private set; }
 	public static bool Jump { get; private set; }
+	public static Action PrimaryInteract = delegate { };
 	public static Action<bool> Interact = delegate { };
 	public static Action<bool> Pan = delegate { };
 	public static Action<bool> LookAround = delegate { };
@@ -42,8 +43,9 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnInteract(InputValue value)
 	{
-		if (value.isPressed && GameController.Phase == GamePhase.EndTurnPhase) CanvasController.EndTurn();
-		Interact?.Invoke(value.isPressed);
+		bool interact = value.isPressed;
+		if (interact) PrimaryInteract?.Invoke();
+		Interact?.Invoke(interact);
 	}
 	private void OnInteractSecondary(InputValue value)
 	{

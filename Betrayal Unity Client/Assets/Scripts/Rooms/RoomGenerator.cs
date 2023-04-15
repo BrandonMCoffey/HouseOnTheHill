@@ -53,6 +53,17 @@ public class RoomGenerator : MonoBehaviour
 		}
 	}
 	
+	public DoorController GetRandomOpenDoor()
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			var room = _placedRooms[Random.Range(0, _placedRooms.Count)];
+			var door = room.GetRandomOpenDoor();
+			if (door) return door;
+		}
+		return null;
+	}
+	
 	public void PlaceRoomLocally(int x, int z, Orient connection)
 	{
 		Log($"Place Room Locally: {x}, {z}, connecting to {connection.ToString()}");

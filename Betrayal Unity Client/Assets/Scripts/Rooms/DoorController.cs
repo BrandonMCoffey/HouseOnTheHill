@@ -26,6 +26,7 @@ public class DoorController : MonoBehaviour
 	
 	public Transform Pivot => _pivot;
 	public Orient WorldOrient => _worldOrient;
+	public bool DoorHasConnection => _connected;
 	
 	public void SetRoom(Room room, Orient worldOrient)
 	{

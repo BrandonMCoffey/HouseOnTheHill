@@ -27,11 +27,13 @@ public class PlayerActionManager : MonoBehaviour
 	
 	private void OnEnable()
 	{
+		PlayerInputManager.PrimaryInteract += PrimaryInteract;
 		PlayerInputManager.Interact += Interact;
 	}
 	
 	private void OnDisable()
 	{
+		PlayerInputManager.PrimaryInteract -= PrimaryInteract;
 		PlayerInputManager.Interact -= Interact;
 	}
 
@@ -46,6 +48,11 @@ public class PlayerActionManager : MonoBehaviour
 	public void PlayDoorOpenSequence(DoorController door)
 	{
 		_doorOpenSequence.PlaySequence(door);
+	}
+	
+	private void PrimaryInteract()
+	{
+		if (GameController.Phase == GamePhase.EndTurnPhase) CanvasController.EndTurn();
 	}
     
 	private void Interact(bool interact)
