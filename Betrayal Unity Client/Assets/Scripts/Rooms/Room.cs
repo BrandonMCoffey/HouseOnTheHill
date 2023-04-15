@@ -33,6 +33,7 @@ public class Room : MonoBehaviour
 	[Header("References")]
 	[SerializeField] private RoomColliders _colliders;
 	[SerializeField] private GameObject _topToRemove;
+	[SerializeField] private RoomDecoration _decoration;
 	
 	[Header("Debug")]
 	[SerializeField, ReadOnly] private RoomGenerator _generator;
@@ -43,6 +44,7 @@ public class Room : MonoBehaviour
 	[SerializeField, ReadOnly] private List<DoorController> _doors = new List<DoorController>();
 
 	public int Id => _id;
+	public bool Omen => _omen;
 	public void SetId(int id) => _id = id;
 	public string Name => _name;
 	public int Z { get => _z; set => _z = value; }
@@ -53,6 +55,7 @@ public class Room : MonoBehaviour
 	private void OnValidate()
 	{
 		if (string.IsNullOrEmpty(_name)) _name = name;
+		if (!_decoration) _decoration = GetComponentInChildren<RoomDecoration>();
 		_doorCount = (_localPosZDoor ? 1 : 0) + (_localPosXDoor ? 1 : 0) + (_localNegZDoor ? 1 : 0) + (_localNegXDoor ? 1 : 0);
 	}
 
@@ -70,6 +73,12 @@ public class Room : MonoBehaviour
 	private void RefreshColliders()
 	{
 		_colliders.SetColliders(_localPosZDoor, _localPosXDoor, _localNegZDoor, _localNegXDoor);
+	}
+	
+	[Button]
+	private void UpdateDecorations()
+	{
+		_decoration.UpdateLights(this);
 	}
 	
 	private static Transform RecursiveFindChild(Transform parent, string childName)
