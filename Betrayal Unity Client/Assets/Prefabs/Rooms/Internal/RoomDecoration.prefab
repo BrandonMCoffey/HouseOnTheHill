@@ -46,10 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomLight: {fileID: 7902379612633554211}
-  _basicLightIntensity: 3
+  _basicLightIntensity: 2
   _basicLightColor: {r: 1, g: 0.8901961, b: 0.7764706, a: 1}
-  _omenLightIntensity: 1.75
+  _omenLightIntensity: 1.5
   _omenLightColor: {r: 0.5151799, g: 1, b: 0.511, a: 1}
+  _range: 8
 --- !u!1 &643452145554304402
 GameObject:
   m_ObjectHideFlags: 0

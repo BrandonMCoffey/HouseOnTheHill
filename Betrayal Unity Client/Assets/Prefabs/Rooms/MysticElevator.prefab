@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7542e551a4c1e64391c65ed629b925e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _room: {fileID: 0}
+  _elevatorUsed: 0
+  _inElevator: 0
+  _canUseElevator: 0
 --- !u!65 &4781888272586502622
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -437,6 +441,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7902379612633554211, guid: 470b8c953bf6d1746ad8727899653058,
         type: 3}
+      propertyPath: m_Range
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902379612633554211, guid: 470b8c953bf6d1746ad8727899653058,
+        type: 3}
       propertyPath: m_Color.b
       value: 0.7764706
       objectReference: {fileID: 0}
@@ -448,7 +457,7 @@ PrefabInstance:
     - target: {fileID: 7902379612633554211, guid: 470b8c953bf6d1746ad8727899653058,
         type: 3}
       propertyPath: m_Intensity
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 470b8c953bf6d1746ad8727899653058, type: 3}
