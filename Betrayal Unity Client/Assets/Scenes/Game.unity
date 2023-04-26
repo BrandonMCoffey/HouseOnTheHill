@@ -902,7 +902,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ea82bbe70da98124abd158d9c9e0dd5e, type: 2}
   - {fileID: 11400000, guid: 17ca01fa5ccf7704ba229823c17fa213, type: 2}
   - {fileID: 11400000, guid: 06d146394d7a91147bdd035d36fa657e, type: 2}
-  _eventPopupDelay: 4
+  _eventDelay: 1
+  _eventPopupDelay: 3
   _itemPrefab: {fileID: 5153723019388982941, guid: da81b6197efdcc64d9ff8bd238299bf1,
     type: 3}
   _collectableRoomOffset: {x: 0, y: 1, z: 0}
@@ -12506,7 +12507,7 @@ MonoBehaviour:
   _groundFloor: {fileID: 722240327}
   _lowerFloor: {fileID: 350781205}
   _roomSize: 8
-  _randomizeRoomOrder: 0
+  _randomizeRoomOrder: 1
   _ignoreValidRoomFloor: 0
   _rooms:
   - {fileID: 1052990217330945129, guid: 21f30f3947f1a5140bc4552262571f74, type: 3}

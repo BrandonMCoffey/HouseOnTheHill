@@ -10,6 +10,10 @@ public class EventBase : ScriptableObject
 	[SerializeField] private string _name;
 	[SerializeField, TextArea] private string _description;
 	
+	[Header("Event")]
+	[SerializeField] private bool _spawnPrefab;
+	[SerializeField, ShowIf("_spawnPrefab")] private GameObject _prefab;
+	
 	public int Id => _id;
 	public void SetId(int id) => _id = id;
 	public string Name => _name;
@@ -18,5 +22,15 @@ public class EventBase : ScriptableObject
 	private void OnValidate()
 	{
 		if (string.IsNullOrEmpty(_name)) _name = name;
+	}
+	
+	public bool ActivateEvent()
+	{
+		if (_spawnPrefab)
+		{
+			var obj = Instantiate(_prefab);
+			return true;
+		}
+		return false;
 	}
 }

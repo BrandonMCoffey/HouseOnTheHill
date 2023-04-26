@@ -64,6 +64,7 @@ public class RoomController : MonoBehaviour
 	
 	public void OpenAllConnectedDoors(bool open)
 	{
+		if (!_upperFloor) return;
 		_upperFloor.OpenAllConnectedDoors(open);
 		_groundFloor.OpenAllConnectedDoors(open);
 		_lowerFloor.OpenAllConnectedDoors(open);
