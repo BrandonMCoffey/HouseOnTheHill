@@ -10999,6 +10999,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbandonedRoom
       objectReference: {fileID: 0}
+    - target: {fileID: 7325957969048908594, guid: efd6e67e6d6e8f54ea1ef65763865c6f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efd6e67e6d6e8f54ea1ef65763865c6f, type: 3}
 --- !u!4 &1273060427 stripped

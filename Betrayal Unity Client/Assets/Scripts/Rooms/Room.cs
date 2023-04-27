@@ -81,6 +81,30 @@ public class Room : MonoBehaviour
 		_decoration.UpdateLights(this);
 	}
 	
+	[Button]
+	private void ResetMeshColliders()
+	{
+		var list = new List<MeshRenderer>();
+		var colliders = GetRecursiveAllOfType<MeshRenderer>(list, transform);
+		foreach (var c in colliders)
+		{
+			c.enabled = true;
+		}
+	}
+	private List<T> GetRecursiveAllOfType<T>(List<T> list, Transform parent)
+	{
+		var all = transform.GetComponentsInChildren<T>();
+		foreach (var t in all)
+		{
+			if (!list.Contains(t)) list.Add(t);
+		}
+		foreach (Transform child in parent)
+		{
+			list = GetRecursiveAllOfType(list, child);
+		}
+		return list;
+	}
+	
 	private static Transform RecursiveFindChild(Transform parent, string childName)
 	{
 		foreach (Transform child in parent)
@@ -92,6 +116,8 @@ public class Room : MonoBehaviour
 		return null;
 	}
 	
+	[Button(Spacing = 10)]
+	private void ToggleShowTop() => ShowTop(!_showTop);
 	public void ShowTop(bool show)
 	{
 		_showTop = show;

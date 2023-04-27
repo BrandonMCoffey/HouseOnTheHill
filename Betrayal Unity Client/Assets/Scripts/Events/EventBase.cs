@@ -13,6 +13,8 @@ public class EventBase : ScriptableObject
 	[Header("Event")]
 	[SerializeField] private bool _spawnPrefab;
 	[SerializeField, ShowIf("_spawnPrefab")] private GameObject _prefab;
+	[SerializeField] private bool _playSound;
+	[SerializeField, ShowIf("_playSound")] private SfxReference _sound;
 	
 	public int Id => _id;
 	public void SetId(int id) => _id = id;
@@ -24,13 +26,19 @@ public class EventBase : ScriptableObject
 		if (string.IsNullOrEmpty(_name)) _name = name;
 	}
 	
-	public bool ActivateEvent()
+	public virtual bool ActivateEvent()
 	{
+		bool activated = false;
 		if (_spawnPrefab)
 		{
 			var obj = Instantiate(_prefab);
-			return true;
+			activated = true;
 		}
-		return false;
+		if (_playSound && !_sound.Null())
+		{
+			_sound.Play();
+			activated = true;
+		}
+		return activated;
 	}
 }

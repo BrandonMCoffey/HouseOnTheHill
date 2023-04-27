@@ -190,7 +190,7 @@ public class GameController : MonoBehaviour
 		CanvasController.SetStepsTaken(_stepsTaken);
 		if (_stepsTaken >= _maxSteps)
 		{
-			LocalUser.Instance.EndTurn();
+			CanvasController.EndTurn();
 		}
 	}
 	
