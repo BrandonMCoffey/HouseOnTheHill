@@ -252,6 +252,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: -7732363839108475275, guid: b122b0e8ecea7e7468e24588458f6f73,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -7419149776263526280, guid: b122b0e8ecea7e7468e24588458f6f73,
         type: 3}
       propertyPath: m_Layer
@@ -275,6 +280,11 @@ PrefabInstance:
     - target: {fileID: -6146370468692943605, guid: b122b0e8ecea7e7468e24588458f6f73,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4406056368366028165, guid: b122b0e8ecea7e7468e24588458f6f73,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4309086622849708035, guid: b122b0e8ecea7e7468e24588458f6f73,
@@ -317,6 +327,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 52443276044305439, guid: b122b0e8ecea7e7468e24588458f6f73,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b122b0e8ecea7e7468e24588458f6f73,
         type: 3}
       propertyPath: m_Name
@@ -326,6 +341,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551580567320054513, guid: b122b0e8ecea7e7468e24588458f6f73,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4238789818496763474, guid: b122b0e8ecea7e7468e24588458f6f73,
         type: 3}
@@ -351,6 +371,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230941717363497350, guid: b122b0e8ecea7e7468e24588458f6f73,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7379058358891990454, guid: b122b0e8ecea7e7468e24588458f6f73,
         type: 3}

@@ -419,6 +419,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: -4420644835906226737, guid: 6dbb5458cf807ed46b3a9724322140a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -4114406623223702720, guid: 6dbb5458cf807ed46b3a9724322140a0,
         type: 3}
       propertyPath: m_Layer
@@ -473,10 +478,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 1551580567320054513, guid: 6dbb5458cf807ed46b3a9724322140a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2059728626419283561, guid: 6dbb5458cf807ed46b3a9724322140a0,
         type: 3}
       propertyPath: m_Layer
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2402935416963566100, guid: 6dbb5458cf807ed46b3a9724322140a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2470658255989112222, guid: 6dbb5458cf807ed46b3a9724322140a0,
         type: 3}
@@ -493,6 +508,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 5652977679295646008, guid: 6dbb5458cf807ed46b3a9724322140a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5965893421239375688, guid: 6dbb5458cf807ed46b3a9724322140a0,
         type: 3}
       propertyPath: m_Layer
@@ -502,6 +522,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230941717363497350, guid: 6dbb5458cf807ed46b3a9724322140a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7379058358891990454, guid: 6dbb5458cf807ed46b3a9724322140a0,
         type: 3}
