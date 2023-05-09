@@ -6,7 +6,8 @@ public class ToggleableInputField : MonoBehaviour
 	[SerializeField] private string _default;
 	[SerializeField, ReadOnly] private bool _useInput;
 	[SerializeField] private TMP_InputField _inputField;
-	[SerializeField] private GameObject _block;
+	[SerializeField] private GameObject _blockInput;
+	[SerializeField] private GameObject _useInputActive;
 	
 	public string Value => _useInput && !string.IsNullOrEmpty(_inputField.text)
 						? _inputField.text : _default;
@@ -20,6 +21,7 @@ public class ToggleableInputField : MonoBehaviour
 	
 	private void UpdateUseInput()
 	{
-		_block.SetActive(!_useInput);
+		if (_blockInput) _blockInput.SetActive(!_useInput);
+		if (_useInputActive) _useInputActive.SetActive(_useInput);
 	}
 }
