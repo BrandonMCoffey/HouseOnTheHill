@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -141,7 +140,7 @@ public class GameController : MonoBehaviour
 		CheckCanEndTurn();
 	}
 	
-	private void CheckCanEndTurn()
+	public void CheckCanEndTurn()
 	{
 		if (_itemsToCollect == 0) _endTurn = true;
 	}
@@ -190,8 +189,14 @@ public class GameController : MonoBehaviour
 		CanvasController.SetStepsTaken(_stepsTaken);
 		if (_stepsTaken >= _maxSteps)
 		{
-			CanvasController.EndTurn();
+			EndTurn();
 		}
+	}
+	
+	public static void EndTurn()
+	{
+		if (LocalUser.Instance) LocalUser.Instance.EndTurn();
+		else Instance.StartExplorationPhase();
 	}
 	
 	public static void QuitGame()

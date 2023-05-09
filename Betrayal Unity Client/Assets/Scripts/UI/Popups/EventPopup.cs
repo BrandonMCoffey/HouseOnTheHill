@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class EventPopup : PopupBase
@@ -11,5 +11,11 @@ public class EventPopup : PopupBase
 	{
 		_eventPopupHeader.text = header;
 		_eventPopupDescription.text = description;
+	}
+
+	public override void ClosePopup()
+	{
+		base.ClosePopup();
+		GameController.Instance.CheckCanEndTurn();
 	}
 }

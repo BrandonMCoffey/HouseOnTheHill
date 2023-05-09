@@ -808,7 +808,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &149282803
 MonoBehaviour:
@@ -8684,7 +8684,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &929592696
 MonoBehaviour:
@@ -9168,7 +9168,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &994227716
 MonoBehaviour:
@@ -9185,6 +9185,7 @@ MonoBehaviour:
   _switcher: {fileID: 994227714}
   _enterRoomDisplay: {fileID: 839452472}
   _stepsTaken: {fileID: 1690278434}
+  _currentPlayerSplash: {fileID: 387993790}
   _explorationInteractPopup: {fileID: 578306901}
   _eventPopup: {fileID: 1926053302}
   _itemPopup: {fileID: 2115385099}
@@ -11396,7 +11397,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1204996746
 MonoBehaviour:
@@ -12489,7 +12490,7 @@ Transform:
   - {fileID: 722240326}
   - {fileID: 350781204}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1316926634
 MonoBehaviour:
@@ -15669,7 +15670,7 @@ RectTransform:
   - {fileID: 1840000501}
   - {fileID: 1766255962}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15972,7 +15973,7 @@ Transform:
   - {fileID: 787958482}
   - {fileID: 592543665}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1747243354
 MonoBehaviour:
@@ -17054,7 +17055,7 @@ PrefabInstance:
     - target: {fileID: 1531098441017995312, guid: 70668caf4f52fcd4cafae718723b903a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1531098441017995312, guid: 70668caf4f52fcd4cafae718723b903a,
         type: 3}

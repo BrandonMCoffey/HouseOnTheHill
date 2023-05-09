@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Room : MonoBehaviour
 {
@@ -137,6 +138,13 @@ public class Room : MonoBehaviour
 		if (_omen) EventController.Instance.CreateOmen(this);
 		if (_item && _secondItem) EventController.Instance.CreateIem(this);
 		else if (_item || _secondItem) EventController.Instance.CreateTwoItems(this);
+		if (!_event && !_omen && !_item && !_secondItem) StartCoroutine(DelayCheckEndTurn());
+	}
+
+	private static IEnumerator DelayCheckEndTurn()
+	{
+		yield return new WaitForSeconds(Random.Range(5f, 6f));
+		GameController.Instance.CheckCanEndTurn();
 	}
 	
 	public DoorController GetRandomOpenDoor() => _doors.FirstOrDefault(d => !d.DoorHasConnection);

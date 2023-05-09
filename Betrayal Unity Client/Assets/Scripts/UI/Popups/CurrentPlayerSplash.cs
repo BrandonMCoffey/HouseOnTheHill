@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -19,7 +18,7 @@ public class CurrentPlayerSplash : PopupBase
 	[SerializeField] private TMP_Text _usersTurnText;
 	[SerializeField] private TMP_Text _characterNameText;
 	
-	public Coroutine _routine;
+	private Coroutine _routine;
 	
 	private void OnEnable()
 	{
@@ -56,10 +55,5 @@ public class CurrentPlayerSplash : PopupBase
 		yield return new WaitForSeconds(CloseTime);
 		_canvas.enabled = false;
 		_routine = null;
-	}
-	
-	public void OpenPopup(string userName, string characterName)
-	{
-		base.OpenPopup();
 	}
 }

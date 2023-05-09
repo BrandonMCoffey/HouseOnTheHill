@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CanvasController : MonoBehaviour
@@ -8,7 +8,8 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private PanelSwitcher _switcher;
 	[SerializeField] private EnterRoomDisplay _enterRoomDisplay;
 	[SerializeField] private CircleSlices _stepsTaken;
-	
+
+	[SerializeField] private CurrentPlayerSplash _currentPlayerSplash; 
 	[SerializeField] private InteractPopup _explorationInteractPopup;
 	[SerializeField] private EventPopup _eventPopup;
 	[SerializeField] private ItemPickupDisplay _itemPopup;
@@ -17,7 +18,7 @@ public class CanvasController : MonoBehaviour
 	
 	public static Player LocalPlayer => Instance._manager.LocalPlayer;
 
-	public static Action MenuStateChanged = delegate { };
+	public static System.Action MenuStateChanged = delegate { };
 	public static bool EventPopupOpen => Instance._switcher.CurrentlyOpenPanel == 2;
 	public static bool ItemPopupOpen => Instance._switcher.CurrentlyOpenPanel == 3;
 	public static bool InventoryOpen => Instance._switcher.CurrentlyOpenPanel == 4;
@@ -66,7 +67,7 @@ public class CanvasController : MonoBehaviour
 			break;
 		}
 	}
-	
+
 	public static void OpenExplorationHud() => Instance.AttemptOpenPanel(0, true);
 	public static void OpenExplorationInteractPopup(string text, bool open = true)
 	{
@@ -131,17 +132,9 @@ public class CanvasController : MonoBehaviour
 	    Cursor.visible = !hide;
     }
 
-	[Button]
-	public static void EndTurn()
-	{
-	    if (LocalUser.Instance) LocalUser.Instance.EndTurn();
-	    else GameController.Instance.StartExplorationPhase();
-    }
-    
-	public void QuitGame()
-	{
-		GameController.QuitGame();
-	}
+    [Button]
+    public static void EndTurn() => GameController.EndTurn();
+    public void QuitGame() => GameController.QuitGame();
     
 	public static void DisplayNewRoom(string roomName) => Instance._enterRoomDisplay.DisplayRoomName(roomName);
 	public static void SetMaxSteps(int max) => Instance._stepsTaken.SetMax(max);
