@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &484536898081278739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6825758918228670245}
+  m_Layer: 10
+  m_Name: HeldItemParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6825758918228670245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484536898081278739}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4, y: -0.4, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3694322751600302588}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3694322751600302591
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,6 +61,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3408156116263406324}
+  - {fileID: 6825758918228670245}
   - {fileID: 2411908799353761661}
   m_Father: {fileID: 3694322751628240103}
   m_RootOrder: 1
@@ -103,9 +135,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _art: {fileID: 3694322753098429175}
   _cameraParent: {fileID: 3694322751600302588}
+  _heldItemParent: {fileID: 6825758918228670245}
   _userName: {fileID: 3748738342086982521}
   _user: {fileID: 0}
   _character: {fileID: 0}
+  _heldItem: {fileID: 0}
+  _heldItemObj: {fileID: 0}
   _speedIndex: 0
   _mightIndex: 0
   _sanityIndex: 0
@@ -637,7 +672,7 @@ PrefabInstance:
     - target: {fileID: 163612036377820571, guid: 82bf7c4081ec9c04c901fbbf12fb1f92,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 163612036377820571, guid: 82bf7c4081ec9c04c901fbbf12fb1f92,
         type: 3}

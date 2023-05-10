@@ -193,6 +193,8 @@ public class GameController : MonoBehaviour
 		}
 	}
 	
+	public static void EquipItem(Item item) => Instance._player.EquipItem(item);
+	
 	public static void EndTurn()
 	{
 		if (LocalUser.Instance) LocalUser.Instance.EndTurn();

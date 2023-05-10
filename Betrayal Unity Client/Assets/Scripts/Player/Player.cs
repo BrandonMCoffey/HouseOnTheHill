@@ -6,11 +6,15 @@ public class Player : MonoBehaviour
 {
 	[SerializeField] private GameObject _art;
 	[SerializeField] private Transform _cameraParent;
+	[SerializeField] private Transform _heldItemParent;
 	[SerializeField] private TMP_Text _userName;
 	
 	[Header("Debug")]
 	[SerializeField, ReadOnly] private User _user;
 	[SerializeField, ReadOnly] private Character _character;
+	
+	[SerializeField, ReadOnly] private Item _heldItem;
+	[SerializeField, ReadOnly] private GameObject _heldItemObj;
 	
 	[SerializeField, ReadOnly] private int _speedIndex;
 	[SerializeField, ReadOnly] private int _mightIndex;
@@ -50,6 +54,17 @@ public class Player : MonoBehaviour
 			var parent = _art.transform.parent;
 			Destroy(_art);
 			_art = Instantiate(art, parent);
+		}
+	}
+	
+	public void EquipItem(Item item)
+	{
+		_heldItem = item;
+		Destroy(_heldItemObj);
+		
+		if (item)
+		{
+			_heldItemObj = Instantiate(_heldItem.Prefab, _heldItemParent);
 		}
 	}
 	

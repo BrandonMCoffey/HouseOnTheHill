@@ -14,6 +14,7 @@ public class CanvasController : MonoBehaviour
 	[SerializeField] private EventPopup _eventPopup;
 	[SerializeField] private ItemPickupDisplay _itemPopup;
 	[SerializeField] private PopupBase _inventoryPopup;
+	[SerializeField] private InventoryDisplayManager _inventory;
 	[SerializeField] private PopupBase _endTurnPopup;
 	
 	public static Player LocalPlayer => Instance._manager.LocalPlayer;
@@ -139,4 +140,6 @@ public class CanvasController : MonoBehaviour
 	public static void DisplayNewRoom(string roomName) => Instance._enterRoomDisplay.DisplayRoomName(roomName);
 	public static void SetMaxSteps(int max) => Instance._stepsTaken.SetMax(max);
 	public static void SetStepsTaken(int steps) => Instance._stepsTaken.SetFilled(steps);
+	
+	public static void UnequipAllItems() => Instance._inventory.UnequipAll();
 }

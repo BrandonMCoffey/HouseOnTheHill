@@ -9,6 +9,7 @@ public class PlayerActionManager : MonoBehaviour
     [SerializeField] private RoomController _roomController;
     
 	[Header("Player References")]
+	[SerializeField] private Player _localPlayer;
     [SerializeField] private MovementController _firstPersonMovement;
     [SerializeField] private InteractionController _firstPersonInteraction;
 	[SerializeField] private DoorOpenSequence _doorOpenSequence;
@@ -46,6 +47,8 @@ public class PlayerActionManager : MonoBehaviour
 	{
 		_doorOpenSequence.PlaySequence(door);
 	}
+	
+	public void EquipItem(Item item) => _localPlayer.EquipItem(item);
 	
 	private void PrimaryInteract()
 	{

@@ -58,4 +58,12 @@ public class InventoryDisplayManager : MonoBehaviour
 		_items[index].gameObject.SetActive(true);
 		_items[index].SetItem(item);
 	}
+	
+	public void UnequipAll()
+	{
+		foreach (var item in _items)
+		{
+			item.UnequipItem(false);
+		}
+	}
 }
