@@ -15725,11 +15725,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpperLanding
       objectReference: {fileID: 0}
-    - target: {fileID: 7700735179048309306, guid: 11b8c5a4749c1394ab8f0c808c946b56,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11b8c5a4749c1394ab8f0c808c946b56, type: 3}
 --- !u!4 &1727249832 stripped
