@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _userName: Player
   _serverIp: 127.0.0.1
-  _serverPort: 8192
+  _serverPort: 7777
   _characters:
   - {fileID: 11400000, guid: 8ec4b15b639d1094990944fbe630d177, type: 2}
   - {fileID: 11400000, guid: 66985abfafc52a941893fff55fa79ed9, type: 2}

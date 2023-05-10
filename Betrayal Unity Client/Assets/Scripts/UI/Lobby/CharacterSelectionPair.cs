@@ -15,6 +15,8 @@ public class CharacterSelectionPair : MonoBehaviour
 	[SerializeField] private TMP_Text _c2Name;
 	[SerializeField] private Button _c1Button;
 	[SerializeField] private Button _c2Button;
+	[SerializeField] private Image _c1Image;
+	[SerializeField] private Image _c2Image;
 	
 	private void OnValidate()
 	{
@@ -37,17 +39,20 @@ public class CharacterSelectionPair : MonoBehaviour
 		User.OnUpdatePlayerStates -= CheckLockCharacterPair;
 	}
 	
+	[Button]
 	private void UpdateDisplay()
 	{
 		if (_character1)
 		{
 			_character1Index = GameData.GetCharacterIndex(_character1);
 			if (_c1Name) _c1Name.text = _character1.Name;
+			if (_c1Image) _c1Image.color = _character1.Color;
 		}
 		if (_character2)
 		{
 			_character2Index = GameData.GetCharacterIndex(_character2);
 			if (_c2Name) _c2Name.text = _character2.Name;
+			if (_c2Image) _c2Image.color = _character2.Color;
 		}
 	}
 	
@@ -63,7 +68,7 @@ public class CharacterSelectionPair : MonoBehaviour
 	private void CheckLockCharacterPair()
 	{
 		bool locked = User.RemoteCharacters.Contains(_character1Index) || User.RemoteCharacters.Contains(_character2Index);
-		_c1Button.interactable = locked;
-		_c2Button.interactable = locked;
+		_c1Button.interactable = !locked;
+		_c2Button.interactable = !locked;
 	}
 }

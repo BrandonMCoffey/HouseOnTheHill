@@ -16,7 +16,7 @@ namespace Betrayal.ConsoleServer
         private static bool isRunning;
 
         private const ushort Timeout = 10000; // 10s
-        private const ushort Port = 8192;
+        private static ushort port = 8192;
 
         private const float LobbyCountdown = 5;
 
@@ -45,6 +45,24 @@ namespace Betrayal.ConsoleServer
             RiptideLogger.Initialize(Console.WriteLine, true);
             isRunning = true;
 
+            while (true)
+            {
+                Console.Write("Server port (press enter for 7777): ");
+                string input = Console.ReadLine()?.Trim();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    port = 7777;
+                    break;
+                }
+                if (ushort.TryParse(input, out ushort outPort))
+                {
+                    port = outPort;
+                    break;
+                }
+            }
+
+            Console.Clear();
+
             new Thread(Loop).Start();
 
             Console.WriteLine("Write QUIT to stop the server at any time.");
@@ -66,7 +84,7 @@ namespace Betrayal.ConsoleServer
             {
                 TimeoutTime = Timeout
             };
-            server.Start(Port, 10);
+            server.Start(port, 10);
 
             TurnOrder = new List<ushort>();
             connectedClients = new List<ushort>();
@@ -133,16 +151,16 @@ namespace Betrayal.ConsoleServer
             connectedClients.Remove(clientId);
             PlayerData.Remove(clientId);
             CheckAllPlayersReady();
-
             Console.WriteLine($"Client disconnected ({e.Id})");
+            CheckResetGame();
         }
 
         #endregion
 
         public static void CheckAllPlayersReady()
         {
-            if (GameStarted)
-                return;
+            if (GameStarted) return;
+
             int ready = PlayerData.Sum(pair => pair.Value.Ready ? 1 : 0);
             int total = PlayerData.Count;
             var allReady = ready == total;
@@ -156,6 +174,27 @@ namespace Betrayal.ConsoleServer
             SendMessageToAll(message);
 
             Console.WriteLine(allReady ? $"All Players Ready! Starting Game in {LobbyCountdown} seconds." : $"Players Ready ({ready}/{total})");
+        }
+
+        public static void CheckResetGame()
+        {
+            if (!GameStarted) return;
+
+            if (!connectedClients.Any(clientId => PlayerData[clientId].Character >= 0))
+            {
+                // No players still playing game. Reset
+                gameState = GameState.lobby;
+                TurnOrder = new List<ushort>();
+                connectedClients = new List<ushort>();
+                PlayerData = new Dictionary<ushort, PlayerData>();
+                leftoverPlayerData = new List<PlayerData>();
+                Rooms = new List<RoomData>();
+                Console.Clear();
+
+                Console.WriteLine("All players left game. Resetting...");
+                Console.WriteLine();
+                PrintUserInfo();
+            }
         }
 
         public static void CheckAllPlayersLoaded()

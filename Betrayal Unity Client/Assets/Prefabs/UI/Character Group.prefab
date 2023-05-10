@@ -364,6 +364,8 @@ MonoBehaviour:
   _c2Name: {fileID: 2384520807303415613}
   _c1Button: {fileID: 2384520806857724858}
   _c2Button: {fileID: 2384520805819402844}
+  _c1Image: {fileID: 2384520806857724859}
+  _c2Image: {fileID: 2384520805819402845}
 --- !u!1 &2384520807303415615
 GameObject:
   m_ObjectHideFlags: 0
