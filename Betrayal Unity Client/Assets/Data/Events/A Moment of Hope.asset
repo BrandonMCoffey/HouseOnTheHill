@@ -16,3 +16,11 @@ MonoBehaviour:
   _name: A Moment of Hope
   _description: Something feels strangely right about this room. Something is resisting
     the evil of the house.
+  _alwaysPopupText: 1
+  _spawnPrefab: 1
+  _prefab: {fileID: 5635001914882293080, guid: 69f009d9566fb3e4480355f5c961730c, type: 3}
+  _playSound: 0
+  _sound:
+    UseClip: 0
+    Clip: {fileID: 0}
+    Base: {fileID: 0}

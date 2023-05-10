@@ -16,3 +16,11 @@ MonoBehaviour:
   _name: Mists from the Walls
   _description: "Mists pour out from the walls.\r\nThere are faces in the mist, human
     and . . . inhuman.\r"
+  _alwaysPopupText: 1
+  _spawnPrefab: 1
+  _prefab: {fileID: 6262707190076856689, guid: cce1039f087ab5f48863bcaac510b4ad, type: 3}
+  _playSound: 0
+  _sound:
+    UseClip: 0
+    Clip: {fileID: 0}
+    Base: {fileID: 0}

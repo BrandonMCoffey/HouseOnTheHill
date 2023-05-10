@@ -32,7 +32,7 @@ public class EventController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(_eventDelay);
 		var e = GetRandomEvent();
-		if (!e.ActivateEvent())
+		if (!e.ActivateEvent(room))
 		{
 			yield return new WaitForSeconds(_eventPopupDelay);
 			CanvasController.OpenEventPrompt(e.Name, e.Description);

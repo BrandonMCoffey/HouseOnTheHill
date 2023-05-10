@@ -7,8 +7,9 @@ public class EventBase : ScriptableObject
 	[SerializeField] private int _id;
 	[SerializeField] private string _name;
 	[SerializeField, TextArea] private string _description;
-	
+
 	[Header("Event")]
+	[SerializeField] private bool _alwaysPopupText;
 	[SerializeField] private bool _spawnPrefab;
 	[SerializeField, ShowIf("_spawnPrefab")] private GameObject _prefab;
 	[SerializeField] private bool _playSound;
@@ -24,12 +25,12 @@ public class EventBase : ScriptableObject
 		if (string.IsNullOrEmpty(_name)) _name = name;
 	}
 	
-	public virtual bool ActivateEvent()
+	public virtual bool ActivateEvent(Room room)
 	{
 		bool activated = false;
-		if (_spawnPrefab)
+		if (_spawnPrefab && _prefab != null)
 		{
-			var obj = Instantiate(_prefab);
+			Instantiate(_prefab, room.transform, false);
 			activated = true;
 		}
 		if (_playSound && !_sound.Null())
@@ -37,6 +38,7 @@ public class EventBase : ScriptableObject
 			_sound.Play();
 			activated = true;
 		}
+		if (_alwaysPopupText) activated = false;
 		return activated;
 	}
 }

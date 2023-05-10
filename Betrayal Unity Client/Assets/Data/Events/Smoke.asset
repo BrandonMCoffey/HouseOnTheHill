@@ -15,3 +15,11 @@ MonoBehaviour:
   _id: 34
   _name: Smoke
   _description: "Smoke billows around you.\r\nYou cough, wiping away tears.\r"
+  _alwaysPopupText: 1
+  _spawnPrefab: 1
+  _prefab: {fileID: 7774424939971916097, guid: 78978b8dfb6ee2c42aa24555f8e1bd8c, type: 3}
+  _playSound: 0
+  _sound:
+    UseClip: 0
+    Clip: {fileID: 0}
+    Base: {fileID: 0}
