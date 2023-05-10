@@ -8,6 +8,7 @@ public class CollectableItem : MonoBehaviour
 	public void SetItem(Item item)
 	{
 		_item = item;
+		Instantiate(item.Prefab, transform, false);
 	}
 	
 	private void OnTriggerEnter(Collider other)
