@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: 
   _id: 4
-  _name: Axe
   _omen: 0
   _type: 1
-  _icon: {fileID: 0}
+  _name: Axe
   _description: Very sharp.
+  _icon: {fileID: 21300000, guid: e46c5e5705a224340a263ce1cdd4eb02, type: 3}
+  _prefab: {fileID: 3737713642052341830, guid: 7e5e67da79b78b84bbbf5f47b8fad2ac, type: 3}
   _effectsDescription: Effects...

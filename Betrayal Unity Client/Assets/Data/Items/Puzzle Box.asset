@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Puzzle Box
   m_EditorClassIdentifier: 
   _id: 17
-  _name: Puzzle Box
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Puzzle Box
   _description: There must be a way to open it.
+  _icon: {fileID: 21300000, guid: aff65dba7ed891a4ca17a4f1e932ca6b, type: 3}
+  _prefab: {fileID: 2777072776307291145, guid: 780079a3f1e07744daddfd200fe04ba5, type: 3}
   _effectsDescription: Effects...

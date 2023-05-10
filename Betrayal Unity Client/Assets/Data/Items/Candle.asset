@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Candle
   m_EditorClassIdentifier: 
   _id: 8
-  _name: Candle
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Candle
   _description: It makes the shadows move - at least, you hope it's doing that.
+  _icon: {fileID: 21300000, guid: ec2e43dc5226db84190fa58e9ab9814a, type: 3}
+  _prefab: {fileID: 3779934812065605567, guid: 6c0bdea11167a5c4982c34e412adbef1, type: 3}
   _effectsDescription: Effects...

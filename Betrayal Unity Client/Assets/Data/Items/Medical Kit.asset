@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Medical Kit
   m_EditorClassIdentifier: 
   _id: 14
-  _name: Medical Kit
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Medical Kit
   _description: A doctor's bag, depleted in some critical resources.
+  _icon: {fileID: 21300000, guid: 8ee14f2328f4e9947a42195f54a6f968, type: 3}
+  _prefab: {fileID: 6044483040840961174, guid: 37f7dbe8b43f3b2468612d0b14b4fcb8, type: 3}
   _effectsDescription: Effects...

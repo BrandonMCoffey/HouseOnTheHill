@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Angel Feather
   m_EditorClassIdentifier: 
   _id: 2
-  _name: Angel Feather
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Angel Feather
   _description: A perfect feather fluttering in your hand.
+  _icon: {fileID: 21300000, guid: 261cf5fb5677f9240b9ffaad54765f87, type: 3}
+  _prefab: {fileID: 60344969670110484, guid: 42114e938c5c03249b49e4a7e966a68e, type: 3}
   _effectsDescription: Effects...

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Bell
   m_EditorClassIdentifier: 
   _id: 5
-  _name: Bell
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Bell
   _description: A brass bell that makes a resonant clang.
+  _icon: {fileID: 21300000, guid: 89467bd262cfaf9438479588a3b28006, type: 3}
+  _prefab: {fileID: 3079171952453604081, guid: 134e3721362873a4eaec3639cee86d38, type: 3}
   _effectsDescription: Effects...

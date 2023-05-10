@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Blood Dagger
   m_EditorClassIdentifier: 
   _id: 6
-  _name: Blood Dagger
   _omen: 0
   _type: 1
-  _icon: {fileID: 0}
+  _name: Blood Dagger
   _description: A nasty weapon. Needles and tubes extend from the handle and plunge
     right into your veins.
+  _icon: {fileID: 21300000, guid: 1bed19f93c715974f886e3c05455fac5, type: 3}
+  _prefab: {fileID: 2803941258907590228, guid: be6c989a5ad15684bba4983486948858, type: 3}
   _effectsDescription: Effects...

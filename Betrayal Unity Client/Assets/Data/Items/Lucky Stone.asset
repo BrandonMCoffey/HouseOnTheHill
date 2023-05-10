@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Lucky Stone
   m_EditorClassIdentifier: 
   _id: 13
-  _name: Lucky Stone
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Lucky Stone
   _description: A smooth, ordinary-looking rock. You sense it will bring you good
     fortune.
+  _icon: {fileID: 21300000, guid: f628d6cd1fab99d47b1d910c140d7f28, type: 3}
+  _prefab: {fileID: 88329458478427969, guid: f5fdfca092ffa264d8ec5ccccbf477f0, type: 3}
   _effectsDescription: Effects...

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Rabbits Foot
   m_EditorClassIdentifier: 
   _id: 18
-  _name: Rabbits Foot
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Rabbits Foot
   _description: Not so lucky for the rabbit.
+  _icon: {fileID: 21300000, guid: f68b2717f8ec5704d85aed0a022b0ce7, type: 3}
+  _prefab: {fileID: 501237741847632370, guid: 3bba77c24c06d1046bd3e41be6d799fa, type: 3}
   _effectsDescription: Effects...

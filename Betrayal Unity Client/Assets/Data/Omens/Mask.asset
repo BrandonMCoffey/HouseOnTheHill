@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Mask
   m_EditorClassIdentifier: 
   _id: 29
-  _name: Mask
   _omen: 1
   _type: 0
-  _icon: {fileID: 0}
+  _name: Mask
   _description: A somber mask to hide your intentions.
+  _icon: {fileID: 21300000, guid: 8c9226e6d78ca3f418c2f923b05696eb, type: 3}
+  _prefab: {fileID: 3195356819765352391, guid: f02eecdeb0246d8469febfe30b4e194f, type: 3}
   _effectsDescription: Effects...

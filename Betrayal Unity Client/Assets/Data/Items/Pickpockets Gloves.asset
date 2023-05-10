@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Pickpockets Gloves
   m_EditorClassIdentifier: 
   _id: 16
-  _name: Pickpockets Gloves
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Pickpockets Gloves
   _description: Helping yourself has never seemed so easy.
+  _icon: {fileID: 21300000, guid: ff4bf0e3cefbd87428b381e846e297a8, type: 3}
+  _prefab: {fileID: 2010821803548438362, guid: 5c13777ef4b378943b7f28283235aa6f, type: 3}
   _effectsDescription: Effects...

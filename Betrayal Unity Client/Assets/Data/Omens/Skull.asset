@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Skull
   m_EditorClassIdentifier: 
   _id: 32
-  _name: Skull
   _omen: 1
   _type: 0
-  _icon: {fileID: 0}
+  _name: Skull
   _description: A skull, cracked and missing teeth.
+  _icon: {fileID: 21300000, guid: 87e0247756aa2514b91b2c7e7b270f8a, type: 3}
+  _prefab: {fileID: 3195356819765352391, guid: f02eecdeb0246d8469febfe30b4e194f, type: 3}
   _effectsDescription: Effects...

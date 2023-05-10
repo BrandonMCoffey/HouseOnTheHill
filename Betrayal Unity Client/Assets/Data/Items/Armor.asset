@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Armor
   m_EditorClassIdentifier: 
   _id: 3
-  _name: Armor
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Armor
   _description: It's just prop armor from a Renaissance fair, but it's still metal.
+  _icon: {fileID: 21300000, guid: 09bd5d30be94e2748a9539e8ecf43d49, type: 3}
+  _prefab: {fileID: 8763460850416462552, guid: ce9ce6fc9648b70478d3b84981495660, type: 3}
   _effectsDescription: Effects...

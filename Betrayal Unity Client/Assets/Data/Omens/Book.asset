@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Book
   m_EditorClassIdentifier: 
   _id: 23
-  _name: Book
   _omen: 1
   _type: 0
-  _icon: {fileID: 0}
+  _name: Book
   _description: 'A diary or lab notes?
 
     Ancient script or modern ravings?'
+  _icon: {fileID: 21300000, guid: 0620b33674b666c42828b4c1eb260edf, type: 3}
+  _prefab: {fileID: 3195356819765352391, guid: f02eecdeb0246d8469febfe30b4e194f, type: 3}
   _effectsDescription: Effects...

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Music Box
   m_EditorClassIdentifier: 
   _id: 15
-  _name: Music Box
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Music Box
   _description: A hand-crafted antique. It plays a haunting melody that gets stuck
     in your head.
+  _icon: {fileID: 21300000, guid: 8f0d0bdc8b04f9344a71070c353a215a, type: 3}
+  _prefab: {fileID: 425543999092421314, guid: ab67f3d533c98a84585b5d23ae20b908, type: 3}
   _effectsDescription: Effects...

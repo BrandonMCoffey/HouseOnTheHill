@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Revolver
   m_EditorClassIdentifier: 
   _id: 19
-  _name: Revolver
   _omen: 0
   _type: 1
-  _icon: {fileID: 0}
+  _name: Revolver
   _description: An old, potent-looking weapon.
+  _icon: {fileID: 21300000, guid: 2f789f46adfabb449b335cfba3fc4d98, type: 3}
+  _prefab: {fileID: 7147119627977643225, guid: 096f9525b15a73042990f8e7fe984690, type: 3}
   _effectsDescription: Effects...

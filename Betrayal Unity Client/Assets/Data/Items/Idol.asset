@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Idol
   m_EditorClassIdentifier: 
   _id: 12
-  _name: Idol
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Idol
   _description: "Perhaps it's chosen you for some greater purpose. \nLike human sacrifice."
+  _icon: {fileID: 21300000, guid: d1051b81dbf8d414ba033dd307ac406c, type: 3}
+  _prefab: {fileID: 4576799792782099444, guid: 77167c2bab88abc4caa46cbd94a4d8cb, type: 3}
   _effectsDescription: Effects...

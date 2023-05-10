@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Healing Salve
   m_EditorClassIdentifier: 
   _id: 11
-  _name: Healing Salve
   _omen: 0
   _type: 0
-  _icon: {fileID: 0}
+  _name: Healing Salve
   _description: A sticky paste in a shallow bowl.
+  _icon: {fileID: 21300000, guid: 4a6aed045c9e2084d8716d0837d6a057, type: 3}
+  _prefab: {fileID: 6452758985842266557, guid: 752d8bd6de4184a4aacbf76a47a136ce, type: 3}
   _effectsDescription: Effects...

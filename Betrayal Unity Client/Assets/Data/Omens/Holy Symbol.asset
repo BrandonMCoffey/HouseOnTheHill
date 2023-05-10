@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Holy Symbol
   m_EditorClassIdentifier: 
   _id: 27
-  _name: Holy Symbol
   _omen: 1
   _type: 0
-  _icon: {fileID: 0}
+  _name: Holy Symbol
   _description: A symbol of calm in an unsettling world.
+  _icon: {fileID: 21300000, guid: f131c61b4515cd4448d97886fe02a9c6, type: 3}
+  _prefab: {fileID: 3195356819765352391, guid: f02eecdeb0246d8469febfe30b4e194f, type: 3}
   _effectsDescription: Effects...
