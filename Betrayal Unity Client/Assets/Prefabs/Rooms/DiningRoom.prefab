@@ -85,6 +85,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomDecoration
       objectReference: {fileID: 0}
+    - target: {fileID: 3011626763079257345, guid: 470b8c953bf6d1746ad8727899653058,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.26330543
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011626763079257345, guid: 470b8c953bf6d1746ad8727899653058,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9150943
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011626763079257345, guid: 470b8c953bf6d1746ad8727899653058,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.26851982
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352735777507501304, guid: 470b8c953bf6d1746ad8727899653058,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.26330543
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352735777507501304, guid: 470b8c953bf6d1746ad8727899653058,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9150943
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352735777507501304, guid: 470b8c953bf6d1746ad8727899653058,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.26851982
+      objectReference: {fileID: 0}
     - target: {fileID: 5231492853004483444, guid: 470b8c953bf6d1746ad8727899653058,
         type: 3}
       propertyPath: m_RootOrder
@@ -511,6 +541,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e63fe9c1cba5d840b50142caec174db, type: 3}
+--- !u!1 &465849743522843261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -779883646989671138, guid: 6e63fe9c1cba5d840b50142caec174db,
+    type: 3}
+  m_PrefabInstance: {fileID: 8312039813564444515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &225144823195820339
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465849743522843261}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4244435, y: 2.3409007, z: 0.5389696}
+  m_Center: {x: 0.00000059604645, y: 0.0000006556511, z: 0.0000005811453}
+--- !u!1 &3136944317925994665 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6400431008923066314, guid: 6e63fe9c1cba5d840b50142caec174db,
+    type: 3}
+  m_PrefabInstance: {fileID: 8312039813564444515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4952386454047070663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3136944317925994665}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.240003, y: 0.7292367, z: 0.6400025}
+  m_Center: {x: -0.0000005364418, y: 0.000000074505806, z: -0.00000081956387}
+--- !u!1 &6137919190660552747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2770849360270440264, guid: 6e63fe9c1cba5d840b50142caec174db,
+    type: 3}
+  m_PrefabInstance: {fileID: 8312039813564444515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6672455107450804000
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6137919190660552747}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6714377, y: 0.07951323, z: 4.233476}
+  m_Center: {x: 0.000000059604645, y: 0.039752644, z: -0.0000009536743}
 --- !u!1 &6478982993040028264 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6146370468692943605, guid: 6e63fe9c1cba5d840b50142caec174db,
