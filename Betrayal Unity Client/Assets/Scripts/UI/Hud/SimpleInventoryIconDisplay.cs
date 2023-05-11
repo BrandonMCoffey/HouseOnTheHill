@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class SimpleInventoryIconDisplay : MonoBehaviour
 		if (_refreshDisplay) RefreshDisplay();
 	}
 
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	private void RefreshDisplay()
 	{
 		var player = CanvasController.LocalPlayer;

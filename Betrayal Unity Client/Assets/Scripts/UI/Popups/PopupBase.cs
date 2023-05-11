@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using CoffeyUtils;
 using UnityEngine;
 
 public class PopupBase : MonoBehaviour
@@ -23,14 +24,14 @@ public class PopupBase : MonoBehaviour
 		UpdatePopup();
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode, Spacing = 20)]
+	[Button(Mode = RuntimeMode.OnlyPlaying, Spacing = 20)]
 	public virtual void OpenPopup()
 	{
 		if (_routine != null) StopCoroutine(_routine);
 		_routine = StartCoroutine(ScaleRoutine(1));
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	public virtual void ClosePopup()
 	{
 		if (_routine != null) StopCoroutine(_routine);

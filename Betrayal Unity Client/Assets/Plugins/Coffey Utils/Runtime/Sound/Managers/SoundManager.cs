@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CoffeyUtils;
+using UnityEngine;
 
 namespace Game.SoundSystem
 {

@@ -2,6 +2,8 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
+namespace CoffeyUtils
+{
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public class ReadOnlyAttribute : PropertyAttribute
 {
@@ -26,3 +28,4 @@ public class ReadOnlyAttributeDrawer : PropertyDrawer
     }
 }
 #endif
+}

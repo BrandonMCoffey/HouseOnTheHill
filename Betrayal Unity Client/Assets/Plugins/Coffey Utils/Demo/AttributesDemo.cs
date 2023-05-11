@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 
 namespace Coffey_Utils.Demo
@@ -50,13 +51,13 @@ namespace Coffey_Utils.Demo
             Debug.Log("Runs some code");
         }
 
-        [Button(Mode = ButtonMode.InPlayMode)]
+        [Button(Mode = RuntimeMode.OnlyPlaying)]
         private void PlayModeOnlyButton()
         {
             Debug.Log("Runs some code only when the game is running");
         }
 
-        [Button(Mode = ButtonMode.NotInPlayMode)]
+        [Button(Mode = RuntimeMode.OnlyEditor)]
         private void NotInPlayModeButton()
         {
             Debug.Log("Runs some code only when the game is not running");

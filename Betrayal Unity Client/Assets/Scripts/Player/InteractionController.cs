@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CoffeyUtils;
+using UnityEngine;
 
 public class InteractionController : MonoBehaviour
 {

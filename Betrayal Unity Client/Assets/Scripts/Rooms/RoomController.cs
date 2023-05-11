@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -43,7 +44,7 @@ public class RoomController : MonoBehaviour
 		}
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	public void ToggleShowTop() => SetShowRoomTops(!_showTops);
 	public void SetShowRoomTops(bool show)
 	{

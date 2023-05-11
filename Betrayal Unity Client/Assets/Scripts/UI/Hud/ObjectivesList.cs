@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 using TMPro;
 
@@ -16,7 +17,7 @@ public class ObjectivesList : MonoBehaviour
 		GameController.OnUpdateObjectives -= UpdateObjectives;
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	private void UpdateObjectives()
 	{
 		var objectives = GameController.Instance.GetObjectives();

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -149,7 +150,7 @@ public class Room : MonoBehaviour
 	
 	public DoorController GetRandomOpenDoor() => _doors.FirstOrDefault(d => !d.DoorHasConnection);
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	public void CheckGenerateDoors()
 	{
 		GenerateDoor(AddOrientation(_orientation, Orient.PosZ), _localPosZDoor);

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using CoffeyUtils;
+using TMPro;
 using UnityEngine;
 
 public class SimpleTraitDisplay : MonoBehaviour
@@ -35,7 +36,7 @@ public class SimpleTraitDisplay : MonoBehaviour
         if (_refreshDisplay) UpdateDisplay();
     }
 	
-    [Button(Mode = ButtonMode.InPlayMode)]
+    [Button(Mode = RuntimeMode.OnlyPlaying)]
     private void UpdateDisplay()
     {
         var player = CanvasController.LocalPlayer;

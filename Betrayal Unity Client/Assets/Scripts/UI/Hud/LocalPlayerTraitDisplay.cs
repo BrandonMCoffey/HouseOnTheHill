@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 using TMPro;
 
@@ -19,7 +20,7 @@ public class LocalPlayerTraitDisplay : MonoBehaviour
 		if (_refreshDisplay) UpdateDisplays();
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	private void UpdateDisplays()
 	{
 		var player = CanvasController.LocalPlayer;

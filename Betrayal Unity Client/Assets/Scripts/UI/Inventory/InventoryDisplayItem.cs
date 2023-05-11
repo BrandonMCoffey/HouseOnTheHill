@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using CoffeyUtils;
 
 public class InventoryDisplayItem : MonoBehaviour
 {

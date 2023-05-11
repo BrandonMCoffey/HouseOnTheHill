@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -81,7 +82,7 @@ public class GameController : MonoBehaviour
 		StartExplorationPhase();
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	public void StartExplorationPhase()
 	{
 		if (!TrySetPhase(GamePhase.ExplorationPhase)) return;
@@ -152,7 +153,7 @@ public class GameController : MonoBehaviour
 		CanvasController.OpenEndTurnHud();
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	public void StartSpectatePhase()
 	{
 		if (!TrySetPhase(GamePhase.SpectatePhase)) return;

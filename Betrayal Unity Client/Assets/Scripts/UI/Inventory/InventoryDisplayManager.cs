@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoffeyUtils;
 using UnityEngine;
 
 public class InventoryDisplayManager : MonoBehaviour
@@ -27,7 +28,7 @@ public class InventoryDisplayManager : MonoBehaviour
 		}
 	}
 	
-	[Button(Mode = ButtonMode.InPlayMode)]
+	[Button(Mode = RuntimeMode.OnlyPlaying)]
 	private void RefreshDisplay() => _refreshDisplay = true;
 	
     private void UpdateItems()

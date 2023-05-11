@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Reflection;
+using CoffeyUtils;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,9 +35,9 @@ namespace ButtonAttributeEditor
             _spacing = buttonAttribute.Spacing;
             _disabled = buttonAttribute.Mode switch
             {
-                ButtonMode.Always => false,
-                ButtonMode.InPlayMode => !EditorApplication.isPlaying,
-                ButtonMode.NotInPlayMode => EditorApplication.isPlaying,
+                RuntimeMode.Always => false,
+                RuntimeMode.OnlyPlaying => !EditorApplication.isPlaying,
+                RuntimeMode.OnlyEditor => EditorApplication.isPlaying,
                 _ => true
             };
             _shouldColor = buttonAttribute.Color != ColorField.None;
