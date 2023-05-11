@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Game.SoundSystem
+namespace CoffeyUtils.Sound
 {
     public abstract class SfxBase : ScriptableObject
     {

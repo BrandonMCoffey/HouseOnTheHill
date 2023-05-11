@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ButtonAttributeEditor.Utils
+namespace CoffeyUtils.Editor.Attributes.Button
 {
     internal static class StringExtensions
     {

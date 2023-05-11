@@ -1,9 +1,8 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Reflection;
-using CoffeyUtils;
 
-namespace ButtonAttributeEditor
+namespace CoffeyUtils.Editor.Attributes.Button
 {
     public class ButtonsDrawer
     {

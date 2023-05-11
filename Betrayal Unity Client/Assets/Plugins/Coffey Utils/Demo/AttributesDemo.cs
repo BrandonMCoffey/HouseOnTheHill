@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using CoffeyUtils;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using CoffeyUtils;
 
-namespace Coffey_Utils.Demo
+namespace CoffeyUtils.Demo
 {
     public class AttributesDemo : ScriptableObject
     {
@@ -36,7 +36,11 @@ namespace Coffey_Utils.Demo
         [Header("Highlight If Null")]
         [SerializeField, HighlightIfNull] private GameObject _highlightField;
         [SerializeField, HighlightIfNull(ColorField.Green)] private GameObject _highlightFieldGreen;
-        [SerializeField, HighlightIfNull] private bool _invalidField;
+	    [SerializeField, HighlightIfNull] private bool _invalidField;
+        
+	    [Header("Optional")]
+	    [SerializeField] private Optional<float> _optionalValue;
+	    [SerializeField] private Optional<Vector3> _optionalValue2;
 
         [Header("Show If")]
         [SerializeField] private bool _show;
@@ -51,13 +55,13 @@ namespace Coffey_Utils.Demo
             Debug.Log("Runs some code");
         }
 
-        [Button(Mode = RuntimeMode.OnlyPlaying)]
+	    [Button(Mode = RuntimeMode.OnlyPlaying)]
         private void PlayModeOnlyButton()
         {
             Debug.Log("Runs some code only when the game is running");
         }
 
-        [Button(Mode = RuntimeMode.OnlyEditor)]
+	    [Button(Mode = RuntimeMode.OnlyEditor)]
         private void NotInPlayModeButton()
         {
             Debug.Log("Runs some code only when the game is not running");

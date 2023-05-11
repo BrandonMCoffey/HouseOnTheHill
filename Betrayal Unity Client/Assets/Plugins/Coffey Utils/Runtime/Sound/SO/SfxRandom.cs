@@ -1,10 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using CoffeyUtils;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Game.SoundSystem
+namespace CoffeyUtils.Sound
 {
     [CreateAssetMenu(menuName = "Sound System/Sfx Random")]
     public class SfxRandom : SfxBase
@@ -74,6 +73,7 @@ namespace Game.SoundSystem
             if (clip.UseClip)
             {
                 myProperties.Clip = clip.Clip;
+                myProperties.Null = myProperties.Clip == null;
                 return myProperties;
             }
             
@@ -82,7 +82,6 @@ namespace Game.SoundSystem
         }
         
 #if UNITY_EDITOR // Inspector Only Stuff
-        
         [Button]
         private void PreviewSfx2D()
         {
@@ -92,6 +91,7 @@ namespace Game.SoundSystem
         [Button(Spacing = 30)]
         private void CopyAudioSourceSpatialSettings(AudioSource source)
         {
+            if (!source) return;
             _stereoPan = new RangedFloat(source.panStereo);
             _spatialBlend = new RangedFloat(source.spatialBlend);
             _dopplerLevel = new RangedFloat(source.dopplerLevel);
@@ -104,7 +104,6 @@ namespace Game.SoundSystem
             _spreadCurve = source.GetCustomCurve(AudioSourceCurveType.Spread);
             _reverbZoneMixCurve = source.GetCustomCurve(AudioSourceCurveType.ReverbZoneMix);
         }
-        
 #endif
     }
 }

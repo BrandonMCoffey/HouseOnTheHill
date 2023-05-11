@@ -1,8 +1,7 @@
-﻿using CoffeyUtils;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Game.SoundSystem
+namespace CoffeyUtils.Sound
 {
     [CreateAssetMenu(menuName = "Sound System/Sfx")]
     public class Sfx : SfxBase
@@ -64,6 +63,7 @@ namespace Game.SoundSystem
             if (_clip.UseClip)
             {
                 myProperties.Clip = _clip.Clip;
+                myProperties.Null = myProperties.Clip == null;
                 return myProperties;
             }
 
@@ -73,7 +73,6 @@ namespace Game.SoundSystem
         
         
 #if UNITY_EDITOR // Inspector Only Stuff
-        
         [Button]
         private void PreviewSfx2D()
         {
@@ -103,7 +102,6 @@ namespace Game.SoundSystem
             _spreadCurve = source.GetCustomCurve(AudioSourceCurveType.Spread);
             _reverbZoneMixCurve = source.GetCustomCurve(AudioSourceCurveType.ReverbZoneMix);
         }
-        
 #endif
     }
 }

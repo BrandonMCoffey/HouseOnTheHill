@@ -1,7 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Game.SoundSystem
+namespace CoffeyUtils.Sound
 {
     public struct Sfx2dProp
     {

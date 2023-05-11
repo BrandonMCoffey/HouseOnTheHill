@@ -1,10 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using CoffeyUtils;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Game.SoundSystem
+namespace CoffeyUtils.Sound
 {
     public class SfxPool : MonoBehaviour
     {

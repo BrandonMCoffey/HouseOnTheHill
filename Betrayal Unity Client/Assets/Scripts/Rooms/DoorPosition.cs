@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using CoffeyUtils;
+
+[System.Serializable]
 public class DoorPosition
 {
 	public int X;
@@ -6,6 +8,6 @@ public class DoorPosition
 	
 	public bool AlongZ;
 	
-	[ShowIf("AlongZ", Reverse = true)] public int X2;
+	[ShowIf("AlongZ"/*, Reverse = true*/)] public int X2;
 	[ShowIf("AlongZ")] public int Z2;
 }

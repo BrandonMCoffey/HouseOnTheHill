@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-namespace Coffey_Utils.Editor
+namespace CoffeyUtils.Editor
 {
     [CustomEditor(typeof(Documentation))]
     public class DocumentationEditor : UnityEditor.Editor

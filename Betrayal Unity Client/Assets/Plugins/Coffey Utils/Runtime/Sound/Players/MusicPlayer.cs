@@ -1,17 +1,15 @@
-using System;
-using System.Collections;
-using CoffeyUtils;
-using Game.SoundSystem;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace Game
+namespace CoffeyUtils.Sound
 {
     [RequireComponent(typeof(AudioSource))]
     public class MusicPlayer : MonoBehaviour
     {
         [SerializeField, ReadOnly] private MusicTrack _track;
         [SerializeField, ReadOnly] private float _clipVolume;
-        [SerializeField, ReadOnly] private bool _active;
+	    [SerializeField, ReadOnly] private bool _active;
+	    [SerializeField, ReadOnly] private bool _playedNextQueued;
 
         private Coroutine _fadeRoutine;
         private AudioSource _source;
@@ -36,7 +34,12 @@ namespace Game
         }
 
         private void LateUpdate()
-        {
+	    {
+		    if (!_playedNextQueued && _source.time > _track.FromStartWhenToPlayNextSong)
+		    {
+			    _playedNextQueued = true;
+			    SoundManager.Music.PlayQueuedSong();
+		    }
             if (!_source.isPlaying)
             {
                 Stop();
@@ -158,7 +161,8 @@ namespace Game
             source.time = 0;
             source.loop = false;
             source.volume = 1;
-            source.outputAudioMixerGroup = SoundManager.Music.MixerGroup;
+	        source.outputAudioMixerGroup = SoundManager.Music.MixerGroup;
+	        _playedNextQueued = false;
         }
     }
 }

@@ -1,12 +1,16 @@
-using UnityEngine;
+﻿using System;
 
-public class MinMaxRangeAttribute : PropertyAttribute
+namespace CoffeyUtils
 {
-    public float Min { get; }
-    public float Max { get; }
-
-    public MinMaxRangeAttribute(float min, float max) {
-        Min = min;
-        Max = max;
-    }
+	public class MinMaxRangeAttribute : Attribute
+	{
+	    public float Min { get; }
+	    public float Max { get; }
+	
+	    public MinMaxRangeAttribute(float min, float max)
+	    {
+	        Min = min;
+	        Max = max;
+	    }
+	}
 }

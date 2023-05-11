@@ -1,9 +1,8 @@
-using System.Collections;
-using CoffeyUtils;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Game.SoundSystem
+namespace CoffeyUtils.Sound
 {
     [CreateAssetMenu(menuName = "Sound System/Music Track")]
     public class MusicTrack : ScriptableObject
@@ -30,7 +29,8 @@ namespace Game.SoundSystem
         [SerializeField, ShowIf("_volumeFadeAtEnd")] private AnimationCurve _volumeFadeEndCurve = AnimationCurve.Linear(0, 1, 1, 0);
 
         public AudioClip Clip => _track;
-        public float StartTimeIfLooping => _startTimeIfLooping;
+	    public float StartTimeIfLooping => _startTimeIfLooping;
+	    public float FromStartWhenToPlayNextSong => _fromStartWhenToPlayNextSong;
         public bool VolumeFadeAtStart => _volumeFadeAtStart;
         public bool VolumeFadeAtEnd => _volumeFadeAtEnd;
         public float VolumeFadeStartTime => _volumeFadeStartTime;
@@ -56,7 +56,6 @@ namespace Game.SoundSystem
         }
 
 #if UNITY_EDITOR
-
         [Button(Spacing = 10)]
         private void TestPlay()
         {
@@ -88,7 +87,6 @@ namespace Game.SoundSystem
             yield return new WaitForSecondsRealtime(1);
             SoundManager.Music.PlayQueuedSong();
         }
-        
 #endif
     }
 }

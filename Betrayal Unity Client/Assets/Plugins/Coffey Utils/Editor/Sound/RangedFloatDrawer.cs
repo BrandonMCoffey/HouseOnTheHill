@@ -1,9 +1,10 @@
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using CoffeyUtils.Sound;
 
-namespace CustomFloats.Editor
+namespace CoffeyUtils.Editor.Sound
 {
-#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(RangedFloat), true)]
     public class RangedFloatDrawer : PropertyDrawer
     {
@@ -48,5 +49,5 @@ namespace CustomFloats.Editor
             EditorGUI.EndProperty();
         }
     }
-#endif
 }
+#endif

@@ -1,11 +1,10 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Reflection;
-using CoffeyUtils;
 using UnityEditor;
 using UnityEngine;
 
-namespace ButtonAttributeEditor
+namespace CoffeyUtils.Editor.Attributes.Button
 {
     public abstract class ButtonBase
     {
@@ -33,13 +32,7 @@ namespace ButtonAttributeEditor
             DisplayName = string.IsNullOrEmpty(buttonAttribute.Label) ? ObjectNames.NicifyVariableName(method.Name) : buttonAttribute.Label;
 
             _spacing = buttonAttribute.Spacing;
-            _disabled = buttonAttribute.Mode switch
-            {
-                RuntimeMode.Always => false,
-                RuntimeMode.OnlyPlaying => !EditorApplication.isPlaying,
-                RuntimeMode.OnlyEditor => EditorApplication.isPlaying,
-                _ => true
-            };
+	        _disabled = !buttonAttribute.Mode.IsActive();
             _shouldColor = buttonAttribute.Color != ColorField.None;
             if (_shouldColor)
             {

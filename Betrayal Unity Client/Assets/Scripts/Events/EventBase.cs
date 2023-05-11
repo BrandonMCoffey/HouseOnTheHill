@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CoffeyUtils;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "Betrayal/Event")]
 public class EventBase : ScriptableObject

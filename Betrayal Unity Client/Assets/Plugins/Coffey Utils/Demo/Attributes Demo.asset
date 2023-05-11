@@ -39,6 +39,12 @@ MonoBehaviour:
   _highlightField: {fileID: 0}
   _highlightFieldGreen: {fileID: 0}
   _invalidField: 0
+  _optionalValue:
+    Value: 0
+    Enabled: 0
+  _optionalValue2:
+    Value: {x: 0, y: 0, z: 0}
+    Enabled: 1
   _show: 0
   _value: 0
   _secondardShow: 0
