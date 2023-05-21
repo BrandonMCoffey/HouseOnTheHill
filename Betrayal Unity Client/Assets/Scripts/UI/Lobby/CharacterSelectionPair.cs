@@ -9,11 +9,14 @@ public class CharacterSelectionPair : MonoBehaviour
 	[SerializeField, ReadOnly] private int _character1Index = -9999;
 	[SerializeField] private Character _character2;
 	[SerializeField, ReadOnly] private int _character2Index = -9999;
+	[SerializeField] private bool _canUseBothCharacters;
 	
 	[Header("References")]
 	[SerializeField] private LobbyPlayerController _controller;
 	[SerializeField] private TMP_Text _c1Name;
 	[SerializeField] private TMP_Text _c2Name;
+	[SerializeField] private SimpleTraitDisplay _c1Traits;
+	[SerializeField] private SimpleTraitDisplay _c2Traits;
 	[SerializeField] private Button _c1Button;
 	[SerializeField] private Button _c2Button;
 	[SerializeField] private Image _c1Image;
@@ -48,12 +51,14 @@ public class CharacterSelectionPair : MonoBehaviour
 			_character1Index = GameData.GetCharacterIndex(_character1);
 			if (_c1Name) _c1Name.text = _character1.Name;
 			if (_c1Image) _c1Image.color = _character1.Color;
+			if (_c1Traits) _c1Traits.UpdateDisplay(_character1);
 		}
 		if (_character2)
 		{
 			_character2Index = GameData.GetCharacterIndex(_character2);
 			if (_c2Name) _c2Name.text = _character2.Name;
 			if (_c2Image) _c2Image.color = _character2.Color;
+			if (_c2Traits) _c2Traits.UpdateDisplay(_character2);
 		}
 	}
 	
@@ -68,8 +73,16 @@ public class CharacterSelectionPair : MonoBehaviour
 	
 	private void CheckLockCharacterPair()
 	{
-		bool locked = User.RemoteCharacters.Contains(_character1Index) || User.RemoteCharacters.Contains(_character2Index);
-		_c1Button.interactable = !locked;
-		_c2Button.interactable = !locked;
+		if (_canUseBothCharacters)
+		{
+			_c1Button.interactable = !User.RemoteCharacters.Contains(_character1Index);
+			_c2Button.interactable = !User.RemoteCharacters.Contains(_character2Index);
+		}
+		else
+		{
+			bool locked = User.RemoteCharacters.Contains(_character1Index) || User.RemoteCharacters.Contains(_character2Index);
+			_c1Button.interactable = !locked;
+			_c2Button.interactable = !locked;
+		}
 	}
 }
