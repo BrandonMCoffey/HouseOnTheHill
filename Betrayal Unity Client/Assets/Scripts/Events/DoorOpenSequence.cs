@@ -38,7 +38,7 @@ public class DoorOpenSequence : MonoBehaviour
 			var camPos = _animationCam.transform.position;
 			pos.x = camPos.x;
 			pos.z = camPos.z;
-			_playerActions.PlayerMovement.MoveTo(pos);
+			_playerActions.PlayerMovement.MoveTo(pos, _animationCam.transform.eulerAngles);
 			yield return null;
 		}
 		_animationCam.SetActive(false);

@@ -36,9 +36,12 @@ public class MovementController : MonoBehaviour
 		Cursor.visible = false;
 	}
 	
-	public void MoveTo(Vector3 pos)
+	public void MoveTo(Vector3 pos, Vector3 rot)
 	{
 		_controller.Move(pos - transform.position);
+		_rotationX = rot.x;
+		_cameraParent.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+		transform.rotation = Quaternion.Euler(0, rot.y, 0);
 		SendTransformToNetwork();
 	}
 
@@ -57,14 +60,12 @@ public class MovementController : MonoBehaviour
 
 		_controller.Move(_moveDirection * Time.deltaTime);
 
-		if (_canMove)
-		{
-			var lookDirInput = PlayerInputManager.LookDir;
-			_rotationX += -lookDirInput.y * _lookSpeed;
-			_rotationX = Mathf.Clamp(_rotationX, -_lookXLimit, _lookXLimit);
-			_cameraParent.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-			transform.rotation *= Quaternion.Euler(0, lookDirInput.x * _lookSpeed, 0);
-		}
+		var lookDirInput = PlayerInputManager.LookDir;
+		_rotationX += -lookDirInput.y * _lookSpeed;
+		_rotationX = Mathf.Clamp(_rotationX, -_lookXLimit, _lookXLimit);
+		_cameraParent.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+		transform.rotation *= Quaternion.Euler(0, lookDirInput.x * _lookSpeed, 0);
+		
 		SendTransformToNetwork();
 	}
 	
